@@ -14,7 +14,7 @@ public class cscript_navigation : MonoBehaviour
 	
 	Game[] games = new Game[3];
 	
-	int position = 0;
+	int position = 1;
 	
 	//Create Game Variables
 	public GUISkin correctAnswer;
@@ -27,7 +27,12 @@ public class cscript_navigation : MonoBehaviour
 	int selectedCreateGame = 0;
 	
 	List<Answer> answers = new List<Answer>();
-
+	List<Question> questions = new List<Question>();
+	
+	bool addQuestion = false;
+	
+	int questionPosition = 0;
+	
 	public void Init(cscript_master m)
 	{
 		master = m;
@@ -46,9 +51,9 @@ public class cscript_navigation : MonoBehaviour
 		incorrectAnswer = Resources.Load ("GUI Skins/GUISkin_Incorrect_Answer") as GUISkin;
 		game = Resources.Load ("GUI Skins/GUISkin_Main_Menu_Games") as GUISkin;
 		
-		games[0] = new Game("Multiplication Football", "Top Notch", "Football", "Which number is a multiple of 4?", null);
-		games[1] = new Game("Fly to the Noun", "Top Notch", "Plane", "Which words are nouns?", null);
-		games[2] = new Game("Word Train", "Top Notch", "Train", "Which objects begin with the letter S?", null);
+		games[0] = new Game("Multiplication Football", "Top Notch", "Football", null);
+		games[1] = new Game("Fly to the Noun", "Top Notch", "Plane", null);
+		games[2] = new Game("Word Train", "Top Notch", "Train", null);
 	}
 	
 	// Update is called once per frame
@@ -124,65 +129,119 @@ public class cscript_navigation : MonoBehaviour
 	
 	private void CreateGameGUI()
 	{
-		GUI.Label(new Rect(Screen.width / 2 - 60, 10, 120, 50), "Create your Game");
-		
-		if (GUI.Button (new Rect(10, 10, 100, 30), "< Back"))
-			master.gameState = cscript_master.GameState.MainMenu;
-		
-		if (GUI.Button (new Rect(Screen.width - 110, 10, 100, 30), "Help"))
-			master.gameState = cscript_master.GameState.Help;
-		
-		gameName = GUI.TextField (new Rect((Screen.width / 4 - 10) / 2, 60, Screen.width / 4, 20), gameName);
-		authorName = GUI.TextField (new Rect((Screen.width / 4 - 10) * 2.5f, 60, Screen.width / 4, 20), authorName);
-		
-		GUIContent[] g = new GUIContent[3];
-		
-		g[0] = new GUIContent("Football");
-		g[1] = new GUIContent("Plane");
-		g[2] = new GUIContent("Train");
-		
-		float centre = (Screen.width / 4);
-		
-		selectedCreateGame = GUI.SelectionGrid (new Rect(centre, 100, Screen.width / 2 - 10, 60), selectedCreateGame, g, 3);
-		
-		if (GUI.Button (new Rect(Screen.width / 2 - 75, 170, 150, 40), "Add Background"))
+		if (addQuestion == false)
 		{
-			//Add Background Code	
-		}
+			GUI.Label(new Rect(Screen.width / 2 - 60, 10, 120, 50), "Create your Game");
 		
-		mulitpleChoiceQuestion = GUI.TextArea (new Rect((Screen.width / 4 - 10) * 1.5f, 220, Screen.width / 4, 20), mulitpleChoiceQuestion);
-		
-		//Add Answer System
-		int position = 0;
-		
-		for (int i = 0; i < answers.Count; i++)
-		{
-			GUISkin temp;
+			if (GUI.Button (new Rect(10, 10, 100, 30), "< Back"))
+				master.gameState = cscript_master.GameState.MainMenu;
 			
-			if (answers[i].correct == true)
-				temp = correctAnswer;
-			else
-				temp = incorrectAnswer;
+			if (GUI.Button (new Rect(Screen.width - 110, 10, 100, 30), "Help"))
+				master.gameState = cscript_master.GameState.Help;
 			
-			if (GUI.Button (new Rect(10 * (i + 1) + i * 100, 250, 100, 100), answers[i].text, temp.button))
+			gameName = GUI.TextField (new Rect((Screen.width / 4 - 10) / 2, 60, Screen.width / 4, 20), gameName);
+			authorName = GUI.TextField (new Rect((Screen.width / 4 - 10) * 2.5f, 60, Screen.width / 4, 20), authorName);
+			
+			GUIContent[] g = new GUIContent[3];
+			
+			g[0] = new GUIContent("Football");
+			g[1] = new GUIContent("Plane");
+			g[2] = new GUIContent("Train");
+			
+			float centre = (Screen.width / 4);
+			
+			selectedCreateGame = GUI.SelectionGrid (new Rect(centre, 100, Screen.width / 2 - 10, 60), selectedCreateGame, g, 3);
+			
+			if (GUI.Button (new Rect(Screen.width / 2 - 75, 170, 150, 40), "Add Background"))
 			{
-				if (answers[i].correct == true)
-					answers[i].correct = false;
-				else
-					answers[i].correct = true;
+				//Add Background Code
 			}
 			
-			position++;
+			//Add Question System
+			int position = 0;
+			
+			for (int i = 0; i < questions.Count; i++)
+			{
+				if (GUI.Button (new Rect(10 * (i + 1) + i * 100, 250, 100, 100), questions[i].text))
+				{
+					questionPosition = i;
+					
+					mulitpleChoiceQuestion = questions[i].text;
+					answers.AddRange (questions[i].answers);
+					
+					addQuestion = true;
+				}
+				
+				position++;
+			}
+			
+			if (GUI.Button (new Rect(10 * (position + 1) + position * 100, 250, 100, 100), "Add Question"))
+			{
+				questionPosition = questions.Count + 1;
+				addQuestion = true;
+				//Open to be new.
+			}
+			
+			if (GUI.Button (new Rect(Screen.width / 2 - 25, 390, 50, 25), "Save"))
+			{
+				//Save Code
+				Debug.Log (selectedCreateGame.ToString ());
+				Game game = new Game(gameName, authorName, selectedCreateGame.ToString (), questions.ToArray ());
+				game.GameToXML ();
+			}
 		}
-		
-		if (GUI.Button (new Rect(10 * (position + 1) + position * 100, 250, 100, 100), "Add Answer"))
-			answers.Add (new Answer(true, "Answer: " + position));
-		
-		GUI.Label (new Rect(20, 360, Screen.width - 40, 20), "Tap on object once for incorrect answer, double tap for correct, flick away to delete");
-		
-		if (GUI.Button (new Rect(Screen.width / 2 - 25, 390, 50, 25), "Save"))
+		else
 		{
-			//Save Code	
+			mulitpleChoiceQuestion = GUI.TextArea (new Rect((Screen.width / 4 - 10) * 1.5f, 220, Screen.width / 4, 20), mulitpleChoiceQuestion);
+			
+			//Add Answer System
+			int position = 0;
+			
+			for (int i = 0; i < answers.Count; i++)
+			{
+				GUISkin temp;
+				
+				if (answers[i].correct == true)
+					temp = correctAnswer;
+				else
+					temp = incorrectAnswer;
+				
+				if (GUI.Button (new Rect(10 * (i + 1) + i * 100, 250, 100, 100), answers[i].text, temp.button))
+				{
+					if (answers[i].correct == true)
+						answers[i].correct = false;
+					else
+						answers[i].correct = true;
+				}
+				
+				position++;
+			}
+			
+			if (GUI.Button (new Rect(10, 10, 100, 30), "< Back"))
+			{
+				mulitpleChoiceQuestion = "Add Multiple Choice Question Here";
+				answers = new List<Answer>();
+				
+				addQuestion = false;
+			}
+			
+			if (GUI.Button (new Rect(10 * (position + 1) + position * 100, 250, 100, 100), "Add Answer"))
+				answers.Add (new Answer(true, "Answer: " + position));
+			
+			GUI.Label (new Rect(20, 360, Screen.width - 40, 20), "Tap on object once for incorrect answer, double tap for correct, flick away to delete");
+			
+			if (GUI.Button (new Rect(Screen.width / 2 - 25, 390, 50, 25), "Save"))
+			{
+				if (questionPosition > questions.Count)
+					questions.Add(new Question(mulitpleChoiceQuestion, answers.ToArray ()));
+				else
+					questions[questionPosition] = new Question(mulitpleChoiceQuestion, answers.ToArray ());
+					
+				mulitpleChoiceQuestion = "Add Multiple Choice Question Here";
+				answers = new List<Answer>();
+				
+				addQuestion = false;
+			}
 		}
 	}
 }
