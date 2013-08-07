@@ -1,0 +1,24 @@
+<game>
+  <name>Fly to the Noun</name>
+  <author>iLearn 2</author>
+  <type>1</type>
+  <questions>
+    <question>
+      <text>Which words are nouns?</text>
+      <answers>
+        <answer>
+          <aText>Answer: 0</aText>
+          <correct>True</correct>
+        </answer>
+        <answer>
+          <aText>Answer: 1</aText>
+          <correct>False</correct>
+        </answer>
+        <answer>
+          <aText>Answer: 2</aText>
+          <correct>True</correct>
+        </answer>
+      </answers>
+    </question>
+  </questions>
+</game>

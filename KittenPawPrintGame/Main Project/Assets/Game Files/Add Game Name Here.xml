@@ -1,0 +1,24 @@
+<game>
+  <name>Jordan's Game</name>
+  <author>Jordan</author>
+  <type>2</type>
+  <questions>
+    <question>
+      <text>Which one is two?</text>
+      <answers>
+        <answer>
+          <aText>One</aText>
+          <correct>False</correct>
+        </answer>
+        <answer>
+          <aText>Two</aText>
+          <correct>True</correct>
+        </answer>
+        <answer>
+          <aText>Three</aText>
+          <correct>False</correct>
+        </answer>
+      </answers>
+    </question>
+  </questions>
+</game>

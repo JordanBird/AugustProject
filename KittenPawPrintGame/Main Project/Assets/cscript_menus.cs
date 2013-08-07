@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 
 public class cscript_navigation : MonoBehaviour 
 {
@@ -12,9 +13,9 @@ public class cscript_navigation : MonoBehaviour
 	//Main Menu Variables
 	public GUISkin game;
 	
-	Game[] games = new Game[3];
+	Game[] games;
 	
-	int position = 1;
+	int position = 0;
 	
 	//Create Game Variables
 	public GUISkin correctAnswer;
@@ -23,6 +24,7 @@ public class cscript_navigation : MonoBehaviour
 	string gameName = "Add Game Name Here";
 	string authorName = "Add Author Here";
 	string mulitpleChoiceQuestion = "Add Multiple Choice Question Here";
+	string answer = "Add Answer Test Here";
 	
 	int selectedCreateGame = 0;
 	
@@ -51,9 +53,24 @@ public class cscript_navigation : MonoBehaviour
 		incorrectAnswer = Resources.Load ("GUI Skins/GUISkin_Incorrect_Answer") as GUISkin;
 		game = Resources.Load ("GUI Skins/GUISkin_Main_Menu_Games") as GUISkin;
 		
-		games[0] = new Game("Multiplication Football", "Top Notch", "Football", null);
-		games[1] = new Game("Fly to the Noun", "Top Notch", "Plane", null);
-		games[2] = new Game("Word Train", "Top Notch", "Train", null);
+		List<Game> tempGames = new List<Game>();
+		
+		tempGames.Add (new Game((Resources.Load ("Game Files/Multiplication Football") as TextAsset).ToString (), true));
+		tempGames.Add (new Game((Resources.Load ("Game Files/Fly to the Noun") as TextAsset).ToString (), true));
+		tempGames.Add (new Game((Resources.Load ("Game Files/Word Train") as TextAsset).ToString (), true));
+		
+		Directory.CreateDirectory (cscript_master.dataPath + @"/Game Files");
+		
+		foreach (string s in Directory.GetFiles (cscript_master.dataPath + @"/Game Files"))
+		{
+			try
+			{
+				tempGames.Add (new Game(s, false));
+			}
+			catch {}
+		}
+		
+		games = tempGames.ToArray ();
 	}
 	
 	// Update is called once per frame
@@ -106,8 +123,24 @@ public class cscript_navigation : MonoBehaviour
 			GUI.DrawTexture (new Rect(i * inc + 9 + (i * 10), 59, inc + 2, Screen.height - 178), blankBlackTexture);
 			GUI.DrawTexture (new Rect(i * inc + 10 * (i + 1), 60, inc, Screen.height - 180), blankWhiteTexture);
 			
-			GUI.Label (new Rect(i * inc + 10 * (i + 1), 60, inc, Screen.height - 180), games[i].name, game.label);
-			GUI.Label (new Rect(i * inc + 10 * (i + 1), Screen.height - 160, inc, 20), "By " + games[i].author, game.label);
+			GUI.Label (new Rect(i * inc + 10 * (i + 1), 60, inc, Screen.height - 180), games[i + position].name, game.label);
+			GUI.Label (new Rect(i * inc + 10 * (i + 1), Screen.height - 160, inc, 20), "By " + games[i + position].author, game.label);
+		}
+		
+		if (GUI.Button (new Rect(10, Screen.height / 2 - 15, 50, 30), "<"))
+		{
+			position--;
+			
+			if (position < 0)
+				position = 0;
+		}
+		
+		if (GUI.Button (new Rect(Screen.width - 60, Screen.height / 2 - 15, 50, 30), ">"))
+		{
+			position++;
+			
+			if (position > games.Length - 3)
+				position = games.Length - 3;
 		}
 	}
 	
@@ -192,7 +225,15 @@ public class cscript_navigation : MonoBehaviour
 		}
 		else
 		{
-			mulitpleChoiceQuestion = GUI.TextArea (new Rect((Screen.width / 4 - 10) * 1.5f, 220, Screen.width / 4, 20), mulitpleChoiceQuestion);
+			if (GUI.Button (new Rect(10, 10, 100, 30), "< Back"))
+			{
+				mulitpleChoiceQuestion = "Add Multiple Choice Question Here";
+				answers = new List<Answer>();
+				
+				addQuestion = false;
+			}
+			
+			mulitpleChoiceQuestion = GUI.TextArea (new Rect((Screen.width / 4 - 10) * 1.5f, Screen.height / 2 - 50, Screen.width / 4, 20), mulitpleChoiceQuestion);
 			
 			//Add Answer System
 			int position = 0;
@@ -206,7 +247,7 @@ public class cscript_navigation : MonoBehaviour
 				else
 					temp = incorrectAnswer;
 				
-				if (GUI.Button (new Rect(10 * (i + 1) + i * 100, 250, 100, 100), answers[i].text, temp.button))
+				if (GUI.Button (new Rect(10 * (i + 1) + i * 100, Screen.height / 2 + 20, 100, 100), answers[i].text, temp.button))
 				{
 					if (answers[i].correct == true)
 						answers[i].correct = false;
@@ -217,18 +258,12 @@ public class cscript_navigation : MonoBehaviour
 				position++;
 			}
 			
-			if (GUI.Button (new Rect(10, 10, 100, 30), "< Back"))
-			{
-				mulitpleChoiceQuestion = "Add Multiple Choice Question Here";
-				answers = new List<Answer>();
-				
-				addQuestion = false;
-			}
+			answer = GUI.TextArea (new Rect((Screen.width / 4 - 10) * 1.5f, Screen.height / 2 - 20, Screen.width / 4, 20), answer);
 			
 			if (GUI.Button (new Rect(10 * (position + 1) + position * 100, 250, 100, 100), "Add Answer"))
-				answers.Add (new Answer(true, "Answer: " + position));
+				answers.Add (new Answer(true, answer));
 			
-			GUI.Label (new Rect(20, 360, Screen.width - 40, 20), "Tap on object once for incorrect answer, double tap for correct, flick away to delete");
+			GUI.Label (new Rect(20, 370, Screen.width - 40, 20), "Tap on object once for incorrect answer, double tap for correct, flick away to delete");
 			
 			if (GUI.Button (new Rect(Screen.width / 2 - 25, 390, 50, 25), "Save"))
 			{

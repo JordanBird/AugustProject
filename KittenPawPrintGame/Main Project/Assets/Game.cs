@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Xml;
 
@@ -10,6 +11,8 @@ public class Game
 	
 	public Question[] questions;
 	
+	Random random = new Random();
+	
 	public Game(string iName, string iAuthor, string iType, Question[] iQuestions)
 	{
 		name = iName;
@@ -18,9 +21,9 @@ public class Game
 		questions = iQuestions;
 	}
 	
-	public Game(string XMLLocation)
+	public Game(string XMLLocation, bool resource)
 	{
-		XMLToGame (XMLLocation);
+		XMLToGame (XMLLocation, resource);
 	}
 	
 	public void GameToXML()
@@ -89,14 +92,22 @@ public class Game
 			}
 		}
 		
-		document.Save (@"C:\Users\Jordan\Desktop\Test XML File.xml");
+		document.Save (cscript_master.dataPath + @"\Game Files\" + name + ".xml");
 	}
 	
-	public void XMLToGame(string location)
+	public void XMLToGame(string location, bool resource)
 	{
 		XmlDocument document = new XmlDocument();
-		document.Load (location);
 		
+		if (resource == true)
+		{
+			document.LoadXml (location);
+		}
+		else
+		{
+			document.Load (location);
+		}
+
 		//Reads in name, author and type.
 		name = document.SelectSingleNode ("//name").InnerText;
 		author = document.SelectSingleNode ("//author").InnerText;
@@ -123,5 +134,10 @@ public class Game
 		}
 		
 		questions = questionList.ToArray ();
+	}
+	
+	public Question GetRandomQuestion()
+	{
+		return questions[random.Next(0, questions.Length)];
 	}
 }
