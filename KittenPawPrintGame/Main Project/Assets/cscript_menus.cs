@@ -24,8 +24,8 @@ public class cscript_navigation : MonoBehaviour
 	
 	string gameName = "Add Game Name Here";
 	string authorName = "Add Author Here";
-	string mulitpleChoiceQuestion = "Add Multiple Choice Question Here";
-	string answer = "Add Answer Test Here";
+	string multipleChoiceQuestion = "Add Multiple Choice Question Here";
+	string answer = "Add Answer Text Here";
 	
 	int selectedCreateGame = 0;
 	
@@ -113,7 +113,11 @@ public class cscript_navigation : MonoBehaviour
 			master.gameState = cscript_master.GameState.Help;
 		
 		if (GUI.Button (new Rect(Screen.width / 2 - 50, Screen.height - 40, 100, 30), "Create Game"))
+		{
 			master.gameState = cscript_master.GameState.CreateGame;
+			
+			ResetGameCreation ();
+		}
 		
 		float inc = (Screen.width - 40) / 3;
 		
@@ -133,31 +137,30 @@ public class cscript_navigation : MonoBehaviour
 			}
 			
 			//Edit Game
-			if (GUI.Button (new Rect(i * inc + 10 * (i + 1), (Screen.height - 100), inc / 6, 20), "Edit"))
+			if (i + position > 2)
 			{
-				gameName = games[i + position].name;
-				authorName = games[i + position].author;
-				selectedCreateGame = Convert.ToInt32(games[i + position].type);
-				questions.AddRange (games[i + position].questions);
-				
-				master.gameState = cscript_master.GameState.CreateGame;
+				if (GUI.Button (new Rect(i * inc + 10 * (i + 1), (Screen.height - 100), inc / 6, 20), "Edit"))
+				{
+					gameName = games[i + position].name;
+					authorName = games[i + position].author;
+					selectedCreateGame = Convert.ToInt32(games[i + position].type);
+					questions.AddRange (games[i + position].questions);
+					
+					master.gameState = cscript_master.GameState.CreateGame;
+				}
 			}
 		}
 		
 		if (GUI.Button (new Rect(10, Screen.height / 2 - 15, 50, 30), "<"))
-		{
-			position--;
-			
-			if (position < 0)
-				position = 0;
+		{			
+			if (position > 0)
+				position--;
 		}
 		
 		if (GUI.Button (new Rect(Screen.width - 60, Screen.height / 2 - 15, 50, 30), ">"))
 		{
-			position++;
-			
-			if (position > games.Length - 3)
-				position = games.Length - 3;
+			if (position < games.Length - 3)
+				position++;
 		}
 	}
 	
@@ -210,26 +213,26 @@ public class cscript_navigation : MonoBehaviour
 			//Add Question System
 			int position = 0;
 			
-			for (int i = 0; i < questions.Count; i++)
+			for (int i = 0; i < questions.Count; i++, position++) //(you know, you could just replace i with position here. :D)
 			{
+				// Open existing question.
 				if (GUI.Button (new Rect(10 * (i + 1) + i * 100, 250, 100, 100), questions[i].text))
 				{
 					questionPosition = i;
 					
-					mulitpleChoiceQuestion = questions[i].text;
+					multipleChoiceQuestion = questions[i].text;
 					answers.AddRange (questions[i].answers);
 					
 					addQuestion = true;
 				}
-				
-				position++;
 			}
 			
+			// Create new question.
 			if (GUI.Button (new Rect(10 * (position + 1) + position * 100, 250, 100, 100), "Add Question"))
 			{
 				questionPosition = questions.Count + 1;
 				addQuestion = true;
-				//Open to be new.
+				ResetQuestionCreation ();
 			}
 			
 			if (GUI.Button (new Rect(Screen.width / 2 - 25, 390, 50, 25), "Save"))
@@ -238,24 +241,23 @@ public class cscript_navigation : MonoBehaviour
 				Debug.Log (selectedCreateGame.ToString ());
 				Game game = new Game(gameName, authorName, selectedCreateGame.ToString (), questions.ToArray ());
 				game.GameToXML ();
+				
+				master.gameState = cscript_master.GameState.MainMenu;
 			}
 		}
 		else
 		{
 			if (GUI.Button (new Rect(10, 10, 100, 30), "< Back"))
 			{
-				mulitpleChoiceQuestion = "Add Multiple Choice Question Here";
-				answers = new List<Answer>();
-				
 				addQuestion = false;
 			}
 			
-			mulitpleChoiceQuestion = GUI.TextArea (new Rect((Screen.width / 4 - 10) * 1.5f, Screen.height / 2 - 50, Screen.width / 4, 20), mulitpleChoiceQuestion);
-			
+			multipleChoiceQuestion = GUI.TextArea (new Rect((Screen.width / 4 - 10) * 1.5f, 60, Screen.width / 4, 20), multipleChoiceQuestion);
+
 			//Add Answer System
 			int position = 0;
 			
-			for (int i = 0; i < answers.Count; i++)
+			for (int i = 0; i < answers.Count; i++, position++)
 			{
 				GUISkin temp;
 				
@@ -264,36 +266,46 @@ public class cscript_navigation : MonoBehaviour
 				else
 					temp = incorrectAnswer;
 				
-				if (GUI.Button (new Rect(10 * (i + 1) + i * 100, Screen.height / 2 + 20, 100, 100), answers[i].text, temp.button))
+				if (GUI.Button (new Rect(10 * (i + 1) + i * 100,180, 100, 100), answers[i].text, temp.button))
 				{
 					if (answers[i].correct == true)
 						answers[i].correct = false;
 					else
 						answers[i].correct = true;
 				}
-				
-				position++;
 			}
 			
-			answer = GUI.TextArea (new Rect((Screen.width / 4 - 10) * 1.5f, Screen.height / 2 - 20, Screen.width / 4, 20), answer);
-			
-			if (GUI.Button (new Rect(10 * (position + 1) + position * 100, 250, 100, 100), "Add Answer"))
+			if (GUI.Button (new Rect(25 + 10 * (position + 1) + position * 100, 225, 100, 50), "Add Answer"))
 				answers.Add (new Answer(true, answer));
 			
-			GUI.Label (new Rect(20, 370, Screen.width - 40, 20), "Tap on object once for incorrect answer, double tap for correct, flick away to delete");
+			//answer = GUI.TextArea (new Rect((Screen.width / 4 - 10) * 1.5f, 90, Screen.width / 4, 20), answer);
+			answer = GUI.TextArea (new Rect(10 * (position + 1) + position * 100, 200, 145, 20), answer);
+			
+			GUI.Label (new Rect(Screen.width / 4 - 42, 330, Screen.width - 40, 20), "Tap on object once for incorrect answer, double tap for correct, flick away to delete");
 			
 			if (GUI.Button (new Rect(Screen.width / 2 - 25, 390, 50, 25), "Save"))
 			{
 				if (questionPosition > questions.Count)
-					questions.Add(new Question(mulitpleChoiceQuestion, answers.ToArray ()));
+					questions.Add(new Question(multipleChoiceQuestion, answers.ToArray ()));
 				else
-					questions[questionPosition] = new Question(mulitpleChoiceQuestion, answers.ToArray ());
-					
-				mulitpleChoiceQuestion = "Add Multiple Choice Question Here";
-				answers = new List<Answer>();
+					questions[questionPosition] = new Question(multipleChoiceQuestion, answers.ToArray ());
 				
 				addQuestion = false;
 			}
 		}
+	}
+	
+	private void ResetGameCreation()
+	{		
+		gameName = "Add Game Name Here";
+		authorName = "Add Author Here";
+		questions = new List<Question>();
+	}
+	
+	private void ResetQuestionCreation()
+	{
+		multipleChoiceQuestion = "Add Multiple Choice Question Here";
+		answer = "Add Answer Text Here";
+		answers = new List<Answer>();	
 	}
 }

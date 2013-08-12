@@ -1,5 +1,5 @@
 <game>
-  <name>Add Game Name Here</name>
+  <name>Jordan's Game</name>
   <author>Add Author Here</author>
   <type>1</type>
   <questions>
@@ -21,8 +21,21 @@
       </answers>
     </question>
     <question>
-      <text>Add Multiple Choice Question Here</text>
-      <answers />
+      <text>Add Multiple asdChoice Question Here</text>
+      <answers>
+        <answer>
+          <aText>Add Answer Text Here</aText>
+          <correct>True</correct>
+        </answer>
+        <answer>
+          <aText>Add Answer Text Here</aText>
+          <correct>True</correct>
+        </answer>
+        <answer>
+          <aText>Add Answer Tasdasdext Here</aText>
+          <correct>True</correct>
+        </answer>
+      </answers>
     </question>
   </questions>
 </game>
