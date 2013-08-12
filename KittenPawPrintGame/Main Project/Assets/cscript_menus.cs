@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -125,6 +126,22 @@ public class cscript_navigation : MonoBehaviour
 			
 			GUI.Label (new Rect(i * inc + 10 * (i + 1), 60, inc, Screen.height - 180), games[i + position].name, game.label);
 			GUI.Label (new Rect(i * inc + 10 * (i + 1), Screen.height - 160, inc, 20), "By " + games[i + position].author, game.label);
+			
+			if (GUI.Button (new Rect(i * inc + 10 * (i + 1) + inc / 4, (Screen.height - 110), inc / 2, 40), "Play"))
+			{
+				//Launch games[i + position]
+			}
+			
+			//Edit Game
+			if (GUI.Button (new Rect(i * inc + 10 * (i + 1), (Screen.height - 100), inc / 6, 20), "Edit"))
+			{
+				gameName = games[i + position].name;
+				authorName = games[i + position].author;
+				selectedCreateGame = Convert.ToInt32(games[i + position].type);
+				questions.AddRange (games[i + position].questions);
+				
+				master.gameState = cscript_master.GameState.CreateGame;
+			}
 		}
 		
 		if (GUI.Button (new Rect(10, Screen.height / 2 - 15, 50, 30), "<"))
