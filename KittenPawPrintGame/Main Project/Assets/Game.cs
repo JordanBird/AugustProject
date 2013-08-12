@@ -9,6 +9,8 @@ public class Game
 	public string author;
 	public string type;
 	
+	public char[] background = "010110010".ToCharArray ();
+	
 	public Question[] questions;
 	
 	Random random = new Random();
