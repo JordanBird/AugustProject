@@ -36,6 +36,8 @@ public class cscript_navigation : MonoBehaviour
 	
 	int questionPosition = 0;
 	
+	FancyButton[] buttons = new FancyButton[12];
+	
 	public void Init(cscript_master m)
 	{
 		master = m;
@@ -72,16 +74,48 @@ public class cscript_navigation : MonoBehaviour
 		}
 		
 		games = tempGames.ToArray ();
+		
+		buttons[0] = new FancyButton("About", 10, 10, 100, 30, 0.8f, 0);
+		buttons[1] = new FancyButton("Help", Screen.width - 110, 10, 100, 30, 0.8f, 0);
+		buttons[2] = new FancyButton("Create New Game", Screen.width / 2 - 350, Screen.height - 55, 700, 40, 0.8f, 2);
+			
+		float inc = (Screen.width - 40) / 3;
+		buttons[3] = new FancyButton("Play", 10 + inc / 4, Screen.height - 110, (int)inc / 2, 40, 0.5f, 2);
+		buttons[4] = new FancyButton("Play", inc + 10 * 2 + inc / 4, Screen.height - 110, (int)inc / 2, 40, 0.5f, 2);
+		buttons[5] = new FancyButton("Play", 2 * inc + 10 * 3 + inc / 4, Screen.height - 110, (int)inc / 2, 40, 0.5f, 2);
+		buttons[6] = new FancyButton("Edit", 10, Screen.height - 100, (int)inc / 6, 20, 0.3f, 2);
+		buttons[7] = new FancyButton("Edit", inc + 10 * 2, Screen.height - 100, (int)inc / 6, 20, 0.3f, 2);
+		buttons[8] = new FancyButton("Edit", 2 * inc + 10 * 3, Screen.height - 100, (int)inc / 6, 20, 0.3f, 2);
+		
+		buttons[9] = new FancyButton("<", 10, Screen.height / 2 - 15, 50, 30, 0.8f, 3);
+		buttons[10] = new FancyButton(">", Screen.width - 60, Screen.height / 2 - 15, 50, 30, 0.8f, 1);
+		
+		buttons[11] = new FancyButton("< Back", 10, 10, 100, 30, 0.8f, 0);
+		
+		buttons[0].Enter ();
+		buttons[1].Enter ();
+		buttons[2].Enter ();
+		buttons[3].Enter ();
+		buttons[4].Enter ();
+		buttons[5].Enter ();
+		buttons[6].Enter ();
+		buttons[7].Enter ();
+		buttons[8].Enter ();
+		buttons[9].Enter ();
+		buttons[10].Enter ();
 	}
 	
 	// Update is called once per frame
 	void Update () 
 	{
-		
+		for (int i = 0; i < buttons.Length; i++)
+		{
+			buttons[i].Update();
+		}
 	}
 	
 	void OnGUI()
-	{
+	{		
 		switch (master.gameState)
 		{
 			case cscript_master.GameState.MainMenu:
@@ -100,21 +134,52 @@ public class cscript_navigation : MonoBehaviour
 				break;
 				
 		}
+		
+		for (int i = 0; i < buttons.Length; i++)
+		{
+			buttons[i].Clicked = GUI.Button (buttons[i].GetRectangle(), buttons[i].Text);
+		}
 	}
 	
 	private void MainMenuGUI()
-	{
+	{		
 		GUI.Label(new Rect(Screen.width / 2 - 50, 10, 100, 50), "Main Menu");
 		
-		if (GUI.Button (new Rect(10, 10, 100, 30), "About"))
+		if (buttons[0].Clicked)
+		{
 			master.gameState = cscript_master.GameState.About;
+			
+			for (int i = 0; i < 11; i++)
+			{
+				buttons[i].Leave();
+			}
+			
+			buttons[11].Enter ();
+		}
 		
-		if (GUI.Button (new Rect(Screen.width - 110, 10, 100, 30), "Help"))
+		if (buttons[1].Clicked)
+		{
 			master.gameState = cscript_master.GameState.Help;
+			
+			for (int i = 0; i < 11; i++)
+			{
+				buttons[i].Leave();
+			}
+			
+			buttons[11].Enter ();
+		}
 		
-		if (GUI.Button (new Rect(Screen.width / 2 - 50, Screen.height - 40, 100, 30), "Create Game"))
+		if (buttons[2].Clicked)
 		{
 			master.gameState = cscript_master.GameState.CreateGame;
+			
+			for (int i = 0; i < 11; i++)
+			{
+				buttons[i].Leave();
+			}
+			
+			buttons[1].Enter ();
+			buttons[11].Enter ();
 			
 			ResetGameCreation ();
 		}
@@ -131,15 +196,23 @@ public class cscript_navigation : MonoBehaviour
 			GUI.Label (new Rect(i * inc + 10 * (i + 1), 60, inc, Screen.height - 180), games[i + position].name, game.label);
 			GUI.Label (new Rect(i * inc + 10 * (i + 1), Screen.height - 160, inc, 20), "By " + games[i + position].author, game.label);
 			
-			if (GUI.Button (new Rect(i * inc + 10 * (i + 1) + inc / 4, (Screen.height - 110), inc / 2, 40), "Play"))
+			if (buttons[3 + i].Clicked)
 			{
 				//Launch games[i + position]
 			}
 			
 			//Edit Game
-			if (i + position > 2)
+			if (i + position < 3)
 			{
-				if (GUI.Button (new Rect(i * inc + 10 * (i + 1), (Screen.height - 100), inc / 6, 20), "Edit"))
+				//buttons[6 + i].Hide(); // INSTANT
+				buttons[6 + i].Leave ();
+			}
+			else
+			{
+				//buttons[6 + i].Unhide(); // INSTANT
+				buttons[6 + i].Enter();	
+				
+				if (buttons[6 + i].Clicked)
 				{
 					gameName = games[i + position].name;
 					authorName = games[i + position].author;
@@ -151,13 +224,14 @@ public class cscript_navigation : MonoBehaviour
 			}
 		}
 		
-		if (GUI.Button (new Rect(10, Screen.height / 2 - 15, 50, 30), "<"))
+		if (buttons[9].Clicked)
 		{			
 			if (position > 0)
 				position--;
+			
 		}
 		
-		if (GUI.Button (new Rect(Screen.width - 60, Screen.height / 2 - 15, 50, 30), ">"))
+		if (buttons[10].Clicked)
 		{
 			if (position < games.Length - 3)
 				position++;
@@ -168,16 +242,34 @@ public class cscript_navigation : MonoBehaviour
 	{
 		GUI.Label(new Rect(Screen.width / 2 - 50, 10, 100, 50), "Help");
 		
-		if (GUI.Button (new Rect(10, 10, 100, 30), "< Back"))
+		if (buttons[11].Clicked)
+		{
 			master.gameState = cscript_master.GameState.MainMenu;
+			
+			for (int i = 0; i < 11; i++)
+			{
+				buttons[i].Enter();
+			}
+			
+			buttons[11].Leave ();
+		}
 	}
 	
 	private void AboutGUI()
 	{
 		GUI.Label(new Rect(Screen.width / 2 - 50, 10, 100, 50), "About");
 		
-		if (GUI.Button (new Rect(10, 10, 100, 30), "< Back"))
+		if (buttons[11].Clicked)
+		{
 			master.gameState = cscript_master.GameState.MainMenu;
+			
+			for (int i = 0; i < 11; i++)
+			{
+				buttons[i].Enter();
+			}
+			
+			buttons[11].Leave ();
+		}
 	}
 	
 	private void CreateGameGUI()
@@ -186,11 +278,23 @@ public class cscript_navigation : MonoBehaviour
 		{
 			GUI.Label(new Rect(Screen.width / 2 - 60, 10, 120, 50), "Create your Game");
 		
-			if (GUI.Button (new Rect(10, 10, 100, 30), "< Back"))
+			if (buttons[11].Clicked)
+			{
 				master.gameState = cscript_master.GameState.MainMenu;
+					
+				for (int i = 0; i < 11; i++)
+				{
+					buttons[i].Enter();
+				}
+				
+				buttons[11].Leave ();
+			}
 			
-			if (GUI.Button (new Rect(Screen.width - 110, 10, 100, 30), "Help"))
+			if (buttons[1].Clicked)
+			{
 				master.gameState = cscript_master.GameState.Help;
+				
+			}
 			
 			gameName = GUI.TextField (new Rect((Screen.width / 4 - 10) / 2, 60, Screen.width / 4, 20), gameName);
 			authorName = GUI.TextField (new Rect((Screen.width / 4 - 10) * 2.5f, 60, Screen.width / 4, 20), authorName);
@@ -247,7 +351,7 @@ public class cscript_navigation : MonoBehaviour
 		}
 		else
 		{
-			if (GUI.Button (new Rect(10, 10, 100, 30), "< Back"))
+			if (buttons[11].Clicked)
 			{
 				addQuestion = false;
 			}

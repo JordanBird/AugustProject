@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Answer.cs" />
+     <Compile Include="Assets\FancyButton.cs" />
      <Compile Include="Assets\Game.cs" />
      <Compile Include="Assets\Question.cs" />
      <Compile Include="Assets\cscript_master.cs" />
