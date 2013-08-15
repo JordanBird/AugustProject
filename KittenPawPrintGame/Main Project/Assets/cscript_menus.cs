@@ -145,45 +145,6 @@ public class cscript_navigation : MonoBehaviour
 	{		
 		GUI.Label(new Rect(Screen.width / 2 - 50, 10, 100, 50), "Main Menu");
 		
-		if (buttons[0].Clicked)
-		{
-			master.gameState = cscript_master.GameState.About;
-			
-			for (int i = 0; i < 11; i++)
-			{
-				buttons[i].Leave();
-			}
-			
-			buttons[11].Enter ();
-		}
-		
-		if (buttons[1].Clicked)
-		{
-			master.gameState = cscript_master.GameState.Help;
-			
-			for (int i = 0; i < 11; i++)
-			{
-				buttons[i].Leave();
-			}
-			
-			buttons[11].Enter ();
-		}
-		
-		if (buttons[2].Clicked)
-		{
-			master.gameState = cscript_master.GameState.CreateGame;
-			
-			for (int i = 0; i < 11; i++)
-			{
-				buttons[i].Leave();
-			}
-			
-			buttons[1].Enter ();
-			buttons[11].Enter ();
-			
-			ResetGameCreation ();
-		}
-		
 		float inc = (Screen.width - 40) / 3;
 		
 		//Playable Games
@@ -235,6 +196,45 @@ public class cscript_navigation : MonoBehaviour
 		{
 			if (position < games.Length - 3)
 				position++;
+		}
+		
+				if (buttons[0].Clicked)
+		{
+			master.gameState = cscript_master.GameState.About;
+			
+			for (int i = 0; i < 11; i++)
+			{
+				buttons[i].Leave();
+			}
+			
+			buttons[11].Enter ();
+		}
+		
+		if (buttons[1].Clicked)
+		{
+			master.gameState = cscript_master.GameState.Help;
+			
+			for (int i = 0; i < 11; i++)
+			{
+				buttons[i].Leave();
+			}
+			
+			buttons[11].Enter ();
+		}
+		
+		if (buttons[2].Clicked)
+		{
+			master.gameState = cscript_master.GameState.CreateGame;
+			
+			for (int i = 0; i < 11; i++)
+			{
+				buttons[i].Leave();
+			}
+			
+			buttons[1].Enter ();
+			buttons[11].Enter ();
+			
+			ResetGameCreation ();
 		}
 	}
 	
