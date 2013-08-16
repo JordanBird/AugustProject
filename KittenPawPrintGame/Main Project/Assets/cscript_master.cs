@@ -10,6 +10,10 @@ public class cscript_master : MonoBehaviour
 	
 	public static string dataPath = Application.dataPath;
 	
+	public GameObject game0;
+	public GameObject game1;
+	public GameObject game2;
+	
 	// Use this for initialization
 	void Start ()
 	{
@@ -47,5 +51,49 @@ public class cscript_master : MonoBehaviour
 				break;
 				
 		}
+	}
+	
+	public void StartGame()
+	{
+		gameState = GameState.Playing;
+		
+		switch (currentGame.type)
+		{
+			case "0":
+				game0.GetComponent<cscript_game_test>().Begin (currentGame, this);
+				break;
+		}
+	}
+	
+	public void StartGame(Game g)
+	{
+		currentGame = g;
+		
+		gameState = GameState.Playing;
+		
+		switch (currentGame.type)
+		{
+			case "0":
+				GameObject temp0 = Instantiate (game0, Vector3.zero, Quaternion.identity) as GameObject;
+				temp0.GetComponent<cscript_game_test>().Begin (currentGame, this);
+				break;
+			case "1":
+				GameObject temp1 = Instantiate (game1, Vector3.zero, Quaternion.identity) as GameObject;
+				temp1.GetComponent<cscript_game_test>().Begin (currentGame, this);
+				break;
+			case "2":
+				GameObject temp2 = Instantiate (game2, Vector3.zero, Quaternion.identity) as GameObject;
+				temp2.GetComponent<cscript_game_test>().Begin (currentGame, this);
+				break;
+		}
+	}
+	
+	public void DealWithBytes()
+	{
+		//Reads a file and then creates the byte string.
+		//string outpuit = System.Text.Encoding.Default.GetString (System.IO.File.ReadAllBytes (@"C:\Users\Jordan\Desktop\IMAG0033.jpg"));
+
+		//File.WriteAllText (@"C:\Users\Jordan\Desktop\BBB.txt", outpuit);
+		
 	}
 }

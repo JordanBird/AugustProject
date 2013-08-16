@@ -9,9 +9,11 @@ public class Game
 	public string author;
 	public string type;
 	
-	public char[] background = "010110010".ToCharArray ();
+	public string background = "";
 	
 	public Question[] questions;
+	
+	public string location = "";
 	
 	Random random = new Random();
 	
@@ -25,6 +27,7 @@ public class Game
 	
 	public Game(string XMLLocation, bool resource)
 	{
+		location = XMLLocation;
 		XMLToGame (XMLLocation, resource);
 	}
 	
@@ -120,11 +123,12 @@ public class Game
 		foreach (XmlNode x in document.GetElementsByTagName("question"))
 		{
 			//Gets actual question.
-			string xName = x.SelectSingleNode ("//text").InnerText;
+			string xName = x["text"].InnerText;
 			List<Answer> answers = new List<Answer>();
 			
 			//Gets answers.
-			foreach (XmlNode y in x.SelectNodes ("//answer"))
+			//foreach (XmlNode y in  x.SelectNodes ("//answers//answer"))
+			foreach (XmlNode y in  x["answers"])
 			{
 				if (y["correct"].InnerText == "True")
 					answers.Add (new Answer(true, y["aText"].InnerText));
