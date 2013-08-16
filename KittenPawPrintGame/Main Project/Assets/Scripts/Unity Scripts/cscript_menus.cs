@@ -7,6 +7,7 @@ using System.IO;
 public class cscript_navigation : MonoBehaviour 
 {
 	cscript_master master;
+	cscript_GUI_master GUIMaster;
 	
 	Texture2D blankWhiteTexture = new Texture2D(1, 1);
 	Texture2D blankBlackTexture = new Texture2D(1, 1);
@@ -46,34 +47,15 @@ public class cscript_navigation : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
+		GUIMaster = GameObject.FindGameObjectWithTag ("GUI Master").GetComponent<cscript_GUI_master>();
+		
 		blankWhiteTexture.SetPixel (0, 0, Color.white);
 		blankWhiteTexture.Apply();
 			
 		blankBlackTexture.SetPixel (0, 0, Color.black);
 		blankBlackTexture.Apply();
 		
-		correctAnswer = Resources.Load ("GUI Skins/GUISkin_Correct_Answer") as GUISkin;
-		incorrectAnswer = Resources.Load ("GUI Skins/GUISkin_Incorrect_Answer") as GUISkin;
-		game = Resources.Load ("GUI Skins/GUISkin_Main_Menu_Games") as GUISkin;
-		
-		List<Game> tempGames = new List<Game>();
-		
-		tempGames.Add (new Game((Resources.Load ("Game Files/Multiplication Football") as TextAsset).ToString (), true));
-		tempGames.Add (new Game((Resources.Load ("Game Files/Fly to the Noun") as TextAsset).ToString (), true));
-		tempGames.Add (new Game((Resources.Load ("Game Files/Word Train") as TextAsset).ToString (), true));
-		
-		Directory.CreateDirectory (cscript_master.dataPath + @"/Game Files");
-		
-		foreach (string s in Directory.GetFiles (cscript_master.dataPath + @"/Game Files"))
-		{
-			try
-			{
-				tempGames.Add (new Game(s, false));
-			}
-			catch {}
-		}
-		
-		games = tempGames.ToArray ();
+		LoadGames();
 		
 		buttons[0] = new FancyButton("About", 10, 10, 100, 30, 0.8f, 0);
 		buttons[1] = new FancyButton("Help", Screen.width - 110, 10, 100, 30, 0.8f, 0);
@@ -143,7 +125,7 @@ public class cscript_navigation : MonoBehaviour
 	
 	private void MainMenuGUI()
 	{		
-		GUI.Label(new Rect(Screen.width / 2 - 50, 10, 100, 50), "Main Menu");
+		GUI.Label(new Rect(10, 10, Screen.width - 20, 50), "Main Menu", GUIMaster.heading.label);
 		
 		float inc = (Screen.width - 40) / 3;
 		
@@ -160,6 +142,7 @@ public class cscript_navigation : MonoBehaviour
 			if (buttons[3 + i].Clicked)
 			{
 				//Launch games[i + position]
+				master.StartGame (games[i + position]);
 			}
 			
 			//Edit Game
@@ -181,6 +164,17 @@ public class cscript_navigation : MonoBehaviour
 					questions.AddRange (games[i + position].questions);
 					
 					master.gameState = cscript_master.GameState.CreateGame;
+				}
+				
+				//Allows Deletion
+				if (GUI.Button (new Rect(i * inc + 9 + (i * 10) + inc - 20, 50, 25, 25), "X"))
+				{
+					File.Delete (games[i + position].location);
+					
+					if (position >= games.Length - 3)
+						position = games.Length - 4;
+					
+					LoadGames();
 				}
 			}
 		}
@@ -301,9 +295,9 @@ public class cscript_navigation : MonoBehaviour
 			
 			GUIContent[] g = new GUIContent[3];
 			
-			g[0] = new GUIContent("Football");
-			g[1] = new GUIContent("Plane");
-			g[2] = new GUIContent("Train");
+			g[0] = new GUIContent(GUIMaster.footballIcon);
+			g[1] = new GUIContent(GUIMaster.planeIcon);
+			g[2] = new GUIContent(GUIMaster.trainIcon);
 			
 			float centre = (Screen.width / 4);
 			
@@ -366,17 +360,20 @@ public class cscript_navigation : MonoBehaviour
 				GUISkin temp;
 				
 				if (answers[i].correct == true)
-					temp = correctAnswer;
+					temp = GUIMaster.correctAnswer;
 				else
-					temp = incorrectAnswer;
+					temp = GUIMaster.incorrectAnswer;
 				
-				if (GUI.Button (new Rect(10 * (i + 1) + i * 100,180, 100, 100), answers[i].text, temp.button))
+				if (GUI.Button (new Rect(10 * (i + 1) + i * 100, 180, 100, 100), answers[i].text, temp.button))
 				{
 					if (answers[i].correct == true)
 						answers[i].correct = false;
 					else
 						answers[i].correct = true;
 				}
+				
+				if (GUI.Button (new Rect((10 * (i + 1) + i * 100) + 85, 170, 25, 25), "X"))
+					answers.RemoveAt (i);
 			}
 			
 			if (GUI.Button (new Rect(25 + 10 * (position + 1) + position * 100, 225, 100, 50), "Add Answer"))
@@ -395,8 +392,35 @@ public class cscript_navigation : MonoBehaviour
 					questions[questionPosition] = new Question(multipleChoiceQuestion, answers.ToArray ());
 				
 				addQuestion = false;
+				answers = new List<Answer>();
 			}
 		}
+	}
+	
+	public void LoadGames()
+	{
+		correctAnswer = Resources.Load ("GUI Skins/GUISkin_Correct_Answer") as GUISkin;
+		incorrectAnswer = Resources.Load ("GUI Skins/GUISkin_Incorrect_Answer") as GUISkin;
+		game = Resources.Load ("GUI Skins/GUISkin_Main_Menu_Games") as GUISkin;
+		
+		List<Game> tempGames = new List<Game>();
+		
+		tempGames.Add (new Game((Resources.Load ("Game Files/Multiplication Football") as TextAsset).ToString (), true));
+		tempGames.Add (new Game((Resources.Load ("Game Files/Fly to the Noun") as TextAsset).ToString (), true));
+		tempGames.Add (new Game((Resources.Load ("Game Files/Word Train") as TextAsset).ToString (), true));
+		
+		Directory.CreateDirectory (cscript_master.dataPath + @"/Game Files");
+		
+		foreach (string s in Directory.GetFiles (cscript_master.dataPath + @"/Game Files"))
+		{
+			try
+			{
+				tempGames.Add (new Game(s, false));
+			}
+			catch {}
+		}
+		
+		games = tempGames.ToArray ();
 	}
 	
 	private void ResetGameCreation()
