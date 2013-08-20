@@ -2,48 +2,5 @@
   <name>Add Game Name Here</name>
   <author>Add Author Here</author>
   <type>0</type>
-  <questions>
-    <question>
-      <text>1</text>
-      <answers>
-        <answer>
-          <aText>Add Answer Text Here</aText>
-          <correct>True</correct>
-        </answer>
-        <answer>
-          <aText>Add Answer Text Here</aText>
-          <correct>True</correct>
-        </answer>
-        <answer>
-          <aText>Add Answer Text Here</aText>
-          <correct>True</correct>
-        </answer>
-        <answer>
-          <aText>Add Answer Text Here</aText>
-          <correct>True</correct>
-        </answer>
-      </answers>
-    </question>
-    <question>
-      <text>2</text>
-      <answers>
-        <answer>
-          <aText>Add Answer Text Here</aText>
-          <correct>False</correct>
-        </answer>
-        <answer>
-          <aText>Add Answer Text Here</aText>
-          <correct>False</correct>
-        </answer>
-        <answer>
-          <aText>Add Answer Text Here</aText>
-          <correct>True</correct>
-        </answer>
-        <answer>
-          <aText>Add Answer Text Here</aText>
-          <correct>False</correct>
-        </answer>
-      </answers>
-    </question>
-  </questions>
+  <questions />
 </game>

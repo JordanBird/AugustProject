@@ -60,7 +60,7 @@ public class cscript_navigation : MonoBehaviour
 		buttons[0] = new FancyButton("About", 10, 10, 100, 30, 0.8f, 0);
 		buttons[1] = new FancyButton("Help", Screen.width - 110, 10, 100, 30, 0.8f, 0);
 		buttons[2] = new FancyButton("Create New Game", Screen.width / 2 - 350, Screen.height - 55, 700, 40, 0.8f, 2);
-			
+		
 		float inc = (Screen.width - 40) / 3;
 		buttons[3] = new FancyButton("Play", 10 + inc / 4, Screen.height - 110, (int)inc / 2, 40, 0.5f, 2);
 		buttons[4] = new FancyButton("Play", inc + 10 * 2 + inc / 4, Screen.height - 110, (int)inc / 2, 40, 0.5f, 2);
@@ -124,7 +124,7 @@ public class cscript_navigation : MonoBehaviour
 	}
 	
 	private void MainMenuGUI()
-	{		
+	{
 		GUI.Label(new Rect(10, 10, Screen.width - 20, 50), "Main Menu", GUIMaster.heading.label);
 		
 		float inc = (Screen.width - 40) / 3;
@@ -348,6 +348,7 @@ public class cscript_navigation : MonoBehaviour
 			if (buttons[11].Clicked)
 			{
 				addQuestion = false;
+				answers = new List<Answer>();
 			}
 			
 			multipleChoiceQuestion = GUI.TextArea (new Rect((Screen.width / 4 - 10) * 1.5f, 60, Screen.width / 4, 20), multipleChoiceQuestion);
@@ -377,7 +378,7 @@ public class cscript_navigation : MonoBehaviour
 			}
 			
 			if (GUI.Button (new Rect(25 + 10 * (position + 1) + position * 100, 225, 100, 50), "Add Answer"))
-				answers.Add (new Answer(true, answer));
+				answers.Add (new Answer(false, answer));
 			
 			//answer = GUI.TextArea (new Rect((Screen.width / 4 - 10) * 1.5f, 90, Screen.width / 4, 20), answer);
 			answer = GUI.TextArea (new Rect(10 * (position + 1) + position * 100, 200, 145, 20), answer);

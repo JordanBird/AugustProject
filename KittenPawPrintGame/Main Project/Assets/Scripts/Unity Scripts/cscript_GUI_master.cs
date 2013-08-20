@@ -3,7 +3,6 @@ using System.Collections;
 
 public class cscript_GUI_master : MonoBehaviour 
 {
-	
 	public GUISkin heading;
 	public GUISkin text;
 	
