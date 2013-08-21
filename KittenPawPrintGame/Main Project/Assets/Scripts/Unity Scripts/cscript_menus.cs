@@ -33,11 +33,13 @@ public class cscript_navigation : MonoBehaviour
 	List<Answer> answers = new List<Answer>();
 	List<Question> questions = new List<Question>();
 	
+	List<FancyButton> questionButtons = new List<FancyButton>();
+	
 	bool addQuestion = false;
 	
 	int questionPosition = 0;
 	
-	FancyButton[] buttons = new FancyButton[12];
+	FancyButton[] buttons = new FancyButton[14];
 	
 	public void Init(cscript_master m)
 	{
@@ -74,6 +76,9 @@ public class cscript_navigation : MonoBehaviour
 		
 		buttons[11] = new FancyButton("< Back", 10, 10, 100, 30, 0.8f, 0);
 		
+		buttons[12] = new FancyButton("Add Background", Screen.width / 2 - 75, 170, 150, 40, 1f, 1);
+		buttons[13] = new FancyButton("Save", Screen.width / 2 - 25, 390, 50, 25, 1f, 3);
+		
 		buttons[0].Enter ();
 		buttons[1].Enter ();
 		buttons[2].Enter ();
@@ -93,6 +98,11 @@ public class cscript_navigation : MonoBehaviour
 		for (int i = 0; i < buttons.Length; i++)
 		{
 			buttons[i].Update();
+		}
+		
+		for (int i = 0; i < questionButtons.Count; i++)
+		{
+			questionButtons[i].Update ();
 		}
 	}
 	
@@ -120,6 +130,11 @@ public class cscript_navigation : MonoBehaviour
 		for (int i = 0; i < buttons.Length; i++)
 		{
 			buttons[i].Clicked = GUI.Button (buttons[i].GetRectangle(), buttons[i].Text);
+		}
+		
+		for (int i = 0; i < questionButtons.Count; i++)
+		{
+			questionButtons[i].Clicked = GUI.Button (questionButtons[i].GetRectangle(), questionButtons[i].Text);
 		}
 	}
 	
@@ -161,9 +176,27 @@ public class cscript_navigation : MonoBehaviour
 					gameName = games[i + position].name;
 					authorName = games[i + position].author;
 					selectedCreateGame = Convert.ToInt32(games[i + position].type);
+					questions.Clear ();
 					questions.AddRange (games[i + position].questions);
 					
+					questionButtons.Clear ();
+					for (int j = 0; j < questions.Count; j++)
+					{
+						questionButtons.Add (new FancyButton(questions[j].text, 10 * (j + 1) + j * 100, 250, 100, 100, 0.2f + j / 10f, 2));
+						questionButtons[j].Enter();
+					}
+					
 					master.gameState = cscript_master.GameState.CreateGame;
+					
+					for (int j = 0; j < 11; j++)
+					{
+						buttons[j].Leave();
+					}
+					
+					buttons[1].Enter ();
+					buttons[11].Enter ();
+					buttons[12].Enter ();
+					buttons[13].Enter ();
 				}
 				
 				//Allows Deletion
@@ -227,6 +260,8 @@ public class cscript_navigation : MonoBehaviour
 			
 			buttons[1].Enter ();
 			buttons[11].Enter ();
+			buttons[12].Enter ();
+			buttons[13].Enter ();
 			
 			ResetGameCreation ();
 		}
@@ -238,7 +273,7 @@ public class cscript_navigation : MonoBehaviour
 		
 		if (buttons[11].Clicked)
 		{
-			master.gameState = cscript_master.GameState.MainMenu;
+			master.gameState = cscript_master.GameState.MainMenu;	// NO! This should go back to the gamestate that Help was clicked from, otherwise you could click Help when creating a game and then go back to the main menu!!!!
 			
 			for (int i = 0; i < 11; i++)
 			{
@@ -267,9 +302,16 @@ public class cscript_navigation : MonoBehaviour
 	}
 	
 	private void CreateGameGUI()
-	{
+	{		
+		
 		if (addQuestion == false)
 		{
+			// Having this constantly running doesnt affect performance much, and just reduces the amount of times i need to enter() and leave() the buttons. Consider doing this for all other buttons.
+			for (int i = 0; i < questions.Count; i++)
+			{
+				questionButtons[i].Enter();
+			}
+			
 			GUI.Label(new Rect(Screen.width / 2 - 60, 10, 120, 50), "Create your Game");
 		
 			if (buttons[11].Clicked)
@@ -282,39 +324,40 @@ public class cscript_navigation : MonoBehaviour
 				}
 				
 				buttons[11].Leave ();
+				buttons[12].Leave ();
+				buttons[13].Leave ();
 			}
 			
 			if (buttons[1].Clicked)
 			{
 				master.gameState = cscript_master.GameState.Help;
 				
+				buttons[12].Leave ();
+				buttons[13].Leave ();
 			}
 			
 			gameName = GUI.TextField (new Rect((Screen.width / 4 - 10) / 2, 60, Screen.width / 4, 20), gameName);
 			authorName = GUI.TextField (new Rect((Screen.width / 4 - 10) * 2.5f, 60, Screen.width / 4, 20), authorName);
 			
-			GUIContent[] g = new GUIContent[3];
-			
-			g[0] = new GUIContent(GUIMaster.footballIcon);
-			g[1] = new GUIContent(GUIMaster.planeIcon);
-			g[2] = new GUIContent(GUIMaster.trainIcon);
-			
-			float centre = (Screen.width / 4);
-			
-			selectedCreateGame = GUI.SelectionGrid (new Rect(centre, 100, Screen.width / 2 - 10, 60), selectedCreateGame, g, 3);
-			
-			if (GUI.Button (new Rect(Screen.width / 2 - 75, 170, 150, 40), "Add Background"))
+			if (buttons[12].Clicked)
 			{
 				//Add Background Code
 			}
 			
+			//// CAN PARENT THIS TO OTHER BUTTONS IF ANIMATION NEEDED
+			GUIContent[] g = new GUIContent[3];
+			g[0] = new GUIContent(GUIMaster.footballIcon);
+			g[1] = new GUIContent(GUIMaster.planeIcon);
+			g[2] = new GUIContent(GUIMaster.trainIcon);
+			selectedCreateGame = GUI.SelectionGrid (new Rect(Screen.width / 4, 100, Screen.width / 2 - 10, 60), selectedCreateGame, g, 3);
+			
 			//Add Question System
 			int position = 0;
 			
-			for (int i = 0; i < questions.Count; i++, position++) //(you know, you could just replace i with position here. :D)
+			for (int i = 0; i < questions.Count; i++, position++)
 			{
 				// Open existing question.
-				if (GUI.Button (new Rect(10 * (i + 1) + i * 100, 250, 100, 100), questions[i].text))
+				if (questionButtons[i].Clicked)
 				{
 					questionPosition = i;
 					
@@ -322,6 +365,8 @@ public class cscript_navigation : MonoBehaviour
 					answers.AddRange (questions[i].answers);
 					
 					addQuestion = true;
+					buttons[12].Leave ();
+					break;
 				}
 			}
 			
@@ -331,24 +376,37 @@ public class cscript_navigation : MonoBehaviour
 				questionPosition = questions.Count + 1;
 				addQuestion = true;
 				ResetQuestionCreation ();
+				
+				buttons[12].Leave ();
+				
 			}
 			
-			if (GUI.Button (new Rect(Screen.width / 2 - 25, 390, 50, 25), "Save"))
+			if (buttons[13].Clicked)
 			{
 				//Save Code
 				Debug.Log (selectedCreateGame.ToString ());
 				Game game = new Game(gameName, authorName, selectedCreateGame.ToString (), questions.ToArray ());
 				game.GameToXML ();
 				
+				for (int i = 0; i < 11; i++)
+				{
+					buttons[i].Enter();
+				}
+				
+				buttons[11].Leave ();
+				buttons[12].Leave ();
+				buttons[13].Leave ();
+				
 				master.gameState = cscript_master.GameState.MainMenu;
 			}
 		}
 		else
-		{
+		{			
 			if (buttons[11].Clicked)
 			{
 				addQuestion = false;
 				answers = new List<Answer>();
+				buttons[12].Enter ();
 			}
 			
 			multipleChoiceQuestion = GUI.TextArea (new Rect((Screen.width / 4 - 10) * 1.5f, 60, Screen.width / 4, 20), multipleChoiceQuestion);
@@ -385,15 +443,32 @@ public class cscript_navigation : MonoBehaviour
 			
 			GUI.Label (new Rect(Screen.width / 4 - 42, 330, Screen.width - 40, 20), "Tap on object once for incorrect answer, double tap for correct, flick away to delete");
 			
-			if (GUI.Button (new Rect(Screen.width / 2 - 25, 390, 50, 25), "Save"))
+			if (buttons[13].Clicked)
 			{
 				if (questionPosition > questions.Count)
+				{
 					questions.Add(new Question(multipleChoiceQuestion, answers.ToArray ()));
+					questionButtons.Add (new FancyButton(multipleChoiceQuestion, 10 * questionPosition + (questionPosition - 1) * 100, 250, 100, 100, 0.2f + questionPosition / 10f, 2));
+					questionButtons[questionButtons.Count-1].Enter ();
+				}
 				else
+				{
 					questions[questionPosition] = new Question(multipleChoiceQuestion, answers.ToArray ());
+					questionButtons[questionPosition] = new FancyButton(multipleChoiceQuestion, 10 * questionPosition + (questionPosition - 1) * 100, 250, 100, 100, 0.2f + questionPosition / 10f, 2);;
+				}
 				
 				addQuestion = false;
 				answers = new List<Answer>();
+				buttons[12].Enter ();
+			}
+		}
+		
+		// Once again, doesnt affect performance and ensures question buttons leave when this function stops running.
+		if (addQuestion || master.gameState != cscript_master.GameState.CreateGame)
+		{
+			for (int i = 0; i < questions.Count; i++)
+			{
+				questionButtons[i].Leave();
 			}
 		}
 	}
@@ -428,13 +503,14 @@ public class cscript_navigation : MonoBehaviour
 	{		
 		gameName = "Add Game Name Here";
 		authorName = "Add Author Here";
-		questions = new List<Question>();
+		questionButtons.Clear ();
+		questions.Clear();
 	}
 	
 	private void ResetQuestionCreation()
 	{
 		multipleChoiceQuestion = "Add Multiple Choice Question Here";
 		answer = "Add Answer Text Here";
-		answers = new List<Answer>();	
+		answers.Clear ();	
 	}
 }

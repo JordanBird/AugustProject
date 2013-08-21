@@ -6,9 +6,9 @@ public class FancyButton
 	public bool Clicked { get; set; }
 	public Vector2 Position { get; private set; }
 	public string Text { get; private set; }
+	public int Width { get; private set; }
+	public int Height { get; private set; }
 	
-	private int width;
-	private int height;
 	private float introTimer = 0;
 	private float introDelay;
 	private Vector2 startPosition;
@@ -18,8 +18,8 @@ public class FancyButton
 	public FancyButton(string text, float targetX, float targetY, int width, int height, float introDelay, int side)
 	{
 		Text = text;
-		this.width = width;
-		this.height = height;
+		Width = width;
+		Height = height;
 		this.introDelay = introDelay;	
 		targetPosition = startPosition = new Vector2(targetX, targetY);
 		
@@ -27,7 +27,7 @@ public class FancyButton
 		{
 			// Top
 			case 0:
-				startPosition.y = -height;
+				startPosition.y = -Height;
 				break;
 			
 			// Right
@@ -42,7 +42,7 @@ public class FancyButton
 			
 			// Left
 			case 3:
-				startPosition.x = -width;
+				startPosition.x = -Width;
 				break;
 		}
 		
@@ -80,7 +80,7 @@ public class FancyButton
 	
 	public Rect GetRectangle()
 	{
-		return new Rect(Position.x, Position.y, width, height);
+		return new Rect(Position.x, Position.y, Width, Height);
 	}
 	
 	public void Update ()

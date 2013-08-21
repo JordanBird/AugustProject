@@ -2,5 +2,54 @@
   <name>Add Game Name Here</name>
   <author>Add Author Here</author>
   <type>0</type>
-  <questions />
+  <questions>
+    <question>
+      <text>Add Multiple Choice Question Here</text>
+      <answers />
+    </question>
+    <question>
+      <text>Add Multiple Choice Question Here</text>
+      <answers />
+    </question>
+    <question>
+      <text>Add Multiple Choice Question Here</text>
+      <answers />
+    </question>
+    <question>
+      <text>Add Multiple Choice Question Here</text>
+      <answers />
+    </question>
+    <question>
+      <text>Add Multiple Choice Question Here</text>
+      <answers />
+    </question>
+    <question>
+      <text>Add Multiple Choice Question Here</text>
+      <answers />
+    </question>
+    <question>
+      <text>Add Multiple Choice Question Here</text>
+      <answers />
+    </question>
+    <question>
+      <text>Add Multiple Choice Question Here</text>
+      <answers />
+    </question>
+    <question>
+      <text>Add Multiple Choice Question Here</text>
+      <answers />
+    </question>
+    <question>
+      <text>Add Multiple Choice Question Here</text>
+      <answers />
+    </question>
+    <question>
+      <text>Add Multiple Choice Question Here</text>
+      <answers />
+    </question>
+    <question>
+      <text>Add Multiple Choice Question Here</text>
+      <answers />
+    </question>
+  </questions>
 </game>
