@@ -9,8 +9,8 @@ public class cscript_navigation : MonoBehaviour
 	cscript_master master;
 	cscript_GUI_master GUIMaster;
 	
-	Texture2D blankWhiteTexture = new Texture2D(1, 1);
-	Texture2D blankBlackTexture = new Texture2D(1, 1);
+	Texture2D blankWhiteTexture;
+	Texture2D blankBlackTexture;
 	
 	//Main Menu Variables
 	public GUISkin game;
@@ -49,6 +49,9 @@ public class cscript_navigation : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
+		blankWhiteTexture = new Texture2D(1, 1);
+		blankBlackTexture = new Texture2D(1, 1);
+		
 		GUIMaster = GameObject.FindGameObjectWithTag ("GUI Master").GetComponent<cscript_GUI_master>();
 		
 		blankWhiteTexture.SetPixel (0, 0, Color.white);
@@ -156,6 +159,10 @@ public class cscript_navigation : MonoBehaviour
 			
 			if (buttons[3 + i].Clicked)
 			{
+				for (int b = 0; b < 11; b++)
+				{
+					buttons[b].Leave();
+				}
 				//Launch games[i + position]
 				master.StartGame (games[i + position]);
 			}
@@ -183,6 +190,7 @@ public class cscript_navigation : MonoBehaviour
 					for (int j = 0; j < questions.Count; j++)
 					{
 						questionButtons.Add (new FancyButton(questions[j].text, 10 * (j + 1) + j * 100, 250, 100, 100, 0.2f + j / 10f, 2));
+						
 						questionButtons[j].Enter();
 					}
 					
@@ -453,8 +461,8 @@ public class cscript_navigation : MonoBehaviour
 				}
 				else
 				{
-					questions[questionPosition] = new Question(multipleChoiceQuestion, answers.ToArray ());
-					questionButtons[questionPosition] = new FancyButton(multipleChoiceQuestion, 10 * questionPosition + (questionPosition - 1) * 100, 250, 100, 100, 0.2f + questionPosition / 10f, 2);;
+					//questions[questionPosition] = new Question(multipleChoiceQuestion, answers.ToArray ());
+					//questionButtons[questionPosition] = new FancyButton(multipleChoiceQuestion, 10 * questionPosition + (questionPosition - 1) * 100, 250, 100, 100, 0.2f + questionPosition / 10f, 2);
 				}
 				
 				addQuestion = false;
@@ -512,5 +520,13 @@ public class cscript_navigation : MonoBehaviour
 		multipleChoiceQuestion = "Add Multiple Choice Question Here";
 		answer = "Add Answer Text Here";
 		answers.Clear ();	
+	}
+	
+	public void MainMenuLoad()
+	{
+		for (int b = 0; b < 11; b++)
+		{
+			buttons[b].Enter();
+		}
 	}
 }

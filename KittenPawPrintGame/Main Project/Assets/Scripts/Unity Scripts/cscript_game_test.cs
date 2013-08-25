@@ -8,7 +8,7 @@ public class cscript_game_test : MonoBehaviour {
 	Game game;
 	cscript_master master;
 	
-	Texture2D background = new Texture2D(500, 200);
+	Texture2D background;
 	
 	Question currentQuestion;
 	
@@ -20,6 +20,7 @@ public class cscript_game_test : MonoBehaviour {
 	// Use this for initialization
 	void Start () 
 	{
+		background = new Texture2D(500, 200);
 		GUIMaster = GameObject.FindGameObjectWithTag ("GUI Master").GetComponent<cscript_GUI_master>();
 	}
 	
@@ -42,6 +43,7 @@ public class cscript_game_test : MonoBehaviour {
 			if (GUI.Button (new Rect(10, 10, 100, 30), "Quit"))
 			{
 				master.gameState = cscript_master.GameState.MainMenu;
+				master.gameObject.GetComponent<cscript_navigation>().MainMenuLoad ();
 				Destroy(this.gameObject);
 			}
 
@@ -74,6 +76,7 @@ public class cscript_game_test : MonoBehaviour {
 	private void NewQuestion()
 	{
 		currentQuestion = game.GetRandomQuestion ();
+		currentQuestion.RandomizeAnswers ();
 	}
 	
 	public void Begin(Game g, cscript_master m)
