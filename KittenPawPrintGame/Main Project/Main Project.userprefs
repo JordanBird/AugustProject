@@ -1,12 +1,8 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Unity Scripts\cscript_game_test.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Classes\Game.cs">
     <Files>
-      <File FileName="Assets\Scripts\Unity Scripts\cscript_menus.cs" Line="465" Column="25" />
-      <File FileName="Assets\Scripts\Classes\FancyButton.cs" Line="12" Column="2" />
-      <File FileName="Assets\Scripts\Unity Scripts\cscript_game_test.cs" Line="78" Column="39" />
-      <File FileName="Assets\Scripts\Unity Scripts\cscript_master.cs" Line="20" Column="60" />
-      <File FileName="Assets\Scripts\Classes\Question.cs" Line="32" Column="2" />
+      <File FileName="Assets\Scripts\Classes\Game.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

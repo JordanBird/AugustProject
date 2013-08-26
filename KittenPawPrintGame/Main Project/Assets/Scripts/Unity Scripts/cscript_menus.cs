@@ -19,6 +19,8 @@ public class cscript_navigation : MonoBehaviour
 	
 	int position = 0;
 	
+	Texture2D[] gameBackgrounds = new Texture2D[3];
+	
 	//Create Game Variables
 	public GUISkin correctAnswer;
 	public GUISkin incorrectAnswer;
@@ -62,11 +64,19 @@ public class cscript_navigation : MonoBehaviour
 		
 		LoadGames();
 		
+		//Initialise Backgrounds
+		float inc = (Screen.width - 40) / 3;
+		
+		gameBackgrounds[0] = new Texture2D(Convert.ToInt32 (inc) - 20, Screen.height - 140);
+		gameBackgrounds[1] = new Texture2D(Convert.ToInt32 (inc) - 20, Screen.height - 140);
+		gameBackgrounds[2] = new Texture2D(Convert.ToInt32 (inc) - 20, Screen.height - 140);
+		
+		LoadGameBackgrounds ();
+		
 		buttons[0] = new FancyButton("About", 10, 10, 100, 30, 0.8f, 0);
 		buttons[1] = new FancyButton("Help", Screen.width - 110, 10, 100, 30, 0.8f, 0);
 		buttons[2] = new FancyButton("Create New Game", Screen.width / 2 - 350, Screen.height - 55, 700, 40, 0.8f, 2);
 		
-		float inc = (Screen.width - 40) / 3;
 		buttons[3] = new FancyButton("Play", 10 + inc / 4, Screen.height - 110, (int)inc / 2, 40, 0.5f, 2);
 		buttons[4] = new FancyButton("Play", inc + 10 * 2 + inc / 4, Screen.height - 110, (int)inc / 2, 40, 0.5f, 2);
 		buttons[5] = new FancyButton("Play", 2 * inc + 10 * 3 + inc / 4, Screen.height - 110, (int)inc / 2, 40, 0.5f, 2);
@@ -96,7 +106,7 @@ public class cscript_navigation : MonoBehaviour
 	}
 	
 	// Update is called once per frame
-	void Update () 
+	void Update ()
 	{
 		for (int i = 0; i < buttons.Length; i++)
 		{
@@ -148,22 +158,27 @@ public class cscript_navigation : MonoBehaviour
 		float inc = (Screen.width - 40) / 3;
 		
 		//Playable Games
-		
 		for (int i = 0; i < 3; i++)
 		{
+			//Shadow and Box
 			GUI.DrawTexture (new Rect(i * inc + 9 + (i * 10), 59, inc + 2, Screen.height - 178), blankBlackTexture);
 			GUI.DrawTexture (new Rect(i * inc + 10 * (i + 1), 60, inc, Screen.height - 180), blankWhiteTexture);
 			
+			//Game Background
+			GUI.DrawTexture (new Rect(i * inc + 10 * (i + 1), 90, inc - 20, Screen.height - 250), gameBackgrounds[i]);
+			
+			//Game Title + Author
 			GUI.Label (new Rect(i * inc + 10 * (i + 1), 60, inc, Screen.height - 180), games[i + position].name, game.label);
 			GUI.Label (new Rect(i * inc + 10 * (i + 1), Screen.height - 160, inc, 20), "By " + games[i + position].author, game.label);
-			
+
+			//Launches Game
 			if (buttons[3 + i].Clicked)
 			{
 				for (int b = 0; b < 11; b++)
 				{
 					buttons[b].Leave();
 				}
-				//Launch games[i + position]
+				
 				master.StartGame (games[i + position]);
 			}
 			
@@ -223,17 +238,23 @@ public class cscript_navigation : MonoBehaviour
 		if (buttons[9].Clicked)
 		{			
 			if (position > 0)
+			{
 				position--;
+				LoadGameBackgrounds ();
+			}
 			
 		}
 		
 		if (buttons[10].Clicked)
 		{
 			if (position < games.Length - 3)
+			{
 				position++;
+				LoadGameBackgrounds ();
+			}
 		}
 		
-				if (buttons[0].Clicked)
+		if (buttons[0].Clicked)
 		{
 			master.gameState = cscript_master.GameState.About;
 			
@@ -393,7 +414,7 @@ public class cscript_navigation : MonoBehaviour
 			{
 				//Save Code
 				Debug.Log (selectedCreateGame.ToString ());
-				Game game = new Game(gameName, authorName, selectedCreateGame.ToString (), questions.ToArray ());
+				Game game = new Game(gameName, authorName, selectedCreateGame.ToString (), questions.ToArray (), GameObject.FindGameObjectWithTag ("Master").GetComponent<cscript_master>().dataPath);
 				game.GameToXML ();
 				
 				for (int i = 0; i < 11; i++)
@@ -493,9 +514,9 @@ public class cscript_navigation : MonoBehaviour
 		tempGames.Add (new Game((Resources.Load ("Game Files/Fly to the Noun") as TextAsset).ToString (), true));
 		tempGames.Add (new Game((Resources.Load ("Game Files/Word Train") as TextAsset).ToString (), true));
 		
-		Directory.CreateDirectory (cscript_master.dataPath + @"/Game Files");
+		Directory.CreateDirectory (GameObject.FindGameObjectWithTag ("Master").GetComponent<cscript_master>().dataPath + @"/Game Files");
 		
-		foreach (string s in Directory.GetFiles (cscript_master.dataPath + @"/Game Files"))
+		foreach (string s in Directory.GetFiles (GameObject.FindGameObjectWithTag ("Master").GetComponent<cscript_master>().dataPath + @"/Game Files"))
 		{
 			try
 			{
@@ -528,5 +549,24 @@ public class cscript_navigation : MonoBehaviour
 		{
 			buttons[b].Enter();
 		}
+	}
+	
+	public float GetAspectWidth(float newHeight, float currentHeight, float currentWidth)
+    {
+        //Resized Width = { (Original Width / Origial Height) * New Height = New Width.
+        return (currentWidth / currentHeight) * newHeight;
+    }
+
+    public float GetAspectHeight(float newWidth, float currentHeight, float currentWidth)
+    {
+        //Resized Height = { (Original Height / Origial Width) * New Width = New Height.
+        return (currentHeight / currentWidth) * newWidth;
+    }
+	
+	public void LoadGameBackgrounds()
+	{
+		gameBackgrounds[0].LoadImage (System.Text.Encoding.Default.GetBytes (games[position].background));
+		gameBackgrounds[1].LoadImage (System.Text.Encoding.Default.GetBytes (games[position + 1].background));
+		gameBackgrounds[2].LoadImage (System.Text.Encoding.Default.GetBytes (games[position + 2].background));
 	}
 }
