@@ -1,0 +1,32 @@
+<game>
+  <name>Add Game Name Here</name>
+  <author>Add Author Here</author>
+  <type>0</type>
+  <questions>
+    <question>
+      <text>How aoifnsnnvoa</text>
+      <answers>
+        <answer>
+          <aText>Add eadwds Text Here</aText>
+          <correct>False</correct>
+        </answer>
+        <answer>
+          <aText>Add eadwdssa Text Here</aText>
+          <correct>True</correct>
+        </answer>
+        <answer>
+          <aText>Add eadwdssadsad Text Here</aText>
+          <correct>True</correct>
+        </answer>
+        <answer>
+          <aText>Add eadwdssadsadsadsd Text Here</aText>
+          <correct>False</correct>
+        </answer>
+        <answer>
+          <aText>Add eadwdssadsadsadsd Text Here</aText>
+          <correct>False</correct>
+        </answer>
+      </answers>
+    </question>
+  </questions>
+</game>
