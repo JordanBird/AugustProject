@@ -84,8 +84,8 @@ public class cscript_navigation : MonoBehaviour
 		buttons[7] = new FancyButton("Edit", inc + 10 * 2, Screen.height - 100, (int)inc / 6, 20, 0.3f, 2);
 		buttons[8] = new FancyButton("Edit", 2 * inc + 10 * 3, Screen.height - 100, (int)inc / 6, 20, 0.3f, 2);
 		
-		buttons[9] = new FancyButton("<", 10, Screen.height / 2 - 15, 50, 30, 0.8f, 3);
-		buttons[10] = new FancyButton(">", Screen.width - 60, Screen.height / 2 - 15, 50, 30, 0.8f, 1);
+		buttons[9] = new FancyButton("<", 10, Screen.height / 2 - 15, 50, 30, 0.8f, 3, GUIMaster.leftArrow);
+		buttons[10] = new FancyButton(">", Screen.width - 60, Screen.height / 2 - 15, 50, 30, 0.8f, 1, GUIMaster.rightArrow);
 		
 		buttons[11] = new FancyButton("< Back", 10, 10, 100, 30, 0.8f, 0);
 		
@@ -142,7 +142,10 @@ public class cscript_navigation : MonoBehaviour
 		
 		for (int i = 0; i < buttons.Length; i++)
 		{
-			buttons[i].Clicked = GUI.Button (buttons[i].GetRectangle(), buttons[i].Text);
+			if (buttons[i].texture != null)
+				buttons[i].Clicked = GUI.Button (buttons[i].GetRectangle(), buttons[i].texture);
+			else
+				buttons[i].Clicked = GUI.Button (buttons[i].GetRectangle(), buttons[i].Text);
 		}
 		
 		for (int i = 0; i < questionButtons.Count; i++)

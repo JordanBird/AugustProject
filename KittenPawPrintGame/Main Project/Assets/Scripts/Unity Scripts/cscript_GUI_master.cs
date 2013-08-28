@@ -18,6 +18,11 @@ public class cscript_GUI_master : MonoBehaviour
 	
 	public Texture2D bannerTexture;
 	
+	public Texture2D leftArrow;
+	public Texture2D rightArrow;
+	
+	public Texture2D bin;
+	
 	// Use this for initialization
 	void Start () 
 	{
