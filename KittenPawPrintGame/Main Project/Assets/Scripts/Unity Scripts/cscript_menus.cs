@@ -34,6 +34,7 @@ public class cscript_navigation : MonoBehaviour
 	List<Question> questions = new List<Question>();
 	
 	List<FancyButton> questionButtons = new List<FancyButton>();
+	List<FancyButton> answerButtons = new List<FancyButton>();
 	
 	bool addQuestion = false;
 	
@@ -107,10 +108,39 @@ public class cscript_navigation : MonoBehaviour
 		{
 			questionButtons[i].Update ();
 		}
+		
+		for (int i = 0; i < answerButtons.Count; i++)
+		{
+			answerButtons[i].Update ();	
+		}
 	}
 	
 	void OnGUI()
 	{		
+		for (int i = 0; i < questionButtons.Count; i++)
+		{
+			if (questionButtons[i].Skin == null)
+			{
+				questionButtons[i].Clicked = GUI.Button (questionButtons[i].GetRectangle(), questionButtons[i].Text);
+			}
+			else
+			{
+				questionButtons[i].Clicked = GUI.Button (questionButtons[i].GetRectangle(), questionButtons[i].Text, questionButtons[i].Skin.button);
+			}
+		}
+		
+		for (int i = 0; i < answerButtons.Count; i++)
+		{
+			if (answerButtons[i].Skin == null)
+			{
+				answerButtons[i].Clicked = GUI.Button (answerButtons[i].GetRectangle(), answerButtons[i].Text);
+			}
+			else
+			{
+				answerButtons[i].Clicked = GUI.Button (answerButtons[i].GetRectangle(), answerButtons[i].Text, answerButtons[i].Skin.button);
+			}
+		}
+		
 		switch (master.gameState)
 		{
 			case cscript_master.GameState.MainMenu:
@@ -132,12 +162,14 @@ public class cscript_navigation : MonoBehaviour
 		
 		for (int i = 0; i < buttons.Length; i++)
 		{
-			buttons[i].Clicked = GUI.Button (buttons[i].GetRectangle(), buttons[i].Text);
-		}
-		
-		for (int i = 0; i < questionButtons.Count; i++)
-		{
-			questionButtons[i].Clicked = GUI.Button (questionButtons[i].GetRectangle(), questionButtons[i].Text);
+			if (buttons[i].Skin == null)
+			{
+				buttons[i].Clicked = GUI.Button (buttons[i].GetRectangle(), buttons[i].Text);
+			}
+			else
+			{
+				buttons[i].Clicked = GUI.Button (buttons[i].GetRectangle(), buttons[i].Text, buttons[i].Skin.button);
+			}
 		}
 	}
 	
@@ -372,6 +404,13 @@ public class cscript_navigation : MonoBehaviour
 					multipleChoiceQuestion = questions[i].text;
 					answers.AddRange (questions[i].answers);
 					
+					answerButtons.Clear ();
+					for (int j = 0; j < answers.Count; j++)
+					{
+						answerButtons.Add (new FancyButton(answers[j].text, 10 * (j + 1) + j * 100, 180, 100, 100, 0.2f + j / 10f, 2));
+						answerButtons[j].Enter ();
+					}
+					
 					addQuestion = true;
 					buttons[12].Leave ();
 					break;
@@ -415,6 +454,10 @@ public class cscript_navigation : MonoBehaviour
 				addQuestion = false;
 				answers = new List<Answer>();
 				buttons[12].Enter ();
+				for (int i = 0; i < answerButtons.Count; i++)
+				{
+					answerButtons[i].Leave ();	
+				}
 			}
 			
 			multipleChoiceQuestion = GUI.TextArea (new Rect((Screen.width / 4 - 10) * 1.5f, 60, Screen.width / 4, 20), multipleChoiceQuestion);
@@ -423,28 +466,36 @@ public class cscript_navigation : MonoBehaviour
 			int position = 0;
 			
 			for (int i = 0; i < answers.Count; i++, position++)
-			{
-				GUISkin temp;
+			{					
+				if (answerButtons[i].Clicked)
+				{
+					answers[i].correct = !answers[i].correct;
+				}	
 				
 				if (answers[i].correct == true)
-					temp = GUIMaster.correctAnswer;
+					answerButtons[i].SetSkin (GUIMaster.correctAnswer);
 				else
-					temp = GUIMaster.incorrectAnswer;
-				
-				if (GUI.Button (new Rect(10 * (i + 1) + i * 100, 180, 100, 100), answers[i].text, temp.button))
+					answerButtons[i].SetSkin (GUIMaster.incorrectAnswer);
+
+				if (GUI.Button (new Rect(answerButtons[i].Position.x + 85, answerButtons[i].Position.y - 10, 25, 25), "X"))
 				{
-					if (answers[i].correct == true)
-						answers[i].correct = false;
-					else
-						answers[i].correct = true;
+					answers.RemoveAt(i);
+					
+					answerButtons.Clear ();
+					for (int j = 0; j < answers.Count; j++)
+					{
+						answerButtons.Add (new FancyButton(answers[j].text, 10 * (j + 1) + j * 100, 180, 100, 100, 0.2f + j / 10f, 2));
+						answerButtons[j].Unhide ();
+					}
 				}
-				
-				if (GUI.Button (new Rect((10 * (i + 1) + i * 100) + 85, 170, 25, 25), "X"))
-					answers.RemoveAt (i);
 			}
 			
 			if (GUI.Button (new Rect(25 + 10 * (position + 1) + position * 100, 225, 100, 50), "Add Answer"))
+			{
 				answers.Add (new Answer(false, answer));
+				answerButtons.Add (new FancyButton(answer, 10 * (position + 1) + position * 100, 180, 100, 100, 0.2f, 2));	// No extra delay on creation.
+				answerButtons[position].Enter ();
+			}
 			
 			//answer = GUI.TextArea (new Rect((Screen.width / 4 - 10) * 1.5f, 90, Screen.width / 4, 20), answer);
 			answer = GUI.TextArea (new Rect(10 * (position + 1) + position * 100, 200, 145, 20), answer);
@@ -468,6 +519,11 @@ public class cscript_navigation : MonoBehaviour
 				addQuestion = false;
 				answers = new List<Answer>();
 				buttons[12].Enter ();
+				
+				for (int i = 0; i < answerButtons.Count; i++)
+				{
+					answerButtons[i].Leave ();	
+				}
 			}
 		}
 		

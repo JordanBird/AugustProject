@@ -8,6 +8,7 @@ public class FancyButton
 	public string Text { get; private set; }
 	public int Width { get; private set; }
 	public int Height { get; private set; }
+	public GUISkin Skin { get; private set; }
 	
 	private float introTimer = 0;
 	private float introDelay;
@@ -22,7 +23,7 @@ public class FancyButton
 		Height = height;
 		this.introDelay = introDelay;	
 		targetPosition = startPosition = new Vector2(targetX, targetY);
-		
+	
 		switch (side)
 		{
 			// Top
@@ -51,9 +52,12 @@ public class FancyButton
 	
 	private void RunMovement()
 	{
-		Position = new Vector2(
-			Mathf.SmoothStep (startPosition.x, targetPosition.x, introTimer / introDelay),
-			Mathf.SmoothStep (startPosition.y, targetPosition.y, introTimer / introDelay));
+		if (status != 0)
+		{
+			Position = new Vector2(
+				Mathf.SmoothStep (startPosition.x, targetPosition.x, introTimer / introDelay),
+				Mathf.SmoothStep (startPosition.y, targetPosition.y, introTimer / introDelay));
+		}
 	}
 	
 	public void Enter()
@@ -81,6 +85,11 @@ public class FancyButton
 	public Rect GetRectangle()
 	{
 		return new Rect(Position.x, Position.y, Width, Height);
+	}
+	
+	public void SetSkin(GUISkin skin)
+	{
+		Skin = skin;	
 	}
 	
 	public void Update ()
