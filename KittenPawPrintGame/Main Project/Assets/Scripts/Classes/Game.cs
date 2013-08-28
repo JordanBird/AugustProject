@@ -17,8 +17,12 @@ public class Game
 	
 	Random random = new Random();
 	
-	public Game(string iName, string iAuthor, string iType, Question[] iQuestions)
+	string dataPath;
+	
+	public Game(string iName, string iAuthor, string iType, Question[] iQuestions, string iDataPath)
 	{
+		dataPath = iDataPath;
+		
 		name = iName;
 		author = iAuthor;
 		type = iType;
@@ -97,7 +101,7 @@ public class Game
 			}
 		}
 		
-		document.Save (cscript_master.dataPath + @"\Game Files\" + name + ".xml");
+		document.Save (dataPath + @"\Game Files\" + name + ".xml");
 	}
 	
 	public void XMLToGame(string location, bool resource)

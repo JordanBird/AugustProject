@@ -8,7 +8,7 @@ public class cscript_master : MonoBehaviour
 	
 	public Game currentGame;
 	
-	public static string dataPath = Application.dataPath;
+	public string dataPath = "";
 	
 	public GameObject game0;
 	public GameObject game1;
@@ -17,6 +17,8 @@ public class cscript_master : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
+		dataPath = Application.dataPath;
+		
 		gameObject.AddComponent<cscript_navigation>().Init(this);
 //		currentGame = new Game(@"C:\Users\Jordan\Desktop\Test XML File.xml");
 //		Debug.Log (currentGame.name);
