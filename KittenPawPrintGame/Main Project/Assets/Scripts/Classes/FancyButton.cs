@@ -16,56 +16,14 @@ public class FancyButton
 	private Vector2 targetPosition;
 	private int status = 0;	// -1 = exit, 0 = stationary, 1 = enter
 	
-	public Texture2D texture;
-	
 	public FancyButton(string text, float targetX, float targetY, int width, int height, float introDelay, int side)
 	{
 		Text = text;
 		Width = width;
 		Height = height;
-		this.introDelay = introDelay;
+		this.introDelay = introDelay;	
 		targetPosition = startPosition = new Vector2(targetX, targetY);
-		
-		switch (side)
-		{
-			// Top
-			case 0:
-				startPosition.y = -Height;
-				break;
-			
-			// Right
-			case 1:
-				startPosition.x = Screen.width;
-				break;
-			
-			// Bottom
-			case 2:
-				startPosition.y = Screen.height;
-				break;
-			
-			// Left
-			case 3:
-				startPosition.x = -Width;
-				break;
-		}
-		
-		Position = startPosition;
-	}
 	
-	public FancyButton(string text, float targetX, float targetY, int width, int height, float introDelay, int side, Texture2D iTexture)
-	{
-		Text = text;
-		Width = width;
-		Height = height;
-		this.introDelay = introDelay;
-		targetPosition = startPosition = new Vector2(targetX, targetY);
-<<<<<<< HEAD
-	
-=======
-		
-		texture = iTexture;
-		
->>>>>>> origin/Jordan
 		switch (side)
 		{
 			// Top
