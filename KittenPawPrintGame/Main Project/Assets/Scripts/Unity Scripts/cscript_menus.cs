@@ -41,6 +41,16 @@ public class cscript_navigation : MonoBehaviour
 	
 	FancyButton[] buttons = new FancyButton[14];
 	
+	//iOS Variables:
+	
+	public Material targetMaterial = null;
+	public bool useOriginalImageSize = false;
+	public bool iPadPopover_CloseWhenSelectImage = false;
+	private int textureWidth;
+	private int textureHeight;
+	private bool saveAsPng = false;
+
+
 	public void Init(cscript_master m)
 	{
 		master = m;
@@ -396,13 +406,23 @@ public class cscript_navigation : MonoBehaviour
 				//Add Background Code
 				//Ask user if they want to use camera roll or take a picture.
 				
-				//background = iOSMumbojumbo();
 				
+				if (Application.platform == RuntimePlatform.IPhonePlayer) 
+				{
+					LoadTextureFromImagePicker.SetPopoverToCenter();
+					LoadTextureFromImagePicker.ShowCamera(gameObject.name, "OnFinishedImagePicker");
+				}
+				else
+				{
+				Debug.Log ("Here");
 				//Example
 				background = new Texture2D(1, 1);
 				background.SetPixel (0, 0, Color.red);
 				background.Apply ();
 				//End Example
+				}
+				
+				
 			}
 			
 			//// CAN PARENT THIS TO OTHER BUTTONS IF ANIMATION NEEDED
@@ -628,4 +648,69 @@ public class cscript_navigation : MonoBehaviour
 		gameBackgrounds[1] = games[position + 1].background;
 		gameBackgrounds[2] = games[position + 2].background;
 	}
+	
+	//iOS Specific Functions:
+	
+	
+	private void OnFinishedImagePicker (string message) {
+		
+		if (LoadTextureFromImagePicker.IsLoaded()) {
+			int width, height;
+			if (useOriginalImageSize || (targetMaterial == null)) {
+				width = LoadTextureFromImagePicker.GetLoadedTextureWidth();
+				height = LoadTextureFromImagePicker.GetLoadedTextureHeight();
+			} else {
+				width = textureWidth;
+				height = textureHeight;
+			}
+			Texture2D texture = LoadTextureFromImagePicker.GetLoadedTexture(message, width, height);
+			background = texture;
+			if (texture) {
+				// Loaded
+				if (targetMaterial) {
+					Texture lastTexture = targetMaterial.mainTexture;
+					targetMaterial.mainTexture = texture;
+					Destroy(lastTexture);
+				}
+			} else {
+				// Closed
+				LoadTextureFromImagePicker.Release();
+			}
+		} else {
+			// Closed
+			LoadTextureFromImagePicker.Release();
+		}
+	}
+	
+
+
+	private IEnumerator CaptureScreen() {
+		yield return new WaitForEndOfFrame();
+
+		// Save to PhotoLibrary
+		Texture screenShot = ScreenCapture.Capture();
+		if (saveAsPng) {
+			bool withTransparency = false;
+			if (withTransparency) {
+				// PNG with transparency
+				LoadTextureFromImagePicker.SaveAsPngWithTransparencyToPhotoLibrary(screenShot, gameObject.name, "OnFinishedSaveImage");
+			} else {
+				// PNG
+				LoadTextureFromImagePicker.SaveAsPngToPhotoLibrary(screenShot, gameObject.name, "OnFinishedSaveImage");
+			}
+		} else {
+			// JPG
+			LoadTextureFromImagePicker.SaveAsJpgToPhotoLibrary(screenShot, gameObject.name, "OnFinishedSaveImage");
+		}
+	}
+
+	private void OnFinishedSaveImage (string message) {
+		if (message == LoadTextureFromImagePicker.strCallbackResultMessage_Saved) {
+			// Save Succeed
+		} else {
+			// Failed
+		}
+	}
+	
+	
 }

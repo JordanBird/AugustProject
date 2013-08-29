@@ -17,7 +17,7 @@ public class cscript_master : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
-		dataPath = Application.dataPath;
+		dataPath = Application.persistentDataPath;
 		
 		gameObject.AddComponent<cscript_navigation>().Init(this);
 //		currentGame = new Game(@"C:\Users\Jordan\Desktop\Test XML File.xml");
