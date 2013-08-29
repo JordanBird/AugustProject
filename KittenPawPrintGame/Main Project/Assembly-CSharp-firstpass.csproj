@@ -5,11 +5,11 @@
 	<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
 	<ProductVersion>10.0.20506</ProductVersion>
 	<SchemaVersion>2.0</SchemaVersion>
-	<ProjectGuid>{73CA6781-373C-BCC2-50C2-C72FF18D1974}</ProjectGuid>
+	<ProjectGuid>{B73C8583-D460-47D2-E00B-6EBAC7FCDF68}</ProjectGuid>
 	<OutputType>Library</OutputType>
 	<AppDesignerFolder>Properties</AppDesignerFolder>
 	<RootNamespace></RootNamespace>
-	<AssemblyName>Assembly-CSharp</AssemblyName>
+	<AssemblyName>Assembly-CSharp-firstpass</AssemblyName>
 	<TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
 	<FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -18,7 +18,7 @@
 	<DebugType>full</DebugType>
 	<Optimize>false</Optimize>
 	<OutputPath>Temp\bin\Debug\</OutputPath>
-	<DefineConstants>DEBUG;TRACE;UNITY_IPHONE;ENABLE_MICROPHONE;ENABLE_TEXTUREID_MAP;ENABLE_AUDIO_FMOD;ENABLE_MONO;ENABLE_TERRAIN;ENABLE_SUBSTANCE;ENABLE_GENERICS;ENABLE_WWW;ENABLE_IMAGEEFFECTS;UNITY_IPHONE_API;ENABLE_WEBCAM;ENABLE_NETWORK;ENABLE_PHYSICS;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_GAMECENTER;UNITY_IOS;ENABLE_SHADOWS;ENABLE_AUDIO;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;UNITY_4_2_0;UNITY_4_2;DEVELOPMENT_BUILD;ENABLE_PROFILER;UNITY_EDITOR;UNITY_EDITOR_OSX</DefineConstants>
+	<DefineConstants>DEBUG;TRACE;UNITY_STANDALONE_WIN;ENABLE_MICROPHONE;ENABLE_TEXTUREID_MAP;ENABLE_AUDIO_FMOD;UNITY_STANDALONE;ENABLE_MONO;ENABLE_TERRAIN;ENABLE_SUBSTANCE;ENABLE_GENERICS;ENABLE_MOVIES;ENABLE_WWW;ENABLE_IMAGEEFFECTS;ENABLE_WEBCAM;RENDER_SOFTWARE_CURSOR;ENABLE_NETWORK;ENABLE_PHYSICS;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_SHADOWS;ENABLE_AUDIO;ENABLE_DUCK_TYPING;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;UNITY_4_2_0;UNITY_4_2;ENABLE_PROFILER;UNITY_EDITOR;UNITY_EDITOR_OSX</DefineConstants>
 	<ErrorReport>prompt</ErrorReport>
 	<WarningLevel>4</WarningLevel>
 	<NoWarn>0169</NoWarn>
@@ -44,18 +44,9 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Scripts\Classes\Answer.cs" />
-     <Compile Include="Assets\Scripts\Classes\FancyButton.cs" />
-     <Compile Include="Assets\Scripts\Classes\Game.cs" />
-     <Compile Include="Assets\Scripts\Classes\LoadTextureFromImagePicker.cs" />
-     <Compile Include="Assets\Scripts\Classes\Question.cs" />
-     <Compile Include="Assets\Scripts\Unity Scripts\ChangePhoto.cs" />
-     <Compile Include="Assets\Scripts\Unity Scripts\ScreenCapture.cs" />
-     <Compile Include="Assets\Scripts\Unity Scripts\cscript_GUI_master.cs" />
-     <Compile Include="Assets\Scripts\Unity Scripts\cscript_game_test.cs" />
-     <Compile Include="Assets\Scripts\Unity Scripts\cscript_master.cs" />
-     <Compile Include="Assets\Scripts\Unity Scripts\cscript_menus.cs" />
+     <Compile Include="Assets\Plugins\LoadTextureFromImagePicker.cs" />
      <None Include="Assets\Resources\Game Files\Word Train.xml" />
+     <None Include="Assets\iOS_LoadTexture_Sample\ReadMe.txt" />
      <None Include="Assets\Resources\Game Files\Multiplication Football.xml" />
      <None Include="Assets\Game Files\Add Game Name Here.xml" />
      <None Include="Assets\Resources\Game Files\Fly to the Noun.xml" />

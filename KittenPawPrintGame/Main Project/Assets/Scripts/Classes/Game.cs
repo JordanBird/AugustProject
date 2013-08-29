@@ -115,7 +115,7 @@ public class Game
 			}
 		}
 		
-		document.Save (dataPath + @"\Game Files\" + name + ".xml");
+		document.Save (dataPath + @"/Game Files/" + name + ".xml");
 	}
 	
 	public void XMLToGame(string location, bool resource)
