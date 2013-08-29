@@ -20,7 +20,8 @@ public class cscript_game_test : MonoBehaviour {
 	// Use this for initialization
 	void Start () 
 	{
-		background = new Texture2D(500, 200);
+		background = new Texture2D(Screen.width, Screen.height);
+		
 		GUIMaster = GameObject.FindGameObjectWithTag ("GUI Master").GetComponent<cscript_GUI_master>();
 	}
 	
@@ -87,7 +88,7 @@ public class cscript_game_test : MonoBehaviour {
 		
 		try
 		{
-			background.LoadImage (System.Text.Encoding.Default.GetBytes (game.background));
+			background = game.background;
 		}
 		catch {}
 		

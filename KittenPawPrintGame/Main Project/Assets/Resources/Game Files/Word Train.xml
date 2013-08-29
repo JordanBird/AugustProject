@@ -2,6 +2,7 @@
   <name>Word Train</name>
   <author>iLearn 2</author>
   <type>2</type>
+  <background></background>
   <questions>
     <question>
       <text>Which objects begin with the letter S?</text>

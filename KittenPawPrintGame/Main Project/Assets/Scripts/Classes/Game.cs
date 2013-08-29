@@ -1,7 +1,9 @@
-﻿using System;
+﻿using UnityEngine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Xml;
+using System.IO;
 
 public class Game
 {
@@ -9,16 +11,19 @@ public class Game
 	public string author;
 	public string type;
 	
-	public string background = "";
+	public Texture2D background;
 	
 	public Question[] questions;
 	
 	public string location = "";
+
+	string dataPath;
 	
-	Random random = new Random();
-	
-	public Game(string iName, string iAuthor, string iType, Question[] iQuestions)
+	public Game(string iName, string iAuthor, string iType, Question[] iQuestions, Texture2D iBackground)
 	{
+		background = iBackground;
+		dataPath = GameObject.FindGameObjectWithTag ("Master").GetComponent<cscript_master>().dataPath;
+		
 		name = iName;
 		author = iAuthor;
 		type = iType;
@@ -56,6 +61,19 @@ public class Game
 		XmlText tType = document.CreateTextNode( type );
 		eType.AppendChild( tType );
         eGame.AppendChild( eType );
+
+		//Add background.
+		XmlElement eBackground = document.CreateElement( "", "background", "" );
+		XmlText tBackground = document.CreateTextNode(System.Text.Encoding.Default.GetString(background.EncodeToPNG () ));
+		eBackground.AppendChild( tBackground );
+        eGame.AppendChild( eBackground );
+		
+//		XmlElement eBackground = document.CreateElement( "", "background", "" );
+//		File.WriteAllBytes (dataPath + "/tempImage.jpeg", background.EncodeToPNG());
+//		XmlText tBackground = document.CreateTextNode( System.Text.Encoding.Default.GetString(File.ReadAllBytes (@"C:\Users\Jordan\Pictures\Complete.JPG")));
+//		//File.Delete (dataPath + "/tempImage.jpeg");
+//		eBackground.AppendChild( tBackground );
+//        eGame.AppendChild( eBackground );
 		
 		//Creates question body.
 		XmlElement eQuestions = document.CreateElement( "", "questions", "" );
@@ -97,7 +115,7 @@ public class Game
 			}
 		}
 		
-		document.Save (cscript_master.dataPath + @"\Game Files\" + name + ".xml");
+		document.Save (dataPath + @"\Game Files\" + name + ".xml");
 	}
 	
 	public void XMLToGame(string location, bool resource)
@@ -117,6 +135,18 @@ public class Game
 		name = document.SelectSingleNode ("//name").InnerText;
 		author = document.SelectSingleNode ("//author").InnerText;
 		type = document.SelectSingleNode ("//type").InnerText;
+		
+		if (document.SelectSingleNode ("//background").InnerText != "")
+		{
+			Debug.Log (document.SelectSingleNode ("//background").InnerText);
+			background = new Texture2D(1, 1);
+			background.LoadImage (System.Text.Encoding.Default.GetBytes (document.SelectSingleNode ("//background").InnerText));
+			Debug.Log ("Success");
+		}
+		else
+		{
+			background = GameObject.FindGameObjectWithTag ("GUI Master").GetComponent<cscript_GUI_master>().blankBlackTexture;
+		}
 		
 		List<Question> questionList = new List<Question>();
 		
@@ -144,6 +174,6 @@ public class Game
 	
 	public Question GetRandomQuestion()
 	{
-		return questions[random.Next(0, questions.Length)];
+		return questions[UnityEngine.Random.Range (0, questions.Length)];
 	}
 }

@@ -1,0 +1,27 @@
+<game>
+  <name>Red</name>
+  <author>Add Author Here</author>
+  <type>1</type>
+  <background>‰PNG
+&#x1A;
+&#x0;&#x0;&#x0;IHDR&#x0;&#x0;&#x0;&#x1;&#x0;&#x0;&#x0;&#x1;&#x8;&#x6;&#x0;&#x0;&#x0;&#x1F;&#x15;Ä‰&#x0;&#x0;&#x0;IDAT&#x8;&#x1D;cøÏÀð&#x1F;&#x0;&#x5;&#x0;&#x1;ÿÈ&#xF;b&#x16;&#x0;&#x0;&#x0;&#x0;IEND®B`‚</background>
+  <questions>
+    <question>
+      <text>Add Multiple Choice Question Here</text>
+      <answers>
+        <answer>
+          <aText>Add Answer Text Here</aText>
+          <correct>False</correct>
+        </answer>
+        <answer>
+          <aText>Add Answer Text Here</aText>
+          <correct>True</correct>
+        </answer>
+        <answer>
+          <aText>Add Answer Text Here</aText>
+          <correct>False</correct>
+        </answer>
+      </answers>
+    </question>
+  </questions>
+</game>
