@@ -64,7 +64,7 @@ public class Game
 
 		//Add background.
 		XmlElement eBackground = document.CreateElement( "", "background", "" );
-		XmlText tBackground = document.CreateTextNode(System.Text.Encoding.Default.GetString(background.EncodeToPNG () ));
+		XmlCDataSection tBackground = document.CreateCDataSection(System.Text.Encoding.UTF8.GetString(background.EncodeToPNG () ));
 		eBackground.AppendChild( tBackground );
         eGame.AppendChild( eBackground );
 		
@@ -140,7 +140,7 @@ public class Game
 		{
 			Debug.Log (document.SelectSingleNode ("//background").InnerText);
 			background = new Texture2D(1, 1);
-			background.LoadImage (System.Text.Encoding.Default.GetBytes (document.SelectSingleNode ("//background").InnerText));
+			background.LoadImage (System.Text.Encoding.UTF8.GetBytes (document.SelectSingleNode ("//background").InnerText));
 			Debug.Log ("Success");
 		}
 		else

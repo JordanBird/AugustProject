@@ -57,6 +57,7 @@
      <Compile Include="Assets\Scripts\Unity Scripts\cscript_master.cs" />
      <Compile Include="Assets\Scripts\Unity Scripts\cscript_menus.cs" />
      <None Include="Assets\Resources\Game Files\Word Train.xml" />
+     <None Include="Assets\Game Files\Has an Image.xml" />
      <None Include="Assets\Resources\Game Files\Multiplication Football.xml" />
      <None Include="Assets\Game Files\Add Game Name Here.xml" />
      <None Include="Assets\Resources\Game Files\Fly to the Noun.xml" />

@@ -50,6 +50,8 @@ public class cscript_navigation : MonoBehaviour
 	private int textureHeight;
 	private bool saveAsPng = false;
 
+	public bool testBoolean = false;
+
 
 	public void Init(cscript_master m)
 	{
@@ -183,6 +185,15 @@ public class cscript_navigation : MonoBehaviour
 				buttons[i].Clicked = GUI.Button (buttons[i].GetRectangle(), buttons[i].Text, buttons[i].Skin.button);
 			}
 		}
+		
+		
+		if(testBoolean)
+		{
+			GUI.Box(new Rect(10,10,200,200),"DONE");
+			
+		}
+		
+		
 	}
 	
 	private void MainMenuGUI()
@@ -423,7 +434,8 @@ public class cscript_navigation : MonoBehaviour
 				//End Example
 				}
 				
-				
+		
+				Debug.Log(dataPath.ToString());
 			}
 			
 			//// CAN PARENT THIS TO OTHER BUTTONS IF ANIMATION NEEDED
@@ -577,6 +589,8 @@ public class cscript_navigation : MonoBehaviour
 				questionButtons[i].Leave();
 			}
 		}
+		
+		
 	}
 	
 	public void LoadGames()
@@ -665,15 +679,16 @@ public class cscript_navigation : MonoBehaviour
 				height = textureHeight;
 			}
 			Texture2D texture = LoadTextureFromImagePicker.GetLoadedTexture(message, width, height);
-			
+			//IT GETS HERE
 			if (texture) {
 				// Loaded
-				if (targetMaterial) {
+				//if (targetMaterial) {
+					//BUT NOT HERE
 					background = texture;
-					Texture lastTexture = targetMaterial.mainTexture;
-					targetMaterial.mainTexture = texture;
-					Destroy(lastTexture);
-				}
+					//Texture lastTexture = targetMaterial.mainTexture;
+					//targetMaterial.mainTexture = texture;
+					//Destroy(lastTexture);
+				//}
 			} else {
 				// Closed
 				LoadTextureFromImagePicker.Release();
