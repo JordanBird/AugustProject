@@ -47,6 +47,7 @@
      <Compile Include="Assets\Scripts\Classes\Answer.cs" />
      <Compile Include="Assets\Scripts\Classes\FancyButton.cs" />
      <Compile Include="Assets\Scripts\Classes\Game.cs" />
+     <Compile Include="Assets\Scripts\Classes\Ingame Classes\AeroplaneController.cs" />
      <Compile Include="Assets\Scripts\Classes\LoadTextureFromImagePicker.cs" />
      <Compile Include="Assets\Scripts\Classes\Question.cs" />
      <Compile Include="Assets\Scripts\Unity Scripts\ChangePhoto.cs" />
