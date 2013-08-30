@@ -411,6 +411,7 @@ public class cscript_navigation : MonoBehaviour
 				{
 					LoadTextureFromImagePicker.SetPopoverToCenter();
 					LoadTextureFromImagePicker.ShowCamera(gameObject.name, "OnFinishedImagePicker");
+					
 				}
 				else
 				{
@@ -664,10 +665,11 @@ public class cscript_navigation : MonoBehaviour
 				height = textureHeight;
 			}
 			Texture2D texture = LoadTextureFromImagePicker.GetLoadedTexture(message, width, height);
-			background = texture;
+			
 			if (texture) {
 				// Loaded
 				if (targetMaterial) {
+					background = texture;
 					Texture lastTexture = targetMaterial.mainTexture;
 					targetMaterial.mainTexture = texture;
 					Destroy(lastTexture);
