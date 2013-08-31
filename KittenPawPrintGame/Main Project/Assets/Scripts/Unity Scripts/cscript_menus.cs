@@ -348,7 +348,7 @@ public class cscript_navigation : MonoBehaviour
 		if (buttons[11].Clicked)
 		{
 			master.gameState = cscript_master.GameState.MainMenu;	// NO! This should go back to the gamestate that Help was clicked from, otherwise you could click Help when creating a game and then go back to the main menu!!!!
-			
+			LoadGames();
 			for (int i = 0; i < 11; i++)
 			{
 				buttons[i].Enter();
@@ -365,7 +365,7 @@ public class cscript_navigation : MonoBehaviour
 		if (buttons[11].Clicked)
 		{
 			master.gameState = cscript_master.GameState.MainMenu;
-			
+			LoadGames();
 			for (int i = 0; i < 11; i++)
 			{
 				buttons[i].Enter();
@@ -390,7 +390,7 @@ public class cscript_navigation : MonoBehaviour
 			if (buttons[11].Clicked)
 			{
 				master.gameState = cscript_master.GameState.MainMenu;
-					
+				LoadGames();	
 				for (int i = 0; i < 11; i++)
 				{
 					buttons[i].Enter();
@@ -427,7 +427,7 @@ public class cscript_navigation : MonoBehaviour
 				else
 				{
 				Debug.Log ("Here");
-				//Example
+			//	//Example
 				background = new Texture2D(1, 1);
 				background.SetPixel (0, 0, Color.red);
 				background.Apply ();
@@ -499,6 +499,7 @@ public class cscript_navigation : MonoBehaviour
 				buttons[13].Leave ();
 				
 				master.gameState = cscript_master.GameState.MainMenu;
+				LoadGames();
 			}
 		}
 		else

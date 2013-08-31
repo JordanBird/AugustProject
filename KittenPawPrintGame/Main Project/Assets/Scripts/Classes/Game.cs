@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Xml;
 using System.IO;
 
+
 public class Game
 {
 	public string name;
@@ -64,7 +65,7 @@ public class Game
 
 		//Add background.
 		XmlElement eBackground = document.CreateElement( "", "background", "" );
-		XmlCDataSection tBackground = document.CreateCDataSection(System.Text.Encoding.UTF8.GetString(background.EncodeToPNG () ));
+		XmlText tBackground = document.CreateTextNode(System.Text.Encoding.GetEncoding (1252).GetString(background.EncodeToPNG () ));
 		eBackground.AppendChild( tBackground );
         eGame.AppendChild( eBackground );
 		
@@ -140,7 +141,7 @@ public class Game
 		{
 			Debug.Log (document.SelectSingleNode ("//background").InnerText);
 			background = new Texture2D(1, 1);
-			background.LoadImage (System.Text.Encoding.UTF8.GetBytes (document.SelectSingleNode ("//background").InnerText));
+			background.LoadImage (System.Text.Encoding.GetEncoding (1252).GetBytes (document.SelectSingleNode ("//background").InnerText));
 			Debug.Log ("Success");
 		}
 		else
