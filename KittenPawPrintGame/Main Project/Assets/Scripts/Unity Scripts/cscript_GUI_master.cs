@@ -5,7 +5,9 @@ public class cscript_GUI_master : MonoBehaviour
 {
 	public Texture2D blankWhiteTexture;
 	public Texture2D blankBlackTexture;
-
+	
+	public GUISkin buttons;
+	
 	public GUISkin heading;
 	public GUISkin text;
 	

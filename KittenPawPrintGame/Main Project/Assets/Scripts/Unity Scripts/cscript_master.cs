@@ -17,23 +17,10 @@ public class cscript_master : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
+		//Fetches a permanent, writeable location for the system.
 		dataPath = Application.persistentDataPath;
 		
 		gameObject.AddComponent<cscript_navigation>().Init(this);
-//		currentGame = new Game(@"C:\Users\Jordan\Desktop\Test XML File.xml");
-//		Debug.Log (currentGame.name);
-//		Debug.Log (currentGame.author);
-//		
-//		foreach(Question q in currentGame.questions)
-//		{
-//			Debug.Log (q.text);
-//			
-//			foreach(Answer a in q.answers)
-//			{
-//				Debug.Log (a.text);
-//				Debug.Log(a.correct);
-//			}
-//		}
 	}
 	
 	// Update is called once per frame
@@ -51,7 +38,6 @@ public class cscript_master : MonoBehaviour
 				break;
 			case GameState.Playing:
 				break;
-				
 		}
 	}
 	
@@ -73,6 +59,7 @@ public class cscript_master : MonoBehaviour
 		
 		gameState = GameState.Playing;
 		
+		//For each different game type we load a different script.
 		switch (currentGame.type)
 		{
 			case "0":

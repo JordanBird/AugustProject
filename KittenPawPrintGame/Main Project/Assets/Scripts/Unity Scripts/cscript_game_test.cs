@@ -20,7 +20,7 @@ public class cscript_game_test : MonoBehaviour {
 	// Use this for initialization
 	void Start () 
 	{
-		background = new Texture2D(Screen.width, Screen.height);
+		background = game.background;
 		
 		GUIMaster = GameObject.FindGameObjectWithTag ("GUI Master").GetComponent<cscript_GUI_master>();
 	}
@@ -55,18 +55,26 @@ public class cscript_game_test : MonoBehaviour {
 			
 			foreach (Answer a in currentQuestion.answers)
 			{
-				if (GUI.Button(new Rect(inc * 10 + (inc * (Screen.width / (currentQuestion.answers.Length + 2))), 78, Screen.width / (currentQuestion.answers.Length + 2), 150), a.text))
+				if (a.type == 0)
 				{
-					if (a.correct == true)
+					//Text
+					if (GUI.Button(new Rect(inc * 10 + (inc * (Screen.width / (currentQuestion.answers.Length + 2))), 78, Screen.width / (currentQuestion.answers.Length + 2), 150), a.text))
 					{
-						//Win
-						score++;
-						NewQuestion ();
+						if (a.correct == true)
+						{
+							//Win
+							score++;
+							NewQuestion ();
+						}
+						else
+						{
+							//Lose
+						}
 					}
-					else
-					{
-						//Lose
-					}
+				}
+				else if (a.type == 1)
+				{
+					//Image
 				}
 				
 				inc++;

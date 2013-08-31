@@ -68,14 +68,7 @@ public class Game
 		XmlText tBackground = document.CreateTextNode(System.Text.Encoding.GetEncoding (1252).GetString(background.EncodeToPNG () ));
 		eBackground.AppendChild( tBackground );
         eGame.AppendChild( eBackground );
-		
-//		XmlElement eBackground = document.CreateElement( "", "background", "" );
-//		File.WriteAllBytes (dataPath + "/tempImage.jpeg", background.EncodeToPNG());
-//		XmlText tBackground = document.CreateTextNode( System.Text.Encoding.Default.GetString(File.ReadAllBytes (@"C:\Users\Jordan\Pictures\Complete.JPG")));
-//		//File.Delete (dataPath + "/tempImage.jpeg");
-//		eBackground.AppendChild( tBackground );
-//        eGame.AppendChild( eBackground );
-		
+
 		//Creates question body.
 		XmlElement eQuestions = document.CreateElement( "", "questions", "" );
         eGame.AppendChild( eQuestions );
@@ -139,7 +132,6 @@ public class Game
 		
 		if (document.SelectSingleNode ("//background").InnerText != "")
 		{
-			Debug.Log (document.SelectSingleNode ("//background").InnerText);
 			background = new Texture2D(1, 1);
 			background.LoadImage (System.Text.Encoding.GetEncoding (1252).GetBytes (document.SelectSingleNode ("//background").InnerText));
 			Debug.Log ("Success");

@@ -6,12 +6,17 @@ using System.IO;
 
 public class cscript_navigation : MonoBehaviour 
 {
+	//-----------------------\\
+	//Default Variables
+	//-----------------------\\
 	cscript_master master;
 	cscript_GUI_master GUIMaster;
 	
 	string dataPath = "";
-
+	
+	//-----------------------\\
 	//Main Menu Variables
+	//-----------------------\\
 	public GUISkin game;
 	
 	Game[] games;
@@ -20,7 +25,9 @@ public class cscript_navigation : MonoBehaviour
 	
 	Texture2D[] gameBackgrounds = new Texture2D[3];
 	
+	//-----------------------\\
 	//Create Game Variables
+	//-----------------------\\
 	string gameName = "Add Game Name Here";
 	string authorName = "Add Author Here";
 	string multipleChoiceQuestion = "Add Multiple Choice Question Here";
@@ -41,17 +48,15 @@ public class cscript_navigation : MonoBehaviour
 	
 	FancyButton[] buttons = new FancyButton[14];
 	
-	//iOS Variables:
-	
+	//-----------------------\\
+	//iOS Variables
+	//-----------------------\\
 	public Material targetMaterial = null;
 	public bool useOriginalImageSize = false;
 	public bool iPadPopover_CloseWhenSelectImage = false;
 	private int textureWidth;
 	private int textureHeight;
 	private bool saveAsPng = false;
-
-	public bool testBoolean = false;
-
 
 	public void Init(cscript_master m)
 	{
@@ -62,7 +67,6 @@ public class cscript_navigation : MonoBehaviour
 	void Start ()
 	{
 		dataPath = GameObject.FindGameObjectWithTag ("Master").GetComponent<cscript_master>().dataPath;
-		
 		GUIMaster = GameObject.FindGameObjectWithTag ("GUI Master").GetComponent<cscript_GUI_master>();
 
 		LoadGames();
@@ -76,26 +80,25 @@ public class cscript_navigation : MonoBehaviour
 		
 		LoadGameBackgrounds ();
 		
-		buttons[0] = new FancyButton("About", 10, 10, 100, 30, 0.8f, 0);
-		buttons[1] = new FancyButton("Help", Screen.width - 110, 10, 100, 30, 0.8f, 0);
-		buttons[2] = new FancyButton("Create New Game", Screen.width / 2 - 350, Screen.height - 55, 700, 40, 0.8f, 2);
+		buttons[0] = new FancyButton("About", 10, 10, 100, 30, 0.8f, 0, GUIMaster.buttons);
+		buttons[1] = new FancyButton("Help", Screen.width - 110, 10, 100, 30, 0.8f, 0, GUIMaster.buttons);
+		buttons[2] = new FancyButton("Create New Game", Screen.width / 2 - 350, Screen.height - 55, 700, 40, 0.8f, 2, GUIMaster.buttons);
 
-		buttons[3] = new FancyButton("Play", 10 + inc / 4, Screen.height - 110, (int)inc / 2, 40, 0.5f, 2);
-		buttons[4] = new FancyButton("Play", inc + 10 * 2 + inc / 4, Screen.height - 110, (int)inc / 2, 40, 0.5f, 2);
-		buttons[5] = new FancyButton("Play", 2 * inc + 10 * 3 + inc / 4, Screen.height - 110, (int)inc / 2, 40, 0.5f, 2);
+		buttons[3] = new FancyButton("Play", 10 + inc / 4, Screen.height - 110, (int)inc / 2, 40, 0.5f, 2, GUIMaster.buttons);
+		buttons[4] = new FancyButton("Play", inc + 10 * 2 + inc / 4, Screen.height - 110, (int)inc / 2, 40, 0.5f, 2, GUIMaster.buttons);
+		buttons[5] = new FancyButton("Play", 2 * inc + 10 * 3 + inc / 4, Screen.height - 110, (int)inc / 2, 40, 0.5f, 2, GUIMaster.buttons);
+		
 		buttons[6] = new FancyButton("Edit", 10, Screen.height - 100, (int)inc / 6, 20, 0.3f, 2);
 		buttons[7] = new FancyButton("Edit", inc + 10 * 2, Screen.height - 100, (int)inc / 6, 20, 0.3f, 2);
 		buttons[8] = new FancyButton("Edit", 2 * inc + 10 * 3, Screen.height - 100, (int)inc / 6, 20, 0.3f, 2);
 		
-		buttons[9] = new FancyButton("<", 10, Screen.height / 2 - 15, 50, 50, 0.8f, 3);
-		buttons[9].SetSkin (GUIMaster.leftArrow);
-		buttons[10] = new FancyButton(">", Screen.width - 60, Screen.height / 2 - 15, 50, 50, 0.8f, 1);
-		buttons[10].SetSkin (GUIMaster.rightArrow);
+		buttons[9] = new FancyButton("", 10, Screen.height / 2 - 15, 50, 50, 0.8f, 3, GUIMaster.leftArrow);
+		buttons[10] = new FancyButton("", Screen.width - 60, Screen.height / 2 - 15, 50, 50, 0.8f, 1, GUIMaster.rightArrow);
 		
-		buttons[11] = new FancyButton("< Back", 10, 10, 100, 30, 0.8f, 0);
+		buttons[11] = new FancyButton("< Back", 10, 10, 100, 30, 0.8f, 0, GUIMaster.buttons);
 		
-		buttons[12] = new FancyButton("Add Background", Screen.width / 2 - 75, 170, 150, 40, 1f, 1);
-		buttons[13] = new FancyButton("Save", Screen.width / 2 - 25, 390, 50, 25, 1f, 3);
+		buttons[12] = new FancyButton("Add Background", Screen.width / 2 - 100, 170, 200, 40, 1f, 1, GUIMaster.buttons);
+		buttons[13] = new FancyButton("Save", Screen.width / 2 - 50, 390, 100, 25, 1f, 3, GUIMaster.buttons);
 		
 		buttons[0].Enter ();
 		buttons[1].Enter ();
@@ -113,6 +116,7 @@ public class cscript_navigation : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
 	{
+		//Updates all buttons in game.
 		for (int i = 0; i < buttons.Length; i++)
 		{
 			buttons[i].Update();
@@ -171,7 +175,6 @@ public class cscript_navigation : MonoBehaviour
 				break;
 			case cscript_master.GameState.Playing:
 				break;
-				
 		}
 		
 		for (int i = 0; i < buttons.Length; i++)
@@ -185,15 +188,6 @@ public class cscript_navigation : MonoBehaviour
 				buttons[i].Clicked = GUI.Button (buttons[i].GetRectangle(), buttons[i].Text, buttons[i].Skin.button);
 			}
 		}
-		
-		
-		if(testBoolean)
-		{
-			GUI.Box(new Rect(10,10,200,200),"DONE");
-			
-		}
-		
-		
 	}
 	
 	private void MainMenuGUI()
@@ -203,7 +197,6 @@ public class cscript_navigation : MonoBehaviour
 		float inc = (Screen.width - 40) / 3;
 		
 		//Playable Games
-		
 		for (int i = 0; i < 3; i++)
 		{
 			//Shadow and Box
@@ -248,6 +241,7 @@ public class cscript_navigation : MonoBehaviour
 					questions.AddRange (games[i + position].questions);
 					
 					questionButtons.Clear ();
+					
 					for (int j = 0; j < questions.Count; j++)
 					{
 						questionButtons.Add (new FancyButton(questions[j].text, 10 * (j + 1) + j * 100, 250, 100, 100, 0.2f + j / 10f, 2));
@@ -269,13 +263,14 @@ public class cscript_navigation : MonoBehaviour
 				}
 				
 				//Allows Deletion
-				if (GUI.Button (new Rect(i * inc + 9 + (i * 10) + inc - 20, 50, 25, 25), "X"))
+				if (GUI.Button (new Rect(i * inc + 9 + (i * 10) + inc - 20, 50, 25, 25), GUIMaster.bin))
 				{
 					File.Delete (games[i + position].location);
 					
 					if (position >= games.Length - 3)
 						position = games.Length - 4;
 					
+					//Resets the game view.
 					LoadGames();
 				}
 			}
@@ -343,12 +338,15 @@ public class cscript_navigation : MonoBehaviour
 	
 	private void HelpGUI()
 	{
+		//HelpGUI() will become redundant when we implement overlay help.
 		GUI.Label(new Rect(Screen.width / 2 - 50, 10, 100, 50), "Help");
 		
 		if (buttons[11].Clicked)
 		{
-			master.gameState = cscript_master.GameState.MainMenu;	// NO! This should go back to the gamestate that Help was clicked from, otherwise you could click Help when creating a game and then go back to the main menu!!!!
+			master.gameState = cscript_master.GameState.MainMenu;
+			
 			LoadGames();
+			
 			for (int i = 0; i < 11; i++)
 			{
 				buttons[i].Enter();
@@ -414,10 +412,7 @@ public class cscript_navigation : MonoBehaviour
 			
 			if (buttons[12].Clicked)
 			{
-				//Add Background Code
-				//Ask user if they want to use camera roll or take a picture.
-				
-				
+				//Gets the background from camera roll or camera.
 				if (Application.platform == RuntimePlatform.IPhonePlayer) 
 				{
 					LoadTextureFromImagePicker.SetPopoverToCenter();
@@ -426,17 +421,16 @@ public class cscript_navigation : MonoBehaviour
 				}
 				else
 				{
-				Debug.Log ("Here");
-			//	//Example
-				background = new Texture2D(1, 1);
-				background.SetPixel (0, 0, Color.red);
-				background.Apply ();
-				//End Example
+					//Mostly for debug purposes.
+					background = new Texture2D(1, 1);
+					background.SetPixel (0, 0, Color.red);
+					background.Apply ();
 				}
-				
-		
-				Debug.Log(dataPath.ToString());
 			}
+			
+			//Change the default skin so we can effect the buttons of the GUIContent.
+			GUISkin tempSkin = GUI.skin;
+			GUI.skin = GUIMaster.buttons;
 			
 			//// CAN PARENT THIS TO OTHER BUTTONS IF ANIMATION NEEDED
 			GUIContent[] g = new GUIContent[3];
@@ -444,6 +438,8 @@ public class cscript_navigation : MonoBehaviour
 			g[1] = new GUIContent(GUIMaster.planeIcon);
 			g[2] = new GUIContent(GUIMaster.trainIcon);
 			selectedCreateGame = GUI.SelectionGrid (new Rect(Screen.width / 4, 100, Screen.width / 2 - 10, 60), selectedCreateGame, g, 3);
+			
+			GUI.skin = tempSkin;
 			
 			//Add Question System
 			int position = 0;
@@ -471,7 +467,7 @@ public class cscript_navigation : MonoBehaviour
 				}
 			}
 			
-			// Create new question.
+			//Will create a new question.
 			if (GUI.Button (new Rect(10 * (position + 1) + position * 100, 250, 100, 100), "Add Question"))
 			{
 				questionPosition = questions.Count + 1;
@@ -479,12 +475,11 @@ public class cscript_navigation : MonoBehaviour
 				ResetQuestionCreation ();
 				
 				buttons[12].Leave ();
-				
 			}
 			
 			if (buttons[13].Clicked)
 			{
-				//Save Code
+				//Saves the currently open game.
 				Debug.Log (selectedCreateGame.ToString ());
 				Game game = new Game(gameName, authorName, selectedCreateGame.ToString (), questions.ToArray (), background);
 				game.GameToXML ();
@@ -499,6 +494,7 @@ public class cscript_navigation : MonoBehaviour
 				buttons[13].Leave ();
 				
 				master.gameState = cscript_master.GameState.MainMenu;
+				
 				LoadGames();
 			}
 		}
@@ -532,7 +528,7 @@ public class cscript_navigation : MonoBehaviour
 				else
 					answerButtons[i].SetSkin (GUIMaster.incorrectAnswer);
 
-				if (GUI.Button (new Rect(answerButtons[i].Position.x + 85, answerButtons[i].Position.y - 10, 25, 25), "X"))
+				if (GUI.Button (new Rect(answerButtons[i].Position.x + 85, answerButtons[i].Position.y - 10, 25, 25), GUIMaster.bin))
 				{
 					answers.RemoveAt(i);
 					
@@ -590,8 +586,6 @@ public class cscript_navigation : MonoBehaviour
 				questionButtons[i].Leave();
 			}
 		}
-		
-		
 	}
 	
 	public void LoadGames()
@@ -600,10 +594,12 @@ public class cscript_navigation : MonoBehaviour
 		
 		List<Game> tempGames = new List<Game>();
 		
+		//Prepackaged Games, loaded from the app.
 		tempGames.Add (new Game((Resources.Load ("Game Files/Multiplication Football") as TextAsset).ToString (), true));
 		tempGames.Add (new Game((Resources.Load ("Game Files/Fly to the Noun") as TextAsset).ToString (), true));
 		tempGames.Add (new Game((Resources.Load ("Game Files/Word Train") as TextAsset).ToString (), true));
 		
+		//Games that are user created.
 		Directory.CreateDirectory (dataPath + @"/Game Files");
 		
 		foreach (string s in Directory.GetFiles (dataPath + @"/Game Files"))
@@ -616,6 +612,8 @@ public class cscript_navigation : MonoBehaviour
 		}
 		
 		games = tempGames.ToArray ();
+		
+		LoadGameBackgrounds ();
 	}
 	
 	private void ResetGameCreation()
@@ -665,23 +663,31 @@ public class cscript_navigation : MonoBehaviour
 		gameBackgrounds[2] = games[position + 2].background;
 	}
 	
-	//iOS Specific Functions:
-	
-	
-	private void OnFinishedImagePicker (string message) {
-		
-		if (LoadTextureFromImagePicker.IsLoaded()) {
+	//-----------------------\\
+	//iOS Specific Functions
+	//-----------------------\\
+	private void OnFinishedImagePicker (string message)
+	{
+		if (LoadTextureFromImagePicker.IsLoaded())
+		{
 			int width, height;
-			if (useOriginalImageSize || (targetMaterial == null)) {
+			
+			if (useOriginalImageSize || (targetMaterial == null))
+			{
 				width = LoadTextureFromImagePicker.GetLoadedTextureWidth();
 				height = LoadTextureFromImagePicker.GetLoadedTextureHeight();
-			} else {
+			}
+			else
+			{
 				width = textureWidth;
 				height = textureHeight;
 			}
+			
 			Texture2D texture = LoadTextureFromImagePicker.GetLoadedTexture(message, width, height);
+			
 			//IT GETS HERE
-			if (texture) {
+			if (texture)
+			{
 				// Loaded
 				//if (targetMaterial) {
 					//BUT NOT HERE
@@ -690,11 +696,15 @@ public class cscript_navigation : MonoBehaviour
 					//targetMaterial.mainTexture = texture;
 					//Destroy(lastTexture);
 				//}
-			} else {
+			}
+			else
+			{
 				// Closed
 				LoadTextureFromImagePicker.Release();
 			}
-		} else {
+		}
+		else
+		{
 			// Closed
 			LoadTextureFromImagePicker.Release();
 		}
@@ -702,33 +712,42 @@ public class cscript_navigation : MonoBehaviour
 	
 
 
-	private IEnumerator CaptureScreen() {
+	private IEnumerator CaptureScreen()
+	{
 		yield return new WaitForEndOfFrame();
 
 		// Save to PhotoLibrary
 		Texture screenShot = ScreenCapture.Capture();
-		if (saveAsPng) {
+		if (saveAsPng)
+		{
 			bool withTransparency = false;
-			if (withTransparency) {
+			if (withTransparency)
+			{
 				// PNG with transparency
 				LoadTextureFromImagePicker.SaveAsPngWithTransparencyToPhotoLibrary(screenShot, gameObject.name, "OnFinishedSaveImage");
-			} else {
+			}
+			else
+			{
 				// PNG
 				LoadTextureFromImagePicker.SaveAsPngToPhotoLibrary(screenShot, gameObject.name, "OnFinishedSaveImage");
 			}
-		} else {
+		}
+		else
+		{
 			// JPG
 			LoadTextureFromImagePicker.SaveAsJpgToPhotoLibrary(screenShot, gameObject.name, "OnFinishedSaveImage");
 		}
 	}
 
-	private void OnFinishedSaveImage (string message) {
-		if (message == LoadTextureFromImagePicker.strCallbackResultMessage_Saved) {
+	private void OnFinishedSaveImage (string message)
+	{
+		if (message == LoadTextureFromImagePicker.strCallbackResultMessage_Saved)
+		{
 			// Save Succeed
-		} else {
+		}
+		else 
+		{
 			// Failed
 		}
 	}
-	
-	
 }
