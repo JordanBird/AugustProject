@@ -54,10 +54,11 @@ public class cscript_navigation : MonoBehaviour
 	//-----------------------\\
 	public Material targetMaterial = null;
 	public bool useOriginalImageSize = false;
-	public bool iPadPopover_CloseWhenSelectImage = false;
+	public bool iPadPopover_CloseWhenSelectImage = true;
 	private int textureWidth;
 	private int textureHeight;
 	private bool saveAsPng = false;
+	private bool imageInputChoiceMenu = false;
 
 	public void Init(cscript_master m)
 	{
@@ -136,6 +137,9 @@ public class cscript_navigation : MonoBehaviour
 	
 	void OnGUI()
 	{		
+		
+		//iPadPopover_CloseWhenSelectImage = GUI.Toggle(new Rect(0, Screen.height*0.5f+60, 400, 30), iPadPopover_CloseWhenSelectImage, "iPadPopover_CloseWhenSelectImage");
+			
 		for (int i = 0; i < questionButtons.Count; i++)
 		{
 			if (questionButtons[i].Skin == null)
@@ -423,13 +427,12 @@ public class cscript_navigation : MonoBehaviour
 			gameName = GUI.TextField (new Rect((Screen.width / 4 - 10) / 2, 60, Screen.width / 4, 20), gameName);
 			authorName = GUI.TextField (new Rect((Screen.width / 4 - 10) * 2.5f, 60, Screen.width / 4, 20), authorName);
 			
+			//Get Background Button - Opens the Pop-Up to allow the user to choose an image input method:
 			if (buttons[12].Clicked)
 			{
-				//Gets the background from camera roll or camera.
 				if (Application.platform == RuntimePlatform.IPhonePlayer) 
 				{
-					LoadTextureFromImagePicker.SetPopoverToCenter();
-					LoadTextureFromImagePicker.ShowCamera(gameObject.name, "OnFinishedImagePicker");
+					imageInputChoiceMenu = true;
 				}
 				else
 				{
@@ -437,6 +440,29 @@ public class cscript_navigation : MonoBehaviour
 					background = new Texture2D(1, 1);
 					background.SetPixel (0, 0, Color.red);
 					background.Apply ();
+				}
+			}
+			
+			//Gets the background from camera roll or camera.
+			if (Application.platform == RuntimePlatform.IPhonePlayer) 
+			{
+				if(imageInputChoiceMenu)
+				{
+					if(GUI.Button (new Rect((Screen.width / 4 - 10) / 2, 150, Screen.width / 4, 20), "USE CAMERA"))
+					{
+						imageInputChoiceMenu = false;
+						//Directly From Camera:
+						LoadTextureFromImagePicker.SetPopoverToCenter();
+						LoadTextureFromImagePicker.ShowCamera(gameObject.name, "OnFinishedImagePicker");
+					}
+					if(GUI.Button (new Rect((Screen.width / 4 - 10) * 2.5f, 150, Screen.width / 4, 20), "USE CAMERA ROLL"))
+					{
+						imageInputChoiceMenu = false;
+						//From Camera Roll:
+						LoadTextureFromImagePicker.SetPopoverAutoClose(iPadPopover_CloseWhenSelectImage);
+						LoadTextureFromImagePicker.SetPopoverTargetRect((Screen.width / 4 - 10) / 2, 100, Screen.width / 4,20);
+						LoadTextureFromImagePicker.ShowPhotoLibrary(gameObject.name, "OnFinishedImagePicker");
+					}
 				}
 			}
 			
@@ -732,6 +758,7 @@ public class cscript_navigation : MonoBehaviour
 					//targetMaterial.mainTexture = texture;
 					//Destroy(lastTexture);
 				//}
+				
 			}
 			else
 			{
