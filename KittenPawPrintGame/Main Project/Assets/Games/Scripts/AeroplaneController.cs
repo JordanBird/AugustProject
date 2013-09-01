@@ -33,7 +33,7 @@ public class AeroplaneController : MonoBehaviour
 		}*/
 		
 		// Comment out if iphone not present.
-		tilt = iPhoneInput.acceleration.y;
+		tilt = Input.acceleration.y;
 		tilt *= Time.fixedDeltaTime;
 		
 		skin.position = transform.position;

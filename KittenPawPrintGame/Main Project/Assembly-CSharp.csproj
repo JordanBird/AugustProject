@@ -37,17 +37,18 @@
     <Reference Include="System.XML" />
 	<Reference Include="System.Core" />
 	<Reference Include="UnityEngine">
-	  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEngine.dll</HintPath>
+	  <HintPath>C:/Program Files/Unity/Editor/Data/Managed/UnityEngine.dll</HintPath>
 	</Reference>
 	<Reference Include="UnityEditor">
-	  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
+	  <HintPath>C:/Program Files/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Games\Scripts\AeroplaneController.cs" />
+     <Compile Include="Assets\Games\Scripts\AnswerSpawner.cs" />
      <Compile Include="Assets\Scripts\Classes\Answer.cs" />
      <Compile Include="Assets\Scripts\Classes\FancyButton.cs" />
      <Compile Include="Assets\Scripts\Classes\Game.cs" />
-     <Compile Include="Assets\Scripts\Classes\Ingame Classes\AeroplaneController.cs" />
      <Compile Include="Assets\Scripts\Classes\LoadTextureFromImagePicker.cs" />
      <Compile Include="Assets\Scripts\Classes\Question.cs" />
      <Compile Include="Assets\Scripts\Unity Scripts\ChangePhoto.cs" />

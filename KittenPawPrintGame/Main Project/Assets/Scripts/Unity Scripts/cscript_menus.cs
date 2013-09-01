@@ -253,6 +253,7 @@ public class cscript_navigation : MonoBehaviour
 					buttons[11].Enter ();
 					buttons[12].Enter ();
 					buttons[13].Enter ();
+					break;
 				}
 				
 				//Deletion
@@ -277,6 +278,7 @@ public class cscript_navigation : MonoBehaviour
 				}
 				
 				master.StartGame (games[i + position]);
+				break;
 			}
 		}
 		
