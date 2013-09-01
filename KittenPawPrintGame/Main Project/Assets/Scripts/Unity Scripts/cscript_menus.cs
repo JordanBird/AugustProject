@@ -32,6 +32,7 @@ public class cscript_navigation : MonoBehaviour
 	string authorName = "Add Author Here";
 	string multipleChoiceQuestion = "Add Multiple Choice Question Here";
 	string answer = "Add Answer Text Here";
+	Texture2D answerImage;
 	Texture2D background;
 	
 	int selectedCreateGame = 0;
@@ -209,19 +210,8 @@ public class cscript_navigation : MonoBehaviour
 			//Game Title + Author
 			GUI.Label (new Rect(i * inc + 10 * (i + 1), 60, inc, Screen.height - 180), games[i + position].name, game.label);
 			GUI.Label (new Rect(i * inc + 10 * (i + 1), Screen.height - 160, inc, 20), "By " + games[i + position].author, game.label);
-			
-			//Launches Game
-			if (buttons[3 + i].Clicked)
-			{
-				for (int b = 0; b < 11; b++)
-				{
-					buttons[b].Leave();
-				}
-				
-				master.StartGame (games[i + position]);
-			}
-			
-			//Edit Game
+
+			//Edit and Delete Game
 			if (i + position < 3)
 			{
 				//buttons[6 + i].Hide(); // INSTANT
@@ -230,13 +220,16 @@ public class cscript_navigation : MonoBehaviour
 			else
 			{
 				//buttons[6 + i].Unhide(); // INSTANT
-				buttons[6 + i].Enter();	
+				buttons[6 + i].Enter();
 				
 				if (buttons[6 + i].Clicked)
 				{
+					//Assign working edit variables with game's content. //MUST BE EDITED IF VARIABLES ARE ADDED OR REMOVED!!
 					gameName = games[i + position].name;
 					authorName = games[i + position].author;
 					selectedCreateGame = Convert.ToInt32(games[i + position].type);
+					background = games[i + position].background;
+					
 					questions.Clear ();
 					questions.AddRange (games[i + position].questions);
 					
@@ -262,7 +255,7 @@ public class cscript_navigation : MonoBehaviour
 					buttons[13].Enter ();
 				}
 				
-				//Allows Deletion
+				//Deletion
 				if (GUI.Button (new Rect(i * inc + 9 + (i * 10) + inc - 20, 50, 25, 25), GUIMaster.bin))
 				{
 					File.Delete (games[i + position].location);
@@ -273,6 +266,17 @@ public class cscript_navigation : MonoBehaviour
 					//Resets the game view.
 					LoadGames();
 				}
+			}
+			
+			//Launches Game
+			if (buttons[3 + i].Clicked)
+			{
+				for (int b = 0; b < 11; b++)
+				{
+					buttons[b].Leave();
+				}
+				
+				master.StartGame (games[i + position]);
 			}
 		}
 		
@@ -385,10 +389,16 @@ public class cscript_navigation : MonoBehaviour
 			
 			GUI.Label(new Rect(Screen.width / 2 - 60, 10, 120, 50), "Create your Game");
 		
+			//Back
 			if (buttons[11].Clicked)
 			{
+				ResetGameCreation();
+				ResetQuestionCreation ();
+				
 				master.gameState = cscript_master.GameState.MainMenu;
+				
 				LoadGames();	
+				
 				for (int i = 0; i < 11; i++)
 				{
 					buttons[i].Enter();
@@ -399,6 +409,7 @@ public class cscript_navigation : MonoBehaviour
 				buttons[13].Leave ();
 			}
 			
+			//Help
 			if (buttons[1].Clicked)
 			{
 				master.gameState = cscript_master.GameState.Help;
@@ -417,7 +428,6 @@ public class cscript_navigation : MonoBehaviour
 				{
 					LoadTextureFromImagePicker.SetPopoverToCenter();
 					LoadTextureFromImagePicker.ShowCamera(gameObject.name, "OnFinishedImagePicker");
-					
 				}
 				else
 				{
@@ -477,13 +487,19 @@ public class cscript_navigation : MonoBehaviour
 				buttons[12].Leave ();
 			}
 			
+			//Save
 			if (buttons[13].Clicked)
 			{
 				//Saves the currently open game.
-				Debug.Log (selectedCreateGame.ToString ());
+				Debug.Log ("Saving Game");
+				
 				Game game = new Game(gameName, authorName, selectedCreateGame.ToString (), questions.ToArray (), background);
 				game.GameToXML ();
 				
+				ResetGameCreation();
+				ResetQuestionCreation ();
+				
+				//Return to Main Menu
 				for (int i = 0; i < 11; i++)
 				{
 					buttons[i].Enter();
@@ -496,6 +512,8 @@ public class cscript_navigation : MonoBehaviour
 				master.gameState = cscript_master.GameState.MainMenu;
 				
 				LoadGames();
+				
+				Debug.Log ("Saved Game");
 			}
 		}
 		else
@@ -531,8 +549,8 @@ public class cscript_navigation : MonoBehaviour
 				if (GUI.Button (new Rect(answerButtons[i].Position.x + 85, answerButtons[i].Position.y - 10, 25, 25), GUIMaster.bin))
 				{
 					answers.RemoveAt(i);
-					
 					answerButtons.Clear ();
+					
 					for (int j = 0; j < answers.Count; j++)
 					{
 						answerButtons.Add (new FancyButton(answers[j].text, 10 * (j + 1) + j * 100, 180, 100, 100, 0.2f + j / 10f, 2));
@@ -541,15 +559,28 @@ public class cscript_navigation : MonoBehaviour
 				}
 			}
 			
+			//Save Answer
 			if (GUI.Button (new Rect(25 + 10 * (position + 1) + position * 100, 225, 100, 50), "Add Answer"))
 			{
-				answers.Add (new Answer(false, answer));
+				if (answer == "Add Answer Text Here")
+					answer = "";
+				
+				if (answerImage != null)
+					answers.Add (new Answer(false, answer, answerImage));
+				else
+					answers.Add (new Answer(false, answer));
+				
 				answerButtons.Add (new FancyButton(answer, 10 * (position + 1) + position * 100, 180, 100, 100, 0.2f, 2));	// No extra delay on creation.
 				answerButtons[position].Enter ();
 			}
 			
 			//answer = GUI.TextArea (new Rect((Screen.width / 4 - 10) * 1.5f, 90, Screen.width / 4, 20), answer);
 			answer = GUI.TextArea (new Rect(10 * (position + 1) + position * 100, 200, 145, 20), answer);
+			
+			if (GUI.Button(new Rect(10 * (position + 1) + position * 100, 170, 145, 20), "Click to Add Image"))
+			{
+				answerImage = GUIMaster.footballIcon;
+			}
 			
 			GUI.Label (new Rect(Screen.width / 4 - 42, 330, Screen.width - 40, 20), "Tap on object once for incorrect answer, double tap for correct, flick away to delete");
 			
@@ -565,6 +596,7 @@ public class cscript_navigation : MonoBehaviour
 				{
 					//questions[questionPosition] = new Question(multipleChoiceQuestion, answers.ToArray ());
 					//questionButtons[questionPosition] = new FancyButton(multipleChoiceQuestion, 10 * questionPosition + (questionPosition - 1) * 100, 250, 100, 100, 0.2f + questionPosition / 10f, 2);
+					questions[questionPosition] = new Question(multipleChoiceQuestion, answers.ToArray ());
 				}
 				
 				addQuestion = false;
@@ -633,6 +665,8 @@ public class cscript_navigation : MonoBehaviour
 	{
 		multipleChoiceQuestion = "Add Multiple Choice Question Here";
 		answer = "Add Answer Text Here";
+		answerImage = null;
+		
 		answers.Clear ();	
 	}
 	

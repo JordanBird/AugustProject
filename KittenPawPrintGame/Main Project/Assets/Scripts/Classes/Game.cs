@@ -95,11 +95,29 @@ public class Game
 				XmlElement eAnswer = document.CreateElement( "", "answer", "" );
         		eAnswers.AppendChild( eAnswer );
 				
-				//Adds answer text - Will be image later in development.
+				//Adds the type.
+				XmlElement eAType = document.CreateElement( "", "aType", "" );
+				XmlText tAType = document.CreateTextNode( questions[i].answers[a].type.ToString () );
+				eAType.AppendChild( tAType );
+        		eAnswer.AppendChild( eAType );
+				
+				//Adds text.
 				XmlElement eText = document.CreateElement( "", "aText", "" );
 				XmlText tAnswer = document.CreateTextNode( questions[i].answers[a].text );
 				eText.AppendChild( tAnswer );
         		eAnswer.AppendChild( eText );
+				
+				//Adds texture.
+				XmlElement eTexture = document.CreateElement( "", "aTexture", "" );
+				XmlText tTexture;
+				
+				if (questions[i].answers[a].texture != null)
+					tTexture = document.CreateTextNode( System.Text.Encoding.GetEncoding (1252).GetString(questions[i].answers[a].texture.EncodeToPNG ()) );
+				else
+					tTexture = document.CreateTextNode("");
+				
+				eTexture.AppendChild( tTexture );
+        		eAnswer.AppendChild( eTexture );
 				
 				//Adds if correct or not.
 				XmlElement eCorrect = document.CreateElement( "", "correct", "" );
@@ -153,10 +171,32 @@ public class Game
 			//foreach (XmlNode y in  x.SelectNodes ("//answers//answer"))
 			foreach (XmlNode y in  x["answers"])
 			{
+				bool correct = false;
+				
 				if (y["correct"].InnerText == "True")
-					answers.Add (new Answer(true, y["aText"].InnerText));
+					correct = true;
 				else
-					answers.Add (new Answer(false, y["aText"].InnerText));
+					correct = false;
+				try
+				{
+					if (y["aType"].InnerText == "0")
+					{
+						//Text
+						answers.Add (new Answer(correct, y["aText"].InnerText));
+					}
+					else
+					{
+						//Image
+						Texture2D texture = new Texture2D(1, 1);
+						texture.LoadImage (System.Text.Encoding.GetEncoding (1252).GetBytes (y["aTexture"].InnerText));
+						
+						answers.Add (new Answer(correct, texture));
+					}
+				}
+				catch
+				{
+					answers.Add (new Answer(correct, y["aText"].InnerText));
+				}
 			}
 			
 			questionList.Add (new Question(xName, answers.ToArray ()));

@@ -49,7 +49,7 @@ public class cscript_game_test : MonoBehaviour {
 			}
 
 			GUI.Label (new Rect(10, 10, Screen.width - 20, 50), "Score: " + score, GUIMaster.scores.label);
-			GUI.Label (new Rect(10, (Screen.height / 6) * 5, Screen.width - 20, 50), currentQuestion.text, GUIMaster.questions.label);
+			GUI.Label (new Rect(10, Screen.height - 100, Screen.width - 20, 100), currentQuestion.text, GUIMaster.questions.label);
 
 			int inc = 1;
 			
@@ -75,6 +75,19 @@ public class cscript_game_test : MonoBehaviour {
 				else if (a.type == 1)
 				{
 					//Image
+					if (GUI.Button(new Rect(inc * 10 + (inc * (Screen.width / (currentQuestion.answers.Length + 2))), 78, Screen.width / (currentQuestion.answers.Length + 2), 150), a.texture))
+					{
+						if (a.correct == true)
+						{
+							//Win
+							score++;
+							NewQuestion ();
+						}
+						else
+						{
+							//Lose
+						}
+					}
 				}
 				
 				inc++;
