@@ -59,6 +59,7 @@ public class cscript_navigation : MonoBehaviour
 	private int textureHeight;
 	private bool saveAsPng = false;
 	private bool imageInputChoiceMenu = false;
+	public Texture2D iTexture = null;
 
 	public void Init(cscript_master m)
 	{
@@ -444,27 +445,7 @@ public class cscript_navigation : MonoBehaviour
 			}
 			
 			//Gets the background from camera roll or camera.
-			if (Application.platform == RuntimePlatform.IPhonePlayer) 
-			{
-				if(imageInputChoiceMenu)
-				{
-					if(GUI.Button (new Rect((Screen.width / 4 - 10) / 2, 150, Screen.width / 4, 20), "USE CAMERA"))
-					{
-						imageInputChoiceMenu = false;
-						//Directly From Camera:
-						LoadTextureFromImagePicker.SetPopoverToCenter();
-						LoadTextureFromImagePicker.ShowCamera(gameObject.name, "OnFinishedImagePicker");
-					}
-					if(GUI.Button (new Rect((Screen.width / 4 - 10) * 2.5f, 150, Screen.width / 4, 20), "USE CAMERA ROLL"))
-					{
-						imageInputChoiceMenu = false;
-						//From Camera Roll:
-						LoadTextureFromImagePicker.SetPopoverAutoClose(iPadPopover_CloseWhenSelectImage);
-						LoadTextureFromImagePicker.SetPopoverTargetRect((Screen.width / 4 - 10) / 2, 100, Screen.width / 4,20);
-						LoadTextureFromImagePicker.ShowPhotoLibrary(gameObject.name, "OnFinishedImagePicker");
-					}
-				}
-			}
+			background = GetNewCameraImage();
 			
 			//Change the default skin so we can effect the buttons of the GUIContent.
 			GUISkin tempSkin = GUI.skin;
@@ -728,6 +709,37 @@ public class cscript_navigation : MonoBehaviour
 	//-----------------------\\
 	//iOS Specific Functions
 	//-----------------------\\
+	
+	public Texture2D GetNewCameraImage()
+	{
+		
+		if (Application.platform == RuntimePlatform.IPhonePlayer) 
+			{
+				if(imageInputChoiceMenu)
+				{
+					if(GUI.Button (new Rect((Screen.width / 4 - 10) / 2, 150, Screen.width / 4, 20), "USE CAMERA"))
+					{
+						imageInputChoiceMenu = false;
+						//Directly From Camera:
+						LoadTextureFromImagePicker.SetPopoverToCenter();
+						LoadTextureFromImagePicker.ShowCamera(gameObject.name, "OnFinishedImagePicker");
+					}
+					if(GUI.Button (new Rect((Screen.width / 4 - 10) * 2.5f, 150, Screen.width / 4, 20), "USE CAMERA ROLL"))
+					{
+						imageInputChoiceMenu = false;
+						//From Camera Roll:
+						LoadTextureFromImagePicker.SetPopoverAutoClose(iPadPopover_CloseWhenSelectImage);
+						LoadTextureFromImagePicker.SetPopoverTargetRect((Screen.width / 4 - 10) / 2, 100, Screen.width / 4,20);
+						LoadTextureFromImagePicker.ShowPhotoLibrary(gameObject.name, "OnFinishedImagePicker");
+					}
+				}
+			}
+		
+		return iTexture;
+		
+	}
+	
+	
 	private void OnFinishedImagePicker (string message)
 	{
 		if (LoadTextureFromImagePicker.IsLoaded())
@@ -753,7 +765,7 @@ public class cscript_navigation : MonoBehaviour
 				// Loaded
 				//if (targetMaterial) {
 					//BUT NOT HERE
-					background = texture;
+					iTexture = texture;
 					//Texture lastTexture = targetMaterial.mainTexture;
 					//targetMaterial.mainTexture = texture;
 					//Destroy(lastTexture);
@@ -773,8 +785,6 @@ public class cscript_navigation : MonoBehaviour
 		}
 	}
 	
-
-
 	private IEnumerator CaptureScreen()
 	{
 		yield return new WaitForEndOfFrame();
