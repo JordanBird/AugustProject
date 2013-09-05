@@ -285,7 +285,7 @@ public class cscript_navigation : MonoBehaviour
 				break;
 			}
 		}
-		
+
 		if (buttons[9].Clicked)
 		{			
 			if (position > 0)
@@ -387,6 +387,11 @@ public class cscript_navigation : MonoBehaviour
 	{		
 		if (addQuestion == false)
 		{
+			if (imageInputChoiceMenu == true)
+				GUI.enabled = false;
+			else
+				GUI.enabled = true;
+			
 			// Having this constantly running doesnt affect performance much, and just reduces the amount of times i need to enter() and leave() the buttons. Consider doing this for all other buttons.
 			for (int i = 0; i < questions.Count; i++)
 			{
@@ -442,30 +447,7 @@ public class cscript_navigation : MonoBehaviour
 					background.Apply ();
 				}
 			}
-			
-			//Gets the background from camera roll or camera.
-			if (Application.platform == RuntimePlatform.IPhonePlayer) 
-			{
-				if(imageInputChoiceMenu)
-				{
-					if(GUI.Button (new Rect((Screen.width / 4 - 10) / 2, 150, Screen.width / 4, 20), "USE CAMERA"))
-					{
-						imageInputChoiceMenu = false;
-						//Directly From Camera:
-						LoadTextureFromImagePicker.SetPopoverToCenter();
-						LoadTextureFromImagePicker.ShowCamera(gameObject.name, "OnFinishedImagePicker");
-					}
-					if(GUI.Button (new Rect((Screen.width / 4 - 10) * 2.5f, 150, Screen.width / 4, 20), "USE CAMERA ROLL"))
-					{
-						imageInputChoiceMenu = false;
-						//From Camera Roll:
-						LoadTextureFromImagePicker.SetPopoverAutoClose(iPadPopover_CloseWhenSelectImage);
-						LoadTextureFromImagePicker.SetPopoverTargetRect((Screen.width / 4 - 10) / 2, 100, Screen.width / 4,20);
-						LoadTextureFromImagePicker.ShowPhotoLibrary(gameObject.name, "OnFinishedImagePicker");
-					}
-				}
-			}
-			
+
 			//Change the default skin so we can effect the buttons of the GUIContent.
 			GUISkin tempSkin = GUI.skin;
 			GUI.skin = GUIMaster.buttons;
@@ -542,6 +524,52 @@ public class cscript_navigation : MonoBehaviour
 				LoadGames();
 				
 				Debug.Log ("Saved Game");
+			}
+			
+			//Gets the background from camera roll or camera.
+			if (Application.platform == RuntimePlatform.IPhonePlayer) 
+			{
+				if(imageInputChoiceMenu)
+				{
+					JGUI jG = new JGUI();
+					
+					switch (jG.MessageBox(0, "Add Background", new string[] {"Use Camera", "Use Camera Roll"}))
+					{
+						case 0:
+							imageInputChoiceMenu = false;
+							//Directly From Camera:
+							LoadTextureFromImagePicker.SetPopoverToCenter();
+							LoadTextureFromImagePicker.ShowCamera(gameObject.name, "OnFinishedImagePicker");
+						
+							imageInputChoiceMenu = false;
+							break;
+						case 1:
+							imageInputChoiceMenu = false;
+							//From Camera Roll:
+							LoadTextureFromImagePicker.SetPopoverAutoClose(iPadPopover_CloseWhenSelectImage);
+							LoadTextureFromImagePicker.SetPopoverTargetRect((Screen.width / 4 - 10) / 2, 100, Screen.width / 4,20);
+							LoadTextureFromImagePicker.ShowPhotoLibrary(gameObject.name, "OnFinishedImagePicker");
+						
+							imageInputChoiceMenu = false;
+						break;
+					}
+					
+//					if(GUI.Button (new Rect((Screen.width / 4 - 10) / 2, 150, Screen.width / 4, 20), "USE CAMERA"))
+//					{
+//						imageInputChoiceMenu = false;
+//						//Directly From Camera:
+//						LoadTextureFromImagePicker.SetPopoverToCenter();
+//						LoadTextureFromImagePicker.ShowCamera(gameObject.name, "OnFinishedImagePicker");
+//					}
+//					if(GUI.Button (new Rect((Screen.width / 4 - 10) * 2.5f, 150, Screen.width / 4, 20), "USE CAMERA ROLL"))
+//					{
+//						imageInputChoiceMenu = false;
+//						//From Camera Roll:
+//						LoadTextureFromImagePicker.SetPopoverAutoClose(iPadPopover_CloseWhenSelectImage);
+//						LoadTextureFromImagePicker.SetPopoverTargetRect((Screen.width / 4 - 10) / 2, 100, Screen.width / 4,20);
+//						LoadTextureFromImagePicker.ShowPhotoLibrary(gameObject.name, "OnFinishedImagePicker");
+//					}
+				}
 			}
 		}
 		else
