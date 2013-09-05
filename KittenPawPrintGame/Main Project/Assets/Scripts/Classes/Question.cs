@@ -5,7 +5,7 @@ public class Question
 {
 	public string text;
 	public Answer[] answers;
-	
+
 	Random random = new Random();
 	
 	public Question (string iText, Answer[] iAnswers)
@@ -28,5 +28,20 @@ public class Question
             answers[i] = answers[pos];
             answers[pos] = tempAnswer;
         }
+	}
+	
+	public int GetNumberOfCorrectAnswers()
+	{
+		int tally = 0;
+		
+		for (int i = 0; i < answers.Length; i++)
+		{
+			if (answers[i].correct)
+			{
+				tally++;	
+			}
+		}
+		
+		return tally;
 	}
 }
