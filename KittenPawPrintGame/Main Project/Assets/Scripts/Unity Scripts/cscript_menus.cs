@@ -59,6 +59,8 @@ public class cscript_navigation : MonoBehaviour
 	private int textureHeight;
 	private bool saveAsPng = false;
 	private bool imageInputChoiceMenu = false;
+	
+	JGUI jG = new JGUI();
 
 	public void Init(cscript_master m)
 	{
@@ -306,14 +308,16 @@ public class cscript_navigation : MonoBehaviour
 		
 		if (buttons[0].Clicked)
 		{
-			master.gameState = cscript_master.GameState.About;
+			Application.OpenURL("http://www.ilearn2.co.uk");
 			
-			for (int i = 0; i < 11; i++)
-			{
-				buttons[i].Leave();
-			}
+			//master.gameState = cscript_master.GameState.About;
 			
-			buttons[11].Enter ();
+			//for (int i = 0; i < 11; i++)
+			//{
+			//	buttons[i].Leave();
+			//}
+			
+			//buttons[11].Enter ();
 		}
 		
 		if (buttons[1].Clicked)
@@ -531,19 +535,24 @@ public class cscript_navigation : MonoBehaviour
 			{
 				if(imageInputChoiceMenu)
 				{
-					JGUI jG = new JGUI();
 					
+					
+					Debug.Log(jG.MessageBox(0, "Add Background", new string[] {"Use Camera", "Use Camera Roll"}));
 					switch (jG.MessageBox(0, "Add Background", new string[] {"Use Camera", "Use Camera Roll"}))
 					{
+						
 						case 0:
+						Debug.Log ("Case0");
 							imageInputChoiceMenu = false;
 							//Directly From Camera:
+							LoadTextureFromImagePicker.SetPopoverAutoClose(iPadPopover_CloseWhenSelectImage);
 							LoadTextureFromImagePicker.SetPopoverToCenter();
 							LoadTextureFromImagePicker.ShowCamera(gameObject.name, "OnFinishedImagePicker");
 						
 							imageInputChoiceMenu = false;
 							break;
 						case 1:
+						Debug.Log ("Case1");
 							imageInputChoiceMenu = false;
 							//From Camera Roll:
 							LoadTextureFromImagePicker.SetPopoverAutoClose(iPadPopover_CloseWhenSelectImage);
@@ -758,6 +767,7 @@ public class cscript_navigation : MonoBehaviour
 	//-----------------------\\
 	private void OnFinishedImagePicker (string message)
 	{
+	
 		if (LoadTextureFromImagePicker.IsLoaded())
 		{
 			int width, height;
@@ -786,7 +796,7 @@ public class cscript_navigation : MonoBehaviour
 					//targetMaterial.mainTexture = texture;
 					//Destroy(lastTexture);
 				//}
-				
+				jG.ResetMessageBox();
 			}
 			else
 			{

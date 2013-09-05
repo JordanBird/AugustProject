@@ -11,6 +11,7 @@ public class JGUI
 	
 	public int MessageBox(int iID, string iTitle, string[] iButtons)
 	{
+		
 		Texture2D overlay = new Texture2D(1, 1);
 		overlay.SetPixel (0, 0, new Color(1, 1, 1, 0.5f));
 		overlay.Apply ();
@@ -21,6 +22,7 @@ public class JGUI
 
 		//GUILayout.Window (iID, new Rect((Screen.width / 2) - (iButtons.Length * 50), Screen.height / 2 - 25, iButtons.Length * 100, 50), MessageBoxDisplay, iTitle);
 		GUILayout.Window (iID, new Rect((Screen.width / 2) - 100, (Screen.height / 2) - (iButtons.Length * 40) / 2, 200, iButtons.Length * 40 + 10), MessageBoxDisplay, iTitle);
+	
 		return returnButton;
 	}
 	
@@ -36,5 +38,10 @@ public class JGUI
 		}
 		
 		GUILayout.Space (10);
+	}
+	
+	public void ResetMessageBox()
+	{
+		returnButton = -1;	
 	}
 }
