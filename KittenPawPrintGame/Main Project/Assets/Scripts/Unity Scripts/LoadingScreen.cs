@@ -5,7 +5,7 @@ public class LoadingScreen : MonoBehaviour
 {
 	public Texture2D loadingTexture;
 	
-	bool show = false;
+	public bool show = false;
 	bool useTimer = false;
 	
 	float timeLeft = 0;
@@ -25,6 +25,20 @@ public class LoadingScreen : MonoBehaviour
 	public void Show()
 	{
 		show = true;
+		
+		if (loadingTexture != null)
+		{
+			try
+			{
+				//GUI.DrawTexture (new Rect(0, 0, Screen.width, Screen.height), loadingTexture);
+				OnGUI ();
+				
+				Debug.Log ("Worked");
+			}
+			catch {}
+			
+			Debug.Log ("Test");
+		}
 	}
 	
 	public void Show(float timeToShow)
@@ -38,6 +52,16 @@ public class LoadingScreen : MonoBehaviour
 	public void Hide()
 	{
 		show = false;
+	}
+	
+	public void Draw()
+	{
+		GUI.depth = 0;
+		
+		if (loadingTexture != null)
+			GUI.DrawTexture (new Rect(0, 0, Screen.width, Screen.height), loadingTexture);
+		else
+			GUI.Label (new Rect(10, 10, 100, 30), "Loading..");
 	}
 	
 	void OnGUI()
@@ -54,10 +78,9 @@ public class LoadingScreen : MonoBehaviour
 				}
 			}
 			
-			if (loadingTexture != null)
-				GUI.DrawTexture (new Rect(0, 0, Screen.width, Screen.height), loadingTexture);
-			else
-				GUI.Label (new Rect(10, 10, 100, 30), "Loading..");
+			Draw ();
+			Debug.Log ("Drew");
+			//Debug.Break ();
 		}
 	}
 }

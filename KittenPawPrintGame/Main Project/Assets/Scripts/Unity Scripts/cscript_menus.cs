@@ -14,6 +14,8 @@ public class cscript_navigation : MonoBehaviour
 	
 	string dataPath = "";
 	
+	bool loadGames = false;
+	
 	//-----------------------\\
 	//Main Menu Variables
 	//-----------------------\\
@@ -72,9 +74,9 @@ public class cscript_navigation : MonoBehaviour
 	{
 		dataPath = GameObject.FindGameObjectWithTag ("Master").GetComponent<cscript_master>().dataPath;
 		GUIMaster = GameObject.FindGameObjectWithTag ("GUI Master").GetComponent<cscript_GUI_master>();
-
-		LoadGames();
 		
+		LoadGames();
+
 		//Initialise Backgrounds
 		float inc = (Screen.width - 40) / 3;
 		
@@ -120,6 +122,10 @@ public class cscript_navigation : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
 	{
+		if (loadGames == true)
+		{
+			LoadGames();
+		}
 		//Updates all buttons in game.
 		for (int i = 0; i < buttons.Length; i++)
 		{
@@ -139,7 +145,7 @@ public class cscript_navigation : MonoBehaviour
 	
 	void OnGUI()
 	{		
-		
+		GUI.depth = 1;
 		//iPadPopover_CloseWhenSelectImage = GUI.Toggle(new Rect(0, Screen.height*0.5f+60, 400, 30), iPadPopover_CloseWhenSelectImage, "iPadPopover_CloseWhenSelectImage");
 			
 		for (int i = 0; i < questionButtons.Count; i++)
@@ -195,6 +201,9 @@ public class cscript_navigation : MonoBehaviour
 				buttons[i].Clicked = GUI.Button (buttons[i].GetRectangle(), buttons[i].Text, buttons[i].Skin.button);
 			}
 		}
+		
+		if (GUIMaster.GetComponent<LoadingScreen>().show == true)
+			GUIMaster.GetComponent<LoadingScreen>().Draw ();
 	}
 	
 	private void MainMenuGUI()
@@ -271,7 +280,8 @@ public class cscript_navigation : MonoBehaviour
 						position = games.Length - 4;
 					
 					//Resets the game view.
-					LoadGames();
+					GUIMaster.GetComponent<LoadingScreen>().Show ();
+					loadGames = true;
 				}
 			}
 			
@@ -359,7 +369,8 @@ public class cscript_navigation : MonoBehaviour
 		{
 			master.gameState = cscript_master.GameState.MainMenu;
 			
-			LoadGames();
+			GUIMaster.GetComponent<LoadingScreen>().Show ();
+			loadGames = true;
 			
 			for (int i = 0; i < 11; i++)
 			{
@@ -377,7 +388,8 @@ public class cscript_navigation : MonoBehaviour
 		if (buttons[11].Clicked)
 		{
 			master.gameState = cscript_master.GameState.MainMenu;
-			LoadGames();
+			GUIMaster.GetComponent<LoadingScreen>().Show ();
+			loadGames = true;
 			for (int i = 0; i < 11; i++)
 			{
 				buttons[i].Enter();
@@ -412,8 +424,8 @@ public class cscript_navigation : MonoBehaviour
 				
 				master.gameState = cscript_master.GameState.MainMenu;
 				
-				LoadGames();	
-				
+				GUIMaster.GetComponent<LoadingScreen>().Show ();
+				loadGames = true;
 				for (int i = 0; i < 11; i++)
 				{
 					buttons[i].Enter();
@@ -525,7 +537,8 @@ public class cscript_navigation : MonoBehaviour
 				
 				master.gameState = cscript_master.GameState.MainMenu;
 				
-				LoadGames();
+				GUIMaster.GetComponent<LoadingScreen>().Show ();
+				loadGames = true;
 				
 				Debug.Log ("Saved Game");
 			}
@@ -690,7 +703,7 @@ public class cscript_navigation : MonoBehaviour
 		cscript_master.GameState tempState = master.gameState;
 		master.gameState = cscript_master.GameState.LoadingScreen;
 		GUIMaster.GetComponent<LoadingScreen>().Show ();
-		
+
 		game = Resources.Load ("GUI Skins/GUISkin_Main_Menu_Games") as GUISkin;
 		
 		List<Game> tempGames = new List<Game>();
@@ -718,6 +731,7 @@ public class cscript_navigation : MonoBehaviour
 		
 		master.gameState = tempState;
 		GUIMaster.GetComponent<LoadingScreen>().Hide ();
+		loadGames = false;
 	}
 	
 	private void ResetGameCreation()
