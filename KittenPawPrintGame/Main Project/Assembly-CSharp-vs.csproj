@@ -18,7 +18,7 @@
 	<DebugType>full</DebugType>
 	<Optimize>false</Optimize>
 	<OutputPath>Temp\bin\Debug\</OutputPath>
-	<DefineConstants>DEBUG;TRACE;UNITY_IPHONE;ENABLE_MICROPHONE;ENABLE_TEXTUREID_MAP;ENABLE_AUDIO_FMOD;ENABLE_MONO;ENABLE_TERRAIN;ENABLE_SUBSTANCE;ENABLE_GENERICS;ENABLE_WWW;ENABLE_IMAGEEFFECTS;UNITY_IPHONE_API;ENABLE_WEBCAM;ENABLE_NETWORK;ENABLE_PHYSICS;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_GAMECENTER;UNITY_IOS;ENABLE_SHADOWS;ENABLE_AUDIO;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;UNITY_4_2_0;UNITY_4_2;DEVELOPMENT_BUILD;ENABLE_PROFILER;UNITY_EDITOR;UNITY_EDITOR_OSX</DefineConstants>
+	<DefineConstants>DEBUG;TRACE;UNITY_IPHONE;ENABLE_MICROPHONE;ENABLE_TEXTUREID_MAP;ENABLE_AUDIO_FMOD;ENABLE_MONO;ENABLE_TERRAIN;ENABLE_SUBSTANCE;ENABLE_GENERICS;ENABLE_WWW;ENABLE_IMAGEEFFECTS;UNITY_IPHONE_API;ENABLE_WEBCAM;ENABLE_NETWORK;ENABLE_PHYSICS;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_GAMECENTER;UNITY_IOS;ENABLE_SHADOWS;ENABLE_AUDIO;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;UNITY_4_2_0;UNITY_4_2;DEVELOPMENT_BUILD;ENABLE_PROFILER;UNITY_EDITOR;UNITY_EDITOR_WIN</DefineConstants>
 	<ErrorReport>prompt</ErrorReport>
 	<WarningLevel>4</WarningLevel>
 	<NoWarn>0169</NoWarn>
@@ -37,10 +37,10 @@
     <Reference Include="System.XML" />
 	<Reference Include="System.Core" />
 	<Reference Include="UnityEngine">
-	  <HintPath>/Applications/Unity/Unity.app/Contents/Frameworks/Managed/UnityEngine.dll</HintPath>
+	  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEngine.dll</HintPath>
 	</Reference>
 	<Reference Include="UnityEditor">
-	  <HintPath>/Applications/Unity/Unity.app/Contents/Frameworks/Managed/UnityEditor.dll</HintPath>
+	  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
 	</Reference>
   </ItemGroup>
   <ItemGroup>
@@ -53,6 +53,7 @@
      <Compile Include="Assets\Scripts\Classes\LoadTextureFromImagePicker.cs" />
      <Compile Include="Assets\Scripts\Classes\Question.cs" />
      <Compile Include="Assets\Scripts\Unity Scripts\ChangePhoto.cs" />
+     <Compile Include="Assets\Scripts\Unity Scripts\LoadingScreen.cs" />
      <Compile Include="Assets\Scripts\Unity Scripts\ScreenCapture.cs" />
      <Compile Include="Assets\Scripts\Unity Scripts\cscript_GUI_master.cs" />
      <Compile Include="Assets\Scripts\Unity Scripts\cscript_game_test.cs" />
@@ -65,10 +66,10 @@
      <None Include="Assets\Resources\Game Files\Fly to the Noun.xml" />
      <None Include="Assets\Game Files\Current Test.xml" />
      <None Include="Assets\Game Files\Red.xml" />
- <Reference Include="Assets\Plugins\I18N">
+ <Reference Include="I18N">
  <HintPath>Assets\Plugins\I18N.dll</HintPath>
  </Reference>
- <Reference Include="Assets\Plugins\I18N.West">
+ <Reference Include="I18N.West">
  <HintPath>Assets\Plugins\I18N.West.dll</HintPath>
  </Reference>
   </ItemGroup>

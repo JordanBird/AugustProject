@@ -687,6 +687,10 @@ public class cscript_navigation : MonoBehaviour
 	
 	public void LoadGames()
 	{
+		cscript_master.GameState tempState = master.gameState;
+		master.gameState = cscript_master.GameState.LoadingScreen;
+		GUIMaster.GetComponent<LoadingScreen>().Show ();
+		
 		game = Resources.Load ("GUI Skins/GUISkin_Main_Menu_Games") as GUISkin;
 		
 		List<Game> tempGames = new List<Game>();
@@ -711,6 +715,9 @@ public class cscript_navigation : MonoBehaviour
 		games = tempGames.ToArray ();
 		
 		LoadGameBackgrounds ();
+		
+		master.gameState = tempState;
+		GUIMaster.GetComponent<LoadingScreen>().Hide ();
 	}
 	
 	private void ResetGameCreation()
