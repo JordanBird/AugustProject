@@ -57,9 +57,9 @@ public class LoadingScreen : MonoBehaviour
 	public void Draw()
 	{
 		GUI.depth = 0;
-		
+		Debug.Log(loadingTexture);
 		if (loadingTexture != null)
-			GUI.DrawTexture (new Rect(0, 0, Screen.width, Screen.height), loadingTexture);
+			Graphics.DrawTexture (new Rect(0, 0, Screen.width, Screen.height), loadingTexture);
 		else
 			GUI.Label (new Rect(10, 10, 100, 30), "Loading..");
 	}
