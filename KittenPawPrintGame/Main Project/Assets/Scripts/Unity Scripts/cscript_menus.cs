@@ -61,6 +61,7 @@ public class cscript_navigation : MonoBehaviour
 	private int textureHeight;
 	private bool saveAsPng = false;
 	private bool imageInputChoiceMenu = false;
+	private bool imageAnswerChoiceMenu = false;
 	
 	JGUI jG = new JGUI();
 
@@ -571,8 +572,7 @@ public class cscript_navigation : MonoBehaviour
 							LoadTextureFromImagePicker.SetPopoverAutoClose(iPadPopover_CloseWhenSelectImage);
 							LoadTextureFromImagePicker.SetPopoverTargetRect((Screen.width / 4 - 10) / 2, 100, Screen.width / 4,20);
 							LoadTextureFromImagePicker.ShowPhotoLibrary(gameObject.name, "OnFinishedImagePicker");
-						
-							imageInputChoiceMenu = false;
+	
 						break;
 					}
 					
@@ -657,7 +657,52 @@ public class cscript_navigation : MonoBehaviour
 			
 			if (GUI.Button(new Rect(10 * (position + 1) + position * 100, 170, 145, 20), "Click to Add Image"))
 			{
-				answerImage = GUIMaster.footballIcon;
+				if (Application.platform == RuntimePlatform.IPhonePlayer) 
+				{
+					imageAnswerChoiceMenu = true;
+				}
+				else
+				{
+					//Mostly for debug purposes.
+					answerImage = new Texture2D(1, 1);
+					answerImage.SetPixel (0, 0, Color.red);
+					answerImage.Apply ();
+				}
+			}
+			
+			//Open Answer Image Popup:
+			
+			//Gets the background from camera roll or camera.
+			if (Application.platform == RuntimePlatform.IPhonePlayer) 
+			{
+				if(imageAnswerChoiceMenu)
+				{
+					Debug.Log(jG.MessageBox(0, "Add Background", new string[] {"Use Camera", "Use Camera Roll"}));
+					switch (jG.MessageBox(0, "Add Background", new string[] {"Use Camera", "Use Camera Roll"}))
+					{
+						
+						case 0:
+						Debug.Log ("Case0");
+							imageAnswerChoiceMenu = false;
+							//Directly From Camera:
+							LoadTextureFromImagePicker.SetPopoverAutoClose(iPadPopover_CloseWhenSelectImage);
+							LoadTextureFromImagePicker.SetPopoverToCenter();
+							LoadTextureFromImagePicker.ShowCamera(gameObject.name, "OnFinishedAnswerPicker");
+						
+							imageInputChoiceMenu = false;
+							break;
+						case 1:
+						Debug.Log ("Case1");
+							imageAnswerChoiceMenu = false;
+							//From Camera Roll:
+							LoadTextureFromImagePicker.SetPopoverAutoClose(iPadPopover_CloseWhenSelectImage);
+							LoadTextureFromImagePicker.SetPopoverTargetRect((Screen.width / 4 - 10) / 2, 100, Screen.width / 4,20);
+							LoadTextureFromImagePicker.ShowPhotoLibrary(gameObject.name, "OnFinishedAnswerPicker");
+	
+						break;
+					}
+					
+				}
 			}
 			
 			GUI.Label (new Rect(Screen.width / 4 - 42, 330, Screen.width - 40, 20), "Tap on object once for incorrect answer, double tap for correct, flick away to delete");
@@ -813,6 +858,52 @@ public class cscript_navigation : MonoBehaviour
 				//if (targetMaterial) {
 					//BUT NOT HERE
 					background = texture;
+					//Texture lastTexture = targetMaterial.mainTexture;
+					//targetMaterial.mainTexture = texture;
+					//Destroy(lastTexture);
+				//}
+				jG.ResetMessageBox();
+			}
+			else
+			{
+				// Closed
+				LoadTextureFromImagePicker.Release();
+			}
+		}
+		else
+		{
+			// Closed
+			LoadTextureFromImagePicker.Release();
+		}
+	}
+	
+	private void OnFinishedAnswerPicker (string message)
+	{
+	
+		if (LoadTextureFromImagePicker.IsLoaded())
+		{
+			int width, height;
+			
+			if (useOriginalImageSize || (targetMaterial == null))
+			{
+				width = LoadTextureFromImagePicker.GetLoadedTextureWidth();
+				height = LoadTextureFromImagePicker.GetLoadedTextureHeight();
+			}
+			else
+			{
+				width = textureWidth;
+				height = textureHeight;
+			}
+			
+			Texture2D texture = LoadTextureFromImagePicker.GetLoadedTexture(message, width, height);
+			
+			//IT GETS HERE
+			if (texture)
+			{
+				// Loaded
+				//if (targetMaterial) {
+					//BUT NOT HERE
+					answerImage = texture;
 					//Texture lastTexture = targetMaterial.mainTexture;
 					//targetMaterial.mainTexture = texture;
 					//Destroy(lastTexture);
