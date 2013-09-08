@@ -9,11 +9,11 @@ public class FancyButton
 	public int Width { get; private set; }
 	public int Height { get; private set; }
 	public GUISkin Skin { get; private set; }
+	public Vector2 targetPosition { get; private set; }
 	
 	private float introTimer = 0;
 	private float introDelay;
 	private Vector2 startPosition;
-	private Vector2 targetPosition;
 	private int status = 0;	// -1 = exit, 0 = stationary, 1 = enter
 	
 	public FancyButton(string text, float targetX, float targetY, int width, int height, float introDelay, int side)

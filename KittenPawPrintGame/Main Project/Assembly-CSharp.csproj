@@ -37,10 +37,10 @@
     <Reference Include="System.XML" />
 	<Reference Include="System.Core" />
 	<Reference Include="UnityEngine">
-	  <HintPath>C:/Program Files/Unity/Editor/Data/Managed/UnityEngine.dll</HintPath>
+	  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEngine.dll</HintPath>
 	</Reference>
 	<Reference Include="UnityEditor">
-	  <HintPath>C:/Program Files/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
+	  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
 	</Reference>
   </ItemGroup>
   <ItemGroup>
@@ -52,6 +52,7 @@
      <Compile Include="Assets\Scripts\Classes\JGUI.cs" />
      <Compile Include="Assets\Scripts\Classes\LoadTextureFromImagePicker.cs" />
      <Compile Include="Assets\Scripts\Classes\Question.cs" />
+     <Compile Include="Assets\Scripts\Classes\TextureScale.cs" />
      <Compile Include="Assets\Scripts\Unity Scripts\ChangePhoto.cs" />
      <Compile Include="Assets\Scripts\Unity Scripts\LoadingScreen.cs" />
      <Compile Include="Assets\Scripts\Unity Scripts\ScreenCapture.cs" />
