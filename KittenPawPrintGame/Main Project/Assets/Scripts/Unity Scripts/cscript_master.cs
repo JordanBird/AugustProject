@@ -31,7 +31,7 @@ public class cscript_master : MonoBehaviour
 			case GameState.MainMenu:
 				break;
 			case GameState.Help:
-				break;
+				break;	
 			case GameState.About:
 				break;
 			case GameState.CreateGame:

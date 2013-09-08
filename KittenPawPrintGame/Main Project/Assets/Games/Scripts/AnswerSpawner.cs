@@ -16,9 +16,13 @@ public class AnswerSpawner : MonoBehaviour
 	private List<Answer> correctAnswers = new List<Answer>();
 	private List<Transform> answerObjects = new List<Transform>();
 	
+	private Game game;
+	
 	void Start ()
 	{
-		
+		//DEBUG
+		currentQuestion = new Question("DEBUGDEBUGDEBUG?",
+			new Answer[] { new Answer(false, "false0"), new Answer(false, "false1"), new Answer(true, "true0"), new Answer(true, "true1"), new Answer(true, "true2") });
 	}
 	
 	void Update ()
@@ -46,6 +50,11 @@ public class AnswerSpawner : MonoBehaviour
 			}
 		}
 		
+		for (int i = 0; i < answerObjects.Count; i++)
+		{
+			answerObjects[i].position += new Vector3(-0.1f, 0, 0);
+		}
+		
 	}
 	
 	private void SpawnNextAnswer()
@@ -53,7 +62,7 @@ public class AnswerSpawner : MonoBehaviour
 		if (answerBatch.Count == 0)
 		{
 			// If the number of correct answers is equal to the correct answers collected, the player can proceed to the next question.
-			if (currentQuestion.GetNumberOfCorrectAnswers() == correctAnswers.Count)
+			if (currentQuestion == null || currentQuestion.GetNumberOfCorrectAnswers() == correctAnswers.Count)
 			{
 				LoadNextQuestion();
 				transitioning = true;
@@ -84,6 +93,7 @@ public class AnswerSpawner : MonoBehaviour
 		int answer = Random.Range(0, answerBatch.Count);
 		
 		// Add a new AnswerCollectable prefab with the text set to the answer's text.
+		AnswerPrefab.position = new Vector3(10, Random.Range (-5, 5), 0);
 		AnswerPrefab.GetComponent<TextMesh>().text = answerBatch[answer].text;
 		answerObjects.Add ((Transform)Instantiate(AnswerPrefab));
 		
@@ -93,7 +103,6 @@ public class AnswerSpawner : MonoBehaviour
 	
 	private void LoadNextQuestion()
 	{
-		//currentQuestion = ;
-		
+		currentQuestion = game.GetRandomQuestion ();
 	}
 }
