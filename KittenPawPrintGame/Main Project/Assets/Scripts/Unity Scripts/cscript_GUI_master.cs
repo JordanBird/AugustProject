@@ -16,6 +16,9 @@ public class cscript_GUI_master : MonoBehaviour
 	public GUISkin mainMenuGames;
 	public GUISkin questions;
 	public GUISkin scores;
+	public GUISkin createGameTextFields;
+	public GUISkin saveButton;
+	public GUISkin deleteButton;
 	
 	public Texture2D footballIcon;
 	public Texture2D planeIcon;
@@ -27,6 +30,7 @@ public class cscript_GUI_master : MonoBehaviour
 	public GUISkin rightArrow;
 	
 	public Texture2D bin;
+	public Texture2D iLearn2Logo;
 	
 	// Use this for initialization
 	void Start () 

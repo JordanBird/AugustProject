@@ -205,8 +205,8 @@ public class Game
 		questions = questionList.ToArray ();
 	}
 	
-	public Question GetRandomQuestion()
+	public Question GetQuestion()
 	{
-		return questions[UnityEngine.Random.Range (0, questions.Length)];
+		return questions[0];
 	}
 }

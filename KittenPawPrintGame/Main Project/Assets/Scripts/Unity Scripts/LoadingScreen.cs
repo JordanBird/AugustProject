@@ -61,7 +61,13 @@ public class LoadingScreen : MonoBehaviour
 		if (loadingTexture != null)
 			Graphics.DrawTexture (new Rect(0, 0, Screen.width, Screen.height), loadingTexture);
 		else
+		{
+			Texture2D t = new Texture2D(1, 1);
+			t.SetPixel (0, 0, Color.white);
+			GUI.DrawTexture (new Rect(0, 0, Screen.width, Screen.height), t);
+			
 			GUI.Label (new Rect(10, 10, 100, 30), "Loading..");
+		}
 	}
 	
 	void OnGUI()

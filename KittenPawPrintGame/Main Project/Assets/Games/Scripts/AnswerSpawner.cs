@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -103,6 +103,6 @@ public class AnswerSpawner : MonoBehaviour
 	
 	private void LoadNextQuestion()
 	{
-		currentQuestion = game.GetRandomQuestion ();
+		currentQuestion = game.GetQuestion ();
 	}
 }

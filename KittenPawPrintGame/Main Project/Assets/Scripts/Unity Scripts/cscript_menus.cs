@@ -11,6 +11,7 @@ public class cscript_navigation : MonoBehaviour
 	//-----------------------\\
 	cscript_master master;
 	cscript_GUI_master GUIMaster;
+	cscript_sound_master soundMaster;
 	
 	string dataPath = "";
 	
@@ -75,7 +76,7 @@ public class cscript_navigation : MonoBehaviour
 	{
 		dataPath = GameObject.FindGameObjectWithTag ("Master").GetComponent<cscript_master>().dataPath;
 		GUIMaster = GameObject.FindGameObjectWithTag ("GUI Master").GetComponent<cscript_GUI_master>();
-		
+		soundMaster = GameObject.FindGameObjectWithTag ("Sound Master").GetComponent<cscript_sound_master>();
 		LoadGames();
 
 		//Initialise Backgrounds
@@ -92,21 +93,21 @@ public class cscript_navigation : MonoBehaviour
 		buttons[1] = new FancyButton("Help", Screen.width - 110, 10, 100, 30, 0.8f, 0, GUIMaster.buttons);
 		buttons[2] = new FancyButton("Create New Game", Screen.width / 2 - 350, Screen.height - 55, 700, 40, 0.8f, 2, GUIMaster.buttons);
 
-		buttons[3] = new FancyButton("Play", 10 + inc / 4, Screen.height - 110, (int)inc / 2, 40, 0.5f, 2, GUIMaster.buttons);
-		buttons[4] = new FancyButton("Play", inc + 10 * 2 + inc / 4, Screen.height - 110, (int)inc / 2, 40, 0.5f, 2, GUIMaster.buttons);
-		buttons[5] = new FancyButton("Play", 2 * inc + 10 * 3 + inc / 4, Screen.height - 110, (int)inc / 2, 40, 0.5f, 2, GUIMaster.buttons);
+		buttons[3] = new FancyButton("Play", 10 + inc / 4, Screen.height - 100, (int)inc / 2, 40, 0.5f, 2, GUIMaster.buttons);
+		buttons[4] = new FancyButton("Play", inc + 10 * 2 + inc / 4, Screen.height - 100, (int)inc / 2, 40, 0.5f, 2, GUIMaster.buttons);
+		buttons[5] = new FancyButton("Play", 2 * inc + 10 * 3 + inc / 4, Screen.height - 100, (int)inc / 2, 40, 0.5f, 2, GUIMaster.buttons);
 		
-		buttons[6] = new FancyButton("Edit", 10, Screen.height - 100, (int)inc / 6, 20, 0.3f, 2);
-		buttons[7] = new FancyButton("Edit", inc + 10 * 2, Screen.height - 100, (int)inc / 6, 20, 0.3f, 2);
-		buttons[8] = new FancyButton("Edit", 2 * inc + 10 * 3, Screen.height - 100, (int)inc / 6, 20, 0.3f, 2);
+		buttons[6] = new FancyButton("Edit", 10, Screen.height - 90, (int)inc / 6, 20, 0.3f, 2, GUIMaster.saveButton);
+		buttons[7] = new FancyButton("Edit", inc + 10 * 2, Screen.height - 90, (int)inc / 6, 20, 0.3f, 2, GUIMaster.saveButton);
+		buttons[8] = new FancyButton("Edit", 2 * inc + 10 * 3, Screen.height - 90, (int)inc / 6, 20, 0.3f, 2, GUIMaster.saveButton);
 		
 		buttons[9] = new FancyButton("", 10, Screen.height / 2 - 15, 50, 50, 0.8f, 3, GUIMaster.leftArrow);
 		buttons[10] = new FancyButton("", Screen.width - 60, Screen.height / 2 - 15, 50, 50, 0.8f, 1, GUIMaster.rightArrow);
 		
 		buttons[11] = new FancyButton("< Back", 10, 10, 100, 30, 0.8f, 0, GUIMaster.buttons);
 		
-		buttons[12] = new FancyButton("Add Background", Screen.width / 2 - 100, 170, 200, 40, 1f, 1, GUIMaster.buttons);
-		buttons[13] = new FancyButton("Save", Screen.width / 2 - 50, 390, 100, 25, 1f, 3, GUIMaster.buttons);
+		buttons[12] = new FancyButton("<color=#c8e9ac>Add Background</color>", Screen.width / 2 - 100, 170, 200, 40, 1f, 1, GUIMaster.buttons);
+		buttons[13] = new FancyButton("Save", Screen.width / 2 - 50, Screen.height - 35, 100, 25, 1f, 3, GUIMaster.saveButton);
 		
 		buttons[0].Enter ();
 		buttons[1].Enter ();
@@ -137,12 +138,7 @@ public class cscript_navigation : MonoBehaviour
 		{
 			buttons[i].Update();
 		}
-		
-		for (int i = 0; i < questionButtons.Count; i++)
-		{
-			questionButtons[i].Update ();
-		}
-		
+
 		for (int i = 0; i < answerButtons.Count; i++)
 		{
 			answerButtons[i].Update ();	
@@ -153,6 +149,10 @@ public class cscript_navigation : MonoBehaviour
 	void OnGUI()
 	{		
 		GUI.depth = 1;
+		
+		//Makes buttons fill text.
+		GUI.skin.button.wordWrap = true;
+		
 		//iPadPopover_CloseWhenSelectImage = GUI.Toggle(new Rect(0, Screen.height*0.5f+60, 400, 30), iPadPopover_CloseWhenSelectImage, "iPadPopover_CloseWhenSelectImage");
 			
 		for (int i = 0; i < questionButtons.Count; i++)
@@ -215,23 +215,23 @@ public class cscript_navigation : MonoBehaviour
 	
 	private void MainMenuGUI()
 	{
-		GUI.Label(new Rect(10, 10, Screen.width - 20, 50), "Main Menu", GUIMaster.heading.label);
-		
+		//GUI.Label(new Rect(10, 10, Screen.width - 20, 50), "Main Menu", GUIMaster.heading.label);
+		GUI.DrawTexture(new Rect(Screen.width / 2 - 19, 10, 38, 60), GUIMaster.iLearn2Logo);
 		float inc = (Screen.width - 40) / 3;
 		
 		//Playable Games
 		for (int i = 0; i < 3; i++)
 		{
 			//Shadow and Box
-			GUI.DrawTexture (new Rect(i * inc + 9 + (i * 10), 59, inc + 2, Screen.height - 178), GUIMaster.blankBlackTexture);
-			GUI.DrawTexture (new Rect(i * inc + 10 * (i + 1), 60, inc, Screen.height - 180), GUIMaster.blankWhiteTexture);
+			GUI.DrawTexture (new Rect(i * inc + 9 + (i * 10), 79, inc + 2, Screen.height - 178), GUIMaster.blankBlackTexture);
+			GUI.DrawTexture (new Rect(i * inc + 10 * (i + 1), 80, inc, Screen.height - 180), GUIMaster.blankWhiteTexture);
 			
 			//Game Background
-			GUI.DrawTexture (new Rect(i * inc + 20 * (i + 1), 90, inc - (10 * (i + 2)), Screen.height - 250), gameBackgrounds[i]);
+			GUI.DrawTexture (new Rect(i * inc + 9 + (i * 10) + 10, 110, inc - 20, Screen.height - 250), gameBackgrounds[i]);
 			
 			//Game Title + Author
-			GUI.Label (new Rect(i * inc + 10 * (i + 1), 60, inc, Screen.height - 180), games[i + position].name, game.label);
-			GUI.Label (new Rect(i * inc + 10 * (i + 1), Screen.height - 160, inc, 20), "By " + games[i + position].author, game.label);
+			GUI.Label (new Rect(i * inc + 10 * (i + 1), 80, inc, Screen.height - 180), games[i + position].name, game.label);
+			GUI.Label (new Rect(i * inc + 10 * (i + 1), Screen.height - 140, inc, 20), "By " + games[i + position].author, game.label);
 
 			//Edit and Delete Game
 			if (i + position < 3)
@@ -254,34 +254,11 @@ public class cscript_navigation : MonoBehaviour
 					
 					questions.Clear ();
 					questions.AddRange (games[i + position].questions);
+					answers.AddRange (games[i + position].questions[0].answers);
+					
+					CreateFancyAnswerButtons(true);
 					
 					questionButtons.Clear ();
-
-					for (int j = 0; j < questions.Count; j++)
-					{
-						//Adds the questions to the screen.
-						if (questionButtons.Count > 0)
-						{
-							if (questionButtons[questionButtons.Count-1].targetPosition.x + 220 > Screen.width)
-							{
-								Debug.Log ("New Row");
-								//Adding new row.
-								questionButtons.Add (new FancyButton(questions[j].text, 10, questionButtons[questionButtons.Count-1].targetPosition.y + 110, 100, 100, 0.2f + questionPosition / 10f, 2));
-							}
-							else
-							{
-								Debug.Log ("Add Normal");
-								//Add Normal
-								questionButtons.Add (new FancyButton(questions[j].text, questionButtons[questionButtons.Count-1].targetPosition.x + 110, questionButtons[questionButtons.Count-1].targetPosition.y, 100, 100, 0.2f + questionPosition / 10f, 2));
-							}
-						}
-						else
-							questionButtons.Add (new FancyButton(questions[j].text, 10, 250, 100, 100, 0.2f + j / 10f, 2));
-						
-						//questionButtons.Add (new FancyButton(questions[j].text, (10 * column) + (column * 100), 250 + (row * 100), 100, 100, 0.2f + j / 10f, 2));
-						
-						questionButtons[j].Enter();
-					}
 					
 					master.gameState = cscript_master.GameState.CreateGame;
 					
@@ -298,7 +275,7 @@ public class cscript_navigation : MonoBehaviour
 				}
 				
 				//Deletion
-				if (GUI.Button (new Rect(i * inc + 9 + (i * 10) + inc - 20, 50, 25, 25), GUIMaster.bin))
+				if (GUI.Button (new Rect(i * inc + 9 + (i * 10) + inc - 25, Screen.height - 90, 25, 25), "", GUIMaster.deleteButton.button))
 				{
 					File.Delete (games[i + position].location);
 					
@@ -329,6 +306,7 @@ public class cscript_navigation : MonoBehaviour
 		{			
 			if (position > 0)
 			{
+				soundMaster.PlaySound (soundMaster.navigation);
 				position--;
 				LoadGameBackgrounds ();
 			}
@@ -339,6 +317,7 @@ public class cscript_navigation : MonoBehaviour
 		{
 			if (position < games.Length - 3)
 			{
+				soundMaster.PlaySound (soundMaster.navigation);
 				position++;
 				LoadGameBackgrounds ();
 			}
@@ -346,18 +325,7 @@ public class cscript_navigation : MonoBehaviour
 		
 		//About
 		if (buttons[0].Clicked)
-		{
 			Application.OpenURL("http://www.ilearn2.co.uk");
-			
-			//master.gameState = cscript_master.GameState.About;
-			
-			//for (int i = 0; i < 11; i++)
-			//{
-			//	buttons[i].Leave();
-			//}
-			
-			//buttons[11].Enter ();
-		}
 		
 		if (buttons[1].Clicked)
 		{
@@ -430,20 +398,20 @@ public class cscript_navigation : MonoBehaviour
 	
 	private void CreateGameGUI()
 	{		
-		if (addQuestion == false)
+		if (true)
 		{
 			if (imageInputChoiceMenu == true)
 				GUI.enabled = false;
 			else
 				GUI.enabled = true;
 			
-			// Having this constantly running doesnt affect performance much, and just reduces the amount of times i need to enter() and leave() the buttons. Consider doing this for all other buttons.
-			for (int i = 0; i < questions.Count; i++)
-			{
-				questionButtons[i].Enter();
-			}
+//			// Having this constantly running doesnt affect performance much, and just reduces the amount of times i need to enter() and leave() the buttons. Consider doing this for all other buttons.
+//			for (int i = 0; i < questions.Count; i++)
+//			{
+//				questionButtons[i].Enter();
+//			}
 			
-			GUI.Label(new Rect(Screen.width / 2 - 60, 10, 120, 50), "Create your Game");
+			GUI.Label(new Rect(10, 10, Screen.width - 20, 50), "Create your Game", GUIMaster.heading.label);
 		
 			//Back
 			if (buttons[11].Clicked)
@@ -474,8 +442,8 @@ public class cscript_navigation : MonoBehaviour
 				buttons[13].Leave ();
 			}
 			
-			gameName = GUI.TextField (new Rect((Screen.width / 4 - 10) / 2, 60, Screen.width / 4, 20), gameName);
-			authorName = GUI.TextField (new Rect((Screen.width / 4 - 10) * 2.5f, 60, Screen.width / 4, 20), authorName);
+			gameName = GUI.TextField (new Rect((Screen.width / 4 - 10) / 2, 60, Screen.width / 4, 20), gameName, GUIMaster.createGameTextFields.textField);
+			authorName = GUI.TextField (new Rect((Screen.width / 4 - 10) * 2.5f, 60, Screen.width / 4, 20), authorName, GUIMaster.createGameTextFields.textField);
 			
 			//Get Background Button - Opens the Pop-Up to allow the user to choose an image input method:
 			if (buttons[12].Clicked)
@@ -502,87 +470,17 @@ public class cscript_navigation : MonoBehaviour
 			g[0] = new GUIContent(GUIMaster.footballIcon);
 			g[1] = new GUIContent(GUIMaster.planeIcon);
 			g[2] = new GUIContent(GUIMaster.trainIcon);
-			selectedCreateGame = GUI.SelectionGrid (new Rect(Screen.width / 4, 100, Screen.width / 2 - 10, 60), selectedCreateGame, g, 3);
+			selectedCreateGame = GUI.SelectionGrid (new Rect(Screen.width / 2 - 100, 80, 200, 60), selectedCreateGame, g, 3);
 			
 			GUI.skin = tempSkin;
-			
-			//Add Question System
-			int position = 0;
-			
-			for (int i = 0; i < questions.Count; i++, position++)
-			{
-				// Open existing question.
-				if (questionButtons[i].Clicked)
-				{
-					questionPosition = i;
-					
-					multipleChoiceQuestion = questions[i].text;
-					answers.AddRange (questions[i].answers);
-					
-					answerButtons.Clear ();
-					
-					for (int j = 0; j < answers.Count; j++)
-					{
-						Debug.Log (answers.Count);
-						if (answerButtons.Count > 0)
-						{
-							if (answerButtons[answerButtons.Count-1].targetPosition.x + 220 > Screen.width)
-							{
-								Debug.Log ("New Row");
-								//Adding new row.
-								answerButtons.Add (new FancyButton(answers[j].text, 10, answerButtons[answerButtons.Count-1].targetPosition.y + 110, 100, 100, 0.2f + j / 10f, 2));
-							}
-							else
-							{
-								Debug.Log ("Add Normal");
-								//Add Normal
-								answerButtons.Add (new FancyButton(answers[j].text, answerButtons[answerButtons.Count-1].targetPosition.x + 110, answerButtons[answerButtons.Count-1].targetPosition.y, 100, 100, 0.2f + j / 10f, 2));
-							}
-						}
-						else
-							answerButtons.Add (new FancyButton(answers[j].text, 10, 180, 100, 100, 0.2f + j / 10f, 2));
-//						
-						//answerButtons.Add (new FancyButton(answers[j].text, 10 * (j + 1) + j * 100, 180, 100, 100, 0.2f + j / 10f, 2));
-						answerButtons[j].Enter ();
-					}
-					
-					addQuestion = true;
-					buttons[12].Leave ();
-					break;
-				}
-			}
-			
-			//Creates new question.
-			if (questionButtons.Count > 0)
-			{
-				if (GUI.Button (new Rect(questionButtons[questionButtons.Count - 1].targetPosition.x + 110, questionButtons[questionButtons.Count - 1].targetPosition.y, 100, 100), "Add Question"))
-				{
-					questionPosition = questions.Count + 1;
-					addQuestion = true;
-					ResetQuestionCreation ();
-					
-					buttons[12].Leave ();
-				}
-			}
-			else
-			{
-				if (GUI.Button (new Rect(10 * (position + 1) + position * 100, 250, 100, 100), "Add Question"))
-				{
-					questionPosition = questions.Count + 1;
-					addQuestion = true;
-					ResetQuestionCreation ();
-					
-					buttons[12].Leave ();
-				}
-			}
-			
+
 			//Save
 			if (buttons[13].Clicked)
 			{
 				//Saves the currently open game.
 				Debug.Log ("Saving Game");
 				
-				Game game = new Game(gameName, authorName, selectedCreateGame.ToString (), questions.ToArray (), background);
+				Game game = new Game(gameName, authorName, selectedCreateGame.ToString (), new Question[] { new Question(multipleChoiceQuestion, answers.ToArray ()) }, background);
 				game.GameToXML ();
 				
 				ResetGameCreation();
@@ -654,9 +552,8 @@ public class cscript_navigation : MonoBehaviour
 //					}
 				}
 			}
-		}
-		else
-		{			
+			
+			#region Answers Start
 			if (buttons[11].Clicked)
 			{
 				addQuestion = false;
@@ -669,7 +566,7 @@ public class cscript_navigation : MonoBehaviour
 				}
 			}
 			
-			multipleChoiceQuestion = GUI.TextArea (new Rect((Screen.width / 4 - 10) * 1.5f, 60, Screen.width / 4, 20), multipleChoiceQuestion);
+			multipleChoiceQuestion = GUI.TextArea (new Rect((Screen.width / 4) * 1.5f, 220, Screen.width / 4, 20), multipleChoiceQuestion, GUIMaster.createGameTextFields.textField);
 
 			//Add Answer System
 			int position = 0;
@@ -686,146 +583,14 @@ public class cscript_navigation : MonoBehaviour
 				else
 					answerButtons[i].SetSkin (GUIMaster.incorrectAnswer);
 
-				if (GUI.Button (new Rect(answerButtons[i].Position.x + 85, answerButtons[i].Position.y - 10, 25, 25), GUIMaster.bin))
+				if (GUI.Button (new Rect(answerButtons[i].Position.x + 85, answerButtons[i].Position.y - 10, 25, 25), "", GUIMaster.deleteButton.button))
 				{
 					answers.RemoveAt(i);
-					answerButtons.Clear ();
-					
-					for (int j = 0; j < answers.Count; j++)
-					{
-						if (answerButtons.Count > 0)
-						{
-							if (answerButtons[answerButtons.Count-1].targetPosition.x + 220 > Screen.width)
-							{
-								Debug.Log ("New Row");
-								//Adding new row.
-								answerButtons.Add (new FancyButton(answers[j].text, 10, answerButtons[answerButtons.Count-1].targetPosition.y + 110, 100, 100, 0.2f + j / 10f, 2));
-							}
-							else
-							{
-								Debug.Log ("Add Normal");
-								//Add Normal
-								answerButtons.Add (new FancyButton(answers[j].text, answerButtons[answerButtons.Count-1].targetPosition.x + 110, answerButtons[answerButtons.Count-1].targetPosition.y, 100, 100, 0.2f + j / 10f, 2));
-							}
-						}
-						else
-							answerButtons.Add (new FancyButton(answers[j].text, 10, 180, 100, 100, 0.2f + j / 10f, 2));
-						
-						answerButtons[j].Unhide ();
-					}
+					CreateFancyAnswerButtons(false);
 				}
 			}
-
-			if (answerButtons.Count > 0)
-			{
-				//new Rect(25 + 10 * (position + 1) + position * 100, 225, 100, 50)
-				//Save Answer
-				if (GUI.Button (new Rect(answerButtons[answerButtons.Count - 1].targetPosition.x + 125, answerButtons[answerButtons.Count - 1].targetPosition.y + 50, 100, 50), "Add Answer"))
-				{
-					if (answer == "Add Answer Text Here")
-						answer = "";
-					
-					if (answerImage != null)
-						answers.Add (new Answer(false, answer, answerImage));
-					else
-						answers.Add (new Answer(false, answer));
-					
-					if (answerButtons.Count > 0)
-					{
-						if (answerButtons[answerButtons.Count-1].targetPosition.x + 220 > Screen.width)
-						{
-							Debug.Log ("New Row");
-							//Adding new row.
-							answerButtons.Add (new FancyButton(answer, 10, answerButtons[answerButtons.Count-1].targetPosition.y + 110, 100, 100, 0.2f, 2));
-						}
-						else
-						{
-							Debug.Log ("Add Normal");
-							//Add Normal
-							answerButtons.Add (new FancyButton(answer, answerButtons[answerButtons.Count-1].targetPosition.x + 110, answerButtons[answerButtons.Count-1].targetPosition.y, 100, 100, 0.2f, 2));
-						}
-					}
-					else
-						answerButtons.Add (new FancyButton(answer, 10, 180, 100, 100, 0.2f + position / 10f, 2));
-					
-					//answerButtons.Add (new FancyButton(answer, 10 * (position + 1) + position * 100, 180, 100, 100, 0.2f, 2));	// No extra delay on creation.
-					answerButtons[position].Enter ();
-					
-					answer = "Add Answer Text Here";
-				}
-				
-				//new Rect(answerButtons[answerButtons.Count - 1].targetPosition.x + 135, answerButtons[answerButtons.Count - 1].targetPosition.y + 50, 100, 50)
-				answer = GUI.TextArea (new Rect(answerButtons[answerButtons.Count - 1].targetPosition.x + 100, answerButtons[answerButtons.Count - 1].targetPosition.y, 145, 20), answer);
 			
-				if (GUI.Button(new Rect(answerButtons[answerButtons.Count - 1].targetPosition.x + 100, answerButtons[answerButtons.Count - 1].targetPosition.y + 30, 145, 20), "Click to Add Image"))
-				{
-					if (Application.platform == RuntimePlatform.IPhonePlayer) 
-					{
-						imageAnswerChoiceMenu = true;
-					}
-					else
-					{
-						//For debug purposes.
-						answerImage = new Texture2D(1, 1);
-						answerImage.SetPixel (0, 0, Color.red);
-						answerImage.Apply ();
-					}
-				}
-			}
-			else
-			{
-				//Save Answer
-				if (GUI.Button (new Rect(25 + 10 * (position + 1) + position * 100, 225, 100, 50), "Add Answer"))
-				{
-					if (answer == "Add Answer Text Here")
-						answer = "";
-					
-					if (answerImage != null)
-						answers.Add (new Answer(false, answer, answerImage));
-					else
-						answers.Add (new Answer(false, answer));
-					
-					if (answerButtons.Count > 0)
-					{
-						if (answerButtons[answerButtons.Count-1].targetPosition.x + 220 > Screen.width)
-						{
-							Debug.Log ("New Row");
-							//Adding new row.
-							answerButtons.Add (new FancyButton(answer, 10, answerButtons[answerButtons.Count-1].targetPosition.y + 110, 100, 100, 0.2f, 2));
-						}
-						else
-						{
-							Debug.Log ("Add Normal");
-							//Add Normal
-							answerButtons.Add (new FancyButton(answer, answerButtons[answerButtons.Count-1].targetPosition.x + 110, answerButtons[answerButtons.Count-1].targetPosition.y, 100, 100, 0.2f, 2));
-						}
-					}
-					else
-						answerButtons.Add (new FancyButton(answer, 10, 180, 100, 100, 0.2f + position / 10f, 2));
-					
-					//answerButtons.Add (new FancyButton(answer, 10 * (position + 1) + position * 100, 180, 100, 100, 0.2f, 2));	// No extra delay on creation.
-					answerButtons[position].Enter ();
-					
-					answer = "Add Answer Text Here";
-				}
-				
-				answer = GUI.TextArea (new Rect(10 * (position + 1) + position * 100, 200, 145, 20), answer);
-			
-				if (GUI.Button(new Rect(10 * (position + 1) + position * 100, 170, 145, 20), "Click to Add Image"))
-				{
-					if (Application.platform == RuntimePlatform.IPhonePlayer) 
-					{
-						imageAnswerChoiceMenu = true;
-					}
-					else
-					{
-						//For debug purposes.
-						answerImage = new Texture2D(1, 1);
-						answerImage.SetPixel (0, 0, Color.red);
-						answerImage.Apply ();
-					}
-				}
-			}
+			DrawAddAnswerStuff();
 			
 			//Open Answer Image Popup:
 			//Gets the background from camera roll or camera.
@@ -836,7 +601,6 @@ public class cscript_navigation : MonoBehaviour
 					Debug.Log(jG.MessageBox(0, "Add Background", new string[] {"Use Camera", "Use Camera Roll"}));
 					switch (jG.MessageBox(0, "Add Background", new string[] {"Use Camera", "Use Camera Roll"}))
 					{
-						
 						case 0:
 						Debug.Log ("Case0");
 							imageAnswerChoiceMenu = false;
@@ -857,15 +621,17 @@ public class cscript_navigation : MonoBehaviour
 	
 						break;
 					}
-					
 				}
 			}
 			
-			GUI.Label (new Rect(Screen.width / 4 - 42, 330, Screen.width - 40, 20), "Tap on object once for incorrect answer, double tap for correct, flick away to delete");
+			//Instruction Text
+			GUI.skin.label.alignment = TextAnchor.UpperCenter;
+			GUI.Label (new Rect(10, Screen.height - 60, Screen.width - 20, 20), "<color=#f4b4b4>Tap on object once for incorrect answer,</color> <color=#c8e9ac>double tap for correct,</color> <color=#9ac8fd>flick away to delete</color>");
+			GUI.skin.label.alignment = TextAnchor.UpperLeft;
 			
 			if (buttons[13].Clicked)
 			{
-				if (questionPosition > questions.Count)
+				if (true)
 				{
 					questions.Add(new Question(multipleChoiceQuestion, answers.ToArray ()));
 					
@@ -895,7 +661,7 @@ public class cscript_navigation : MonoBehaviour
 				{
 					//questions[questionPosition] = new Question(multipleChoiceQuestion, answers.ToArray ());
 					//questionButtons[questionPosition] = new FancyButton(multipleChoiceQuestion, 10 * questionPosition + (questionPosition - 1) * 100, 250, 100, 100, 0.2f + questionPosition / 10f, 2);
-					questions[questionPosition] = new Question(multipleChoiceQuestion, answers.ToArray ());
+					questions[0] = new Question(multipleChoiceQuestion, answers.ToArray ());
 				}
 				
 				addQuestion = false;
@@ -908,6 +674,10 @@ public class cscript_navigation : MonoBehaviour
 				}
 			}
 		}
+		else
+		{
+		}
+		#endregion
 		
 		// Once again, doesnt affect performance and ensures question buttons leave when this function stops running.
 		if (addQuestion || master.gameState != cscript_master.GameState.CreateGame)
@@ -1005,6 +775,105 @@ public class cscript_navigation : MonoBehaviour
 		gameBackgrounds[0] = games[position].background;
 		gameBackgrounds[1] = games[position + 1].background;
 		gameBackgrounds[2] = games[position + 2].background;
+	}
+	
+	public void CreateFancyAnswerButtons(bool show)
+	{
+		answerButtons.Clear ();
+		
+		for (int j = 0; j < answers.Count; j++)
+		{
+			if (answerButtons.Count > 0)
+			{
+				if (answerButtons[answerButtons.Count-1].targetPosition.x + 220 > Screen.width)
+				{
+					Debug.Log ("New Row");
+					//Adding new row.
+					answerButtons.Add (new FancyButton(answers[j].text, 10, answerButtons[answerButtons.Count-1].targetPosition.y + 110, 100, 100, 0.2f + j / 10f, 2));
+				}
+				else
+				{
+					Debug.Log ("Add Normal - Create");
+					//Add Normal
+					answerButtons.Add (new FancyButton(answers[j].text, answerButtons[answerButtons.Count-1].targetPosition.x + 110, answerButtons[answerButtons.Count-1].targetPosition.y, 100, 100, 0.2f + j / 10f, 2));
+				}
+			}
+			else
+				answerButtons.Add (new FancyButton(answers[j].text, 10, 250, 100, 100, 0.2f + j / 10f, 2));
+
+			if (show == true)
+				answerButtons[j].Enter ();
+			else
+				answerButtons[j].Unhide ();
+		}
+	}
+	
+	public void AddFancyAnswerButton()
+	{
+		if (answerButtons.Count > 0)
+		{
+			if (answerButtons[answerButtons.Count-1].targetPosition.x + 220 > Screen.width)
+			{
+				Debug.Log ("New Row");
+				//Adding new row.
+				answerButtons.Add (new FancyButton(answer, 10, answerButtons[answerButtons.Count-1].targetPosition.y + 110, 100, 100, 0.2f, 2));
+			}
+			else
+			{
+				Debug.Log ("Add Normal - Add");
+				//Add Normal
+				answerButtons.Add (new FancyButton(answer, answerButtons[answerButtons.Count-1].targetPosition.x + 110, answerButtons[answerButtons.Count-1].targetPosition.y, 100, 100, 0.2f, 2));
+			}
+		}
+		else
+			answerButtons.Add (new FancyButton(answer, 10, 250, 100, 100, 0.2f + position / 10f, 2));
+		
+		//answerButtons.Add (new FancyButton(answer, 10 * (position + 1) + position * 100, 180, 100, 100, 0.2f, 2));	// No extra delay on creation.
+		answerButtons[answerButtons.Count - 1].Enter ();
+		
+		answer = "Add Answer Text Here";
+	}
+	
+	public void DrawAddAnswerStuff()
+	{
+		float x = -100;
+		float y = 250;
+		
+		if (answerButtons.Count > 0)
+		{
+			x = answerButtons[answerButtons.Count - 1].targetPosition.x;
+			y = answerButtons[answerButtons.Count - 1].targetPosition.y;
+		}
+		
+		if (GUI.Button (new Rect(x + 125, y + 50, 100, 50), "Add Answer", GUIMaster.saveButton.button))
+		{
+			if (answer == "Add Answer Text Here")
+				answer = "";
+			
+			if (answerImage != null)
+				answers.Add (new Answer(false, answer, answerImage));
+			else
+				answers.Add (new Answer(false, answer));
+			
+			AddFancyAnswerButton ();
+		}
+
+		answer = GUI.TextArea (new Rect(x + 100, y, 145, 20), answer, GUIMaster.createGameTextFields.textField);
+	
+		if (GUI.Button(new Rect(x + 100, y + 30, 145, 20), "Click to Add Image", GUIMaster.saveButton.button))
+		{
+			if (Application.platform == RuntimePlatform.IPhonePlayer) 
+			{
+				imageAnswerChoiceMenu = true;
+			}
+			else
+			{
+				//For debug purposes.
+				answerImage = new Texture2D(1, 1);
+				answerImage.SetPixel (0, 0, Color.red);
+				answerImage.Apply ();
+			}
+		}
 	}
 	
 	//-----------------------\\

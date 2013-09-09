@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System;
 using System.Collections;
 
@@ -97,7 +97,7 @@ public class cscript_game_test : MonoBehaviour {
 	
 	private void NewQuestion()
 	{
-		currentQuestion = game.GetRandomQuestion ();
+		currentQuestion = game.GetQuestion ();
 		currentQuestion.RandomizeAnswers ();
 	}
 	

@@ -60,6 +60,7 @@
      <Compile Include="Assets\Scripts\Unity Scripts\cscript_game_test.cs" />
      <Compile Include="Assets\Scripts\Unity Scripts\cscript_master.cs" />
      <Compile Include="Assets\Scripts\Unity Scripts\cscript_menus.cs" />
+     <Compile Include="Assets\Scripts\Unity Scripts\cscript_sound_master.cs" />
      <None Include="Assets\Resources\Game Files\Word Train.xml" />
      <None Include="Assets\Game Files\Has an Image.xml" />
      <None Include="Assets\Resources\Game Files\Multiplication Football.xml" />
