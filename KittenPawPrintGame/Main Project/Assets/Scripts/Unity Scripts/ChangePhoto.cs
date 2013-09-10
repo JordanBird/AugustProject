@@ -9,7 +9,7 @@ public class ChangePhoto : MonoBehaviour {
 
 	private int textureWidth;
 	private int textureHeight;
-	private bool saveAsPng = false;
+	private bool saveAsPng = true;
 
 	private string lastMessage = "";
 

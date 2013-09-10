@@ -1,11 +1,11 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Unity Scripts\cscript_menus.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Unity Scripts/cscript_photo_game.cs">
     <Files>
-      <File FileName="Assets\Scripts\Unity Scripts\cscript_menus.cs" Line="101" Column="50" />
-      <File FileName="Assets\Scripts\Classes\Game.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Unity Scripts\cscript_GUI_master.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Unity Scripts\cscript_sound_master.cs" Line="15" Column="2" />
+      <File FileName="Assets/Scripts/Unity Scripts/cscript_photo_game.cs" Line="95" Column="85" />
+      <File FileName="Assets/Scripts/Unity Scripts/cscript_master.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Unity Scripts/cscript_menus.cs" Line="472" Column="26" />
+      <File FileName="Assets/Scripts/Unity Scripts/ChangePhoto.cs" Line="124" Column="3" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
