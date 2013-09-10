@@ -48,7 +48,7 @@ public class cscript_master : MonoBehaviour
 		switch (currentGame.type)
 		{
 			case "0":
-				game0.GetComponent<cscript_game_test>().Begin (currentGame, this);
+				game0.GetComponent<cscript_photo_game>().Begin (currentGame, this);
 				break;
 		}
 	}
@@ -64,15 +64,15 @@ public class cscript_master : MonoBehaviour
 		{
 			case "0":
 				GameObject temp0 = Instantiate (game0, Vector3.zero, Quaternion.identity) as GameObject;
-				temp0.GetComponent<cscript_game_test>().Begin (currentGame, this);
+				temp0.GetComponent<cscript_photo_game>().Begin (currentGame, this);
 				break;
 			case "1":
 				GameObject temp1 = Instantiate (game1, Vector3.zero, Quaternion.identity) as GameObject;
-				temp1.GetComponent<cscript_game_test>().Begin (currentGame, this);
+				temp1.GetComponent<cscript_photo_game>().Begin (currentGame, this);
 				break;
 			case "2":
 				GameObject temp2 = Instantiate (game2, Vector3.zero, Quaternion.identity) as GameObject;
-				temp2.GetComponent<cscript_game_test>().Begin (currentGame, this);
+				temp2.GetComponent<cscript_photo_game>().Begin (currentGame, this);
 				break;
 		}
 	}
