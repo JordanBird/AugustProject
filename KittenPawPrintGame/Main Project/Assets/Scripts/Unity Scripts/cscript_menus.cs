@@ -159,11 +159,11 @@ public class cscript_navigation : MonoBehaviour
 		{
 			if (questionButtons[i].Skin == null)
 			{
-				questionButtons[i].Clicked = GUI.Button (questionButtons[i].GetRectangle(), questionButtons[i].Text);
+				questionButtons[i].Clicked = GUI.Button (questionButtons[i].GetRectangle(), questionButtons[i].Content);
 			}
 			else
 			{
-				questionButtons[i].Clicked = GUI.Button (questionButtons[i].GetRectangle(), questionButtons[i].Text, questionButtons[i].Skin.button);
+				questionButtons[i].Clicked = GUI.Button (questionButtons[i].GetRectangle(), questionButtons[i].Content, questionButtons[i].Skin.button);
 			}
 		}
 		
@@ -171,11 +171,11 @@ public class cscript_navigation : MonoBehaviour
 		{
 			if (answerButtons[i].Skin == null)
 			{
-				answerButtons[i].Clicked = GUI.Button (answerButtons[i].GetRectangle(), answerButtons[i].Text);
+				answerButtons[i].Clicked = GUI.Button (answerButtons[i].GetRectangle(), answerButtons[i].Content);
 			}
 			else
 			{
-				answerButtons[i].Clicked = GUI.Button (answerButtons[i].GetRectangle(), answerButtons[i].Text, answerButtons[i].Skin.button);
+				answerButtons[i].Clicked = GUI.Button (answerButtons[i].GetRectangle(), answerButtons[i].Content, answerButtons[i].Skin.button);
 			}
 		}
 		
@@ -201,11 +201,11 @@ public class cscript_navigation : MonoBehaviour
 		{
 			if (buttons[i].Skin == null)
 			{
-				buttons[i].Clicked = GUI.Button (buttons[i].GetRectangle(), buttons[i].Text);
+				buttons[i].Clicked = GUI.Button (buttons[i].GetRectangle(), buttons[i].Content);
 			}
 			else
 			{
-				buttons[i].Clicked = GUI.Button (buttons[i].GetRectangle(), buttons[i].Text, buttons[i].Skin.button);
+				buttons[i].Clicked = GUI.Button (buttons[i].GetRectangle(), buttons[i].Content, buttons[i].Skin.button);
 			}
 		}
 		
@@ -558,7 +558,6 @@ public class cscript_navigation : MonoBehaviour
 			{
 				addQuestion = false;
 				answers = new List<Answer>();
-				buttons[12].Enter ();
 				
 				for (int i = 0; i < answerButtons.Count; i++)
 				{
@@ -783,23 +782,30 @@ public class cscript_navigation : MonoBehaviour
 		
 		for (int j = 0; j < answers.Count; j++)
 		{
+			GUIContent content;
+			
+			if (answers[j].type == 1)
+				content = new GUIContent(answers[j].texture);
+			else
+				content = new GUIContent(answers[j].text);
+			
 			if (answerButtons.Count > 0)
 			{
 				if (answerButtons[answerButtons.Count-1].targetPosition.x + 220 > Screen.width)
 				{
 					Debug.Log ("New Row");
 					//Adding new row.
-					answerButtons.Add (new FancyButton(answers[j].text, 10, answerButtons[answerButtons.Count-1].targetPosition.y + 110, 100, 100, 0.2f + j / 10f, 2));
+					answerButtons.Add (new FancyButton(content, 10, answerButtons[answerButtons.Count-1].targetPosition.y + 110, 100, 100, 0.2f + j / 10f, 2));
 				}
 				else
 				{
 					Debug.Log ("Add Normal - Create");
 					//Add Normal
-					answerButtons.Add (new FancyButton(answers[j].text, answerButtons[answerButtons.Count-1].targetPosition.x + 110, answerButtons[answerButtons.Count-1].targetPosition.y, 100, 100, 0.2f + j / 10f, 2));
+					answerButtons.Add (new FancyButton(content, answerButtons[answerButtons.Count-1].targetPosition.x + 110, answerButtons[answerButtons.Count-1].targetPosition.y, 100, 100, 0.2f + j / 10f, 2));
 				}
 			}
 			else
-				answerButtons.Add (new FancyButton(answers[j].text, 10, 250, 100, 100, 0.2f + j / 10f, 2));
+				answerButtons.Add (new FancyButton(content, 10, 250, 100, 100, 0.2f + j / 10f, 2));
 
 			if (show == true)
 				answerButtons[j].Enter ();
@@ -810,19 +816,26 @@ public class cscript_navigation : MonoBehaviour
 	
 	public void AddFancyAnswerButton()
 	{
+		GUIContent content;
+		
+		if (answerImage != null)
+			content = new GUIContent(answerImage);
+		else
+			content = new GUIContent(answer);
+		
 		if (answerButtons.Count > 0)
 		{
 			if (answerButtons[answerButtons.Count-1].targetPosition.x + 220 > Screen.width)
 			{
 				Debug.Log ("New Row");
 				//Adding new row.
-				answerButtons.Add (new FancyButton(answer, 10, answerButtons[answerButtons.Count-1].targetPosition.y + 110, 100, 100, 0.2f, 2));
+				answerButtons.Add (new FancyButton(content, 10, answerButtons[answerButtons.Count-1].targetPosition.y + 110, 100, 100, 0.2f, 2));
 			}
 			else
 			{
 				Debug.Log ("Add Normal - Add");
 				//Add Normal
-				answerButtons.Add (new FancyButton(answer, answerButtons[answerButtons.Count-1].targetPosition.x + 110, answerButtons[answerButtons.Count-1].targetPosition.y, 100, 100, 0.2f, 2));
+				answerButtons.Add (new FancyButton(content, answerButtons[answerButtons.Count-1].targetPosition.x + 110, answerButtons[answerButtons.Count-1].targetPosition.y, 100, 100, 0.2f, 2));
 			}
 		}
 		else
@@ -832,6 +845,7 @@ public class cscript_navigation : MonoBehaviour
 		answerButtons[answerButtons.Count - 1].Enter ();
 		
 		answer = "Add Answer Text Here";
+		answerImage = null;
 	}
 	
 	public void DrawAddAnswerStuff()

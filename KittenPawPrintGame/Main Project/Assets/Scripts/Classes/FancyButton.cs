@@ -5,7 +5,7 @@ public class FancyButton
 {
 	public bool Clicked { get; set; }
 	public Vector2 Position { get; private set; }
-	public string Text { get; private set; }
+	public GUIContent Content { get; private set; }
 	public int Width { get; private set; }
 	public int Height { get; private set; }
 	public GUISkin Skin { get; private set; }
@@ -18,7 +18,7 @@ public class FancyButton
 	
 	public FancyButton(string text, float targetX, float targetY, int width, int height, float introDelay, int side)
 	{
-		Text = text;
+		Content = new GUIContent(text);
 		Width = width;
 		Height = height;
 		this.introDelay = introDelay;	
@@ -52,12 +52,81 @@ public class FancyButton
 	
 	public FancyButton(string text, float targetX, float targetY, int width, int height, float introDelay, int side, GUISkin iGUISkin)
 	{
-		Text = text;
+		Content = new GUIContent(text);
 		Width = width;
 		Height = height;
 		this.introDelay = introDelay;	
 		targetPosition = startPosition = new Vector2(targetX, targetY);
 		Skin = iGUISkin;
+	
+		switch (side)
+		{
+			// Top
+			case 0:
+				startPosition.y = -Height;
+				break;
+			
+			// Right
+			case 1:
+				startPosition.x = Screen.width;
+				break;
+			
+			// Bottom
+			case 2:
+				startPosition.y = Screen.height;
+				break;
+			
+			// Left
+			case 3:
+				startPosition.x = -Width;
+				break;
+		}
+		
+		Position = startPosition;
+	}
+	
+	public FancyButton(GUIContent g, float targetX, float targetY, int width, int height, float introDelay, int side, GUISkin iGUISkin)
+	{
+		Content = g;
+		Width = width;
+		Height = height;
+		this.introDelay = introDelay;	
+		targetPosition = startPosition = new Vector2(targetX, targetY);
+		Skin = iGUISkin;
+	
+		switch (side)
+		{
+			// Top
+			case 0:
+				startPosition.y = -Height;
+				break;
+			
+			// Right
+			case 1:
+				startPosition.x = Screen.width;
+				break;
+			
+			// Bottom
+			case 2:
+				startPosition.y = Screen.height;
+				break;
+			
+			// Left
+			case 3:
+				startPosition.x = -Width;
+				break;
+		}
+		
+		Position = startPosition;
+	}
+	
+	public FancyButton(GUIContent g, float targetX, float targetY, int width, int height, float introDelay, int side)
+	{
+		Content = g;
+		Width = width;
+		Height = height;
+		this.introDelay = introDelay;	
+		targetPosition = startPosition = new Vector2(targetX, targetY);
 	
 		switch (side)
 		{
