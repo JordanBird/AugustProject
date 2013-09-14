@@ -6,40 +6,29 @@ public class AnswerSpawner : MonoBehaviour
 {
 	public Transform AnswerPrefab;
 	public float SpawnDelay;
-	public float TransitionDelay;
+	public bool Running { get; private set; }
 	
 	private float spawnTimer = 0;
-	private float transitionTimer = 0;
-	private bool transitioning = true;
-	private Question currentQuestion;
 	private List<Answer> answerBatch = new List<Answer>();
 	private List<Answer> correctAnswers = new List<Answer>();
 	private List<Transform> answerObjects = new List<Transform>();
+	private cscript_plane_game controller;
 	
-	private Game game;
+	private Question currentQuestion { get { return controller.currentQuestion; } }
 	
 	void Start ()
 	{
-		//DEBUG
-		currentQuestion = new Question("DEBUGDEBUGDEBUG?",
-			new Answer[] { new Answer(false, "false0"), new Answer(false, "false1"), new Answer(true, "true0"), new Answer(true, "true1"), new Answer(true, "true2") });
+	}
+	
+	public void Begin(cscript_plane_game controller)
+	{
+		this.controller = controller;
+		Running = true;
 	}
 	
 	void Update ()
 	{
-		if (transitioning)
-		{
-			// Display question text of next question until transition has finished? Darken screen during this to divert attention from the game towards the text?
-			
-			transitionTimer += Time.deltaTime;
-			if (transitionTimer >= TransitionDelay)
-			{
-				transitionTimer = 0;
-				
-				transitioning = false;
-			}
-		}
-		else
+		if (Running)
 		{
 			spawnTimer += Time.deltaTime;
 			if (spawnTimer >= SpawnDelay)
@@ -48,25 +37,31 @@ public class AnswerSpawner : MonoBehaviour
 				
 				SpawnNextAnswer();
 			}
-		}
+			
 		
-		for (int i = 0; i < answerObjects.Count; i++)
-		{
-			answerObjects[i].position += new Vector3(-0.1f, 0, 0);
+			for (int i = 0; i < answerObjects.Count; i++)
+			{
+				answerObjects[i].position += new Vector3(-0.1f, 0, 0);
+				
+				if (answerObjects[i].position.x < -15)
+				{
+					Destroy(answerObjects[i].gameObject);
+					answerObjects.RemoveAt(i);
+					i--;
+				}
+			}
 		}
-		
 	}
 	
 	private void SpawnNextAnswer()
 	{		
 		if (answerBatch.Count == 0)
 		{
-			// If the number of correct answers is equal to the correct answers collected, the player can proceed to the next question.
+			// If the number of correct answers is equal to the correct answers collected, the player has won.
 			if (currentQuestion == null || currentQuestion.GetNumberOfCorrectAnswers() == correctAnswers.Count)
 			{
-				LoadNextQuestion();
-				transitioning = true;
-				spawnTimer = 0;
+				Running = false;
+				controller.WinGame();
 				return;
 			}
 			
@@ -93,7 +88,7 @@ public class AnswerSpawner : MonoBehaviour
 		int answer = Random.Range(0, answerBatch.Count);
 		
 		// Add a new AnswerCollectable prefab with the text set to the answer's text.
-		AnswerPrefab.position = new Vector3(10, Random.Range (-5, 5), 0);
+		AnswerPrefab.position = new Vector3(10, Random.Range (-3, 3), 0);
 		AnswerPrefab.GetComponent<TextMesh>().text = answerBatch[answer].text;
 		answerObjects.Add ((Transform)Instantiate(AnswerPrefab));
 		
@@ -101,8 +96,41 @@ public class AnswerSpawner : MonoBehaviour
 		answerBatch.RemoveAt (answer);
 	}
 	
-	private void LoadNextQuestion()
+	public void CheckAnswer(GameObject answerObject)
 	{
-		currentQuestion = game.GetQuestion ();
+		foreach (Answer a in answerBatch)
+		{
+			// Find the answer.
+			if (a.text == answerObject.GetComponent<TextMesh>().text)
+			{
+				if (a.correct)
+				{
+					correctAnswers.Add (a);	
+				}
+				else
+				{
+					//INCORRECT ANSWER, DO SOMETHING	
+				}				
+				break;	
+			}
+		}
+		
+		Destroy (answerObject);
+		answerObjects.Remove (answerObject.transform);
+	}
+	
+	public void Cleanup()
+	{
+		Running = false;
+		spawnTimer = 0;
+		correctAnswers.Clear ();
+		answerBatch.Clear ();
+		
+		foreach (Transform t in answerObjects)
+		{
+			Destroy (t.gameObject);	
+		}
+		
+		answerObjects.Clear ();
 	}
 }

@@ -50,6 +50,9 @@ public class cscript_master : MonoBehaviour
 			case "0":
 				game0.GetComponent<cscript_photo_game>().Begin (currentGame, this);
 				break;
+			case "1	":
+				game1.GetComponent<cscript_plane_game>().Begin (currentGame, this);
+				break;
 		}
 	}
 	
@@ -68,7 +71,7 @@ public class cscript_master : MonoBehaviour
 				break;
 			case "1":
 				GameObject temp1 = Instantiate (game1, Vector3.zero, Quaternion.identity) as GameObject;
-				temp1.GetComponent<cscript_photo_game>().Begin (currentGame, this);
+				temp1.GetComponent<cscript_plane_game>().Begin (currentGame, this);
 				break;
 			case "2":
 				GameObject temp2 = Instantiate (game2, Vector3.zero, Quaternion.identity) as GameObject;
