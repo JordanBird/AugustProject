@@ -64,6 +64,8 @@ public class cscript_navigation : MonoBehaviour
 	private bool imageInputChoiceMenu = false;
 	private bool imageAnswerChoiceMenu = false;
 	
+	FileOpener FOpener = new FileOpener();
+	
 	JGUI jG = new JGUI();
 
 	public void Init(cscript_master m)
@@ -285,6 +287,14 @@ public class cscript_navigation : MonoBehaviour
 					//Resets the game view.
 					GUIMaster.GetComponent<LoadingScreen>().Show ();
 					loadGames = true;
+				}
+				
+				//Open In Other Application
+				if (GUI.Button (new Rect(i * inc + 9 + (i * 10) + inc - 25, Screen.height - 50, 25, 25), "", GUIMaster.deleteButton.button))
+				{
+					string uri = games[i + position].location;
+					
+					FileOpener.OpenFile(100,100,uri);
 				}
 			}
 			
