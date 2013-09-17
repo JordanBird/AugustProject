@@ -217,6 +217,11 @@ public class cscript_navigation : MonoBehaviour
 	
 	private void MainMenuGUI()
 	{
+		
+		//Banners
+			GUI.DrawTexture (new Rect(0, 0, Screen.width, 64), GUIMaster.bannerTexture);
+			GUI.DrawTexture (new Rect(0, Screen.height - 100, Screen.width, 100), GUIMaster.bannerTexture);
+		
 		//GUI.Label(new Rect(10, 10, Screen.width - 20, 50), "Main Menu", GUIMaster.heading.label);
 		GUI.DrawTexture(new Rect(Screen.width / 2 - 19, 10, 38, 60), GUIMaster.iLearn2Logo);
 		float inc = (Screen.width - 40) / 3;
@@ -412,6 +417,10 @@ public class cscript_navigation : MonoBehaviour
 	
 	private void CreateGameGUI()
 	{		
+		//Banners
+			GUI.DrawTexture (new Rect(0, 0, Screen.width, 64), GUIMaster.bannerTexture);
+			GUI.DrawTexture (new Rect(0, Screen.height - 100, Screen.width, 100), GUIMaster.bannerTexture);
+		
 		if (true)
 		{
 			if (imageInputChoiceMenu == true)
@@ -651,6 +660,7 @@ public class cscript_navigation : MonoBehaviour
 			{
 				if (true)
 				{
+					soundMaster.PlaySound(soundMaster.correctAnswer);
 					questions.Add(new Question(multipleChoiceQuestion, answers.ToArray ()));
 					
 					if (questionButtons.Count > 0)
