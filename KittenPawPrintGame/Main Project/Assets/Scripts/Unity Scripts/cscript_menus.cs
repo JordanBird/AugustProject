@@ -248,6 +248,7 @@ public class cscript_navigation : MonoBehaviour
 				
 				if (buttons[6 + i].Clicked)
 				{
+					soundMaster.PlaySound (soundMaster.correctAnswer);
 					//Assign working edit variables with game's content. //MUST BE EDITED IF VARIABLES ARE ADDED OR REMOVED!!
 					gameName = games[i + position].name;
 					authorName = games[i + position].author;
@@ -279,6 +280,7 @@ public class cscript_navigation : MonoBehaviour
 				//Deletion
 				if (GUI.Button (new Rect(i * inc + 9 + (i * 10) + inc - 25, Screen.height - 90, 25, 25), "", GUIMaster.deleteButton.button))
 				{
+					soundMaster.PlaySound (soundMaster.incorrectAnswer);
 					File.Delete (games[i + position].location);
 					
 					if (position >= games.Length - 3)
@@ -290,7 +292,7 @@ public class cscript_navigation : MonoBehaviour
 				}
 				
 				//Open In Other Application
-				if (GUI.Button (new Rect(i * inc + 9 + (i * 10) + inc - 25, Screen.height - 50, 25, 25), "", GUIMaster.deleteButton.button))
+				if (GUI.Button (new Rect(i * inc + 9 + (i * 10) + inc - 55, Screen.height - 90, 25, 25), "", GUIMaster.openIn.button))
 				{
 					string uri = games[i + position].location;
 					
@@ -305,7 +307,7 @@ public class cscript_navigation : MonoBehaviour
 				{
 					buttons[b].Leave();
 				}
-				
+				soundMaster.PlaySound (soundMaster.correctAnswer);
 				master.StartGame (games[i + position]);
 				break;
 			}
@@ -351,6 +353,7 @@ public class cscript_navigation : MonoBehaviour
 		
 		if (buttons[2].Clicked)
 		{
+			soundMaster.PlaySound (soundMaster.correctAnswer);
 			master.gameState = cscript_master.GameState.CreateGame;
 			
 			for (int i = 0; i < 11; i++)
@@ -375,7 +378,7 @@ public class cscript_navigation : MonoBehaviour
 		if (buttons[11].Clicked)
 		{
 			master.gameState = cscript_master.GameState.MainMenu;
-			
+			soundMaster.PlaySound (soundMaster.correctAnswer);
 			GUIMaster.GetComponent<LoadingScreen>().Show ();
 			loadGames = true;
 			
@@ -395,6 +398,7 @@ public class cscript_navigation : MonoBehaviour
 		if (buttons[11].Clicked)
 		{
 			master.gameState = cscript_master.GameState.MainMenu;
+			soundMaster.PlaySound (soundMaster.correctAnswer);
 			GUIMaster.GetComponent<LoadingScreen>().Show ();
 			loadGames = true;
 			for (int i = 0; i < 11; i++)
@@ -426,6 +430,7 @@ public class cscript_navigation : MonoBehaviour
 			//Back
 			if (buttons[11].Clicked)
 			{
+				soundMaster.PlaySound (soundMaster.correctAnswer);
 				ResetGameCreation();
 				ResetQuestionCreation ();
 				
@@ -446,6 +451,7 @@ public class cscript_navigation : MonoBehaviour
 			//Help
 			if (buttons[1].Clicked)
 			{
+				soundMaster.PlaySound (soundMaster.correctAnswer);
 				master.gameState = cscript_master.GameState.Help;
 				
 				buttons[12].Leave ();
@@ -458,6 +464,7 @@ public class cscript_navigation : MonoBehaviour
 			//Get Background Button - Opens the Pop-Up to allow the user to choose an image input method:
 			if (buttons[12].Clicked)
 			{
+				soundMaster.PlaySound (soundMaster.correctAnswer);
 				if (Application.platform == RuntimePlatform.IPhonePlayer) 
 				{
 					imageInputChoiceMenu = true;
@@ -487,6 +494,7 @@ public class cscript_navigation : MonoBehaviour
 			//Save
 			if (buttons[13].Clicked)
 			{
+				soundMaster.PlaySound (soundMaster.correctAnswer);
 				//Saves the currently open game.
 				Debug.Log ("Saving Game");
 				
@@ -594,6 +602,7 @@ public class cscript_navigation : MonoBehaviour
 
 				if (GUI.Button (new Rect(answerButtons[i].Position.x + 85, answerButtons[i].Position.y - 10, 25, 25), "", GUIMaster.deleteButton.button))
 				{
+					soundMaster.PlaySound (soundMaster.incorrectAnswer);
 					answers.RemoveAt(i);
 					CreateFancyAnswerButtons(false);
 				}
@@ -675,7 +684,7 @@ public class cscript_navigation : MonoBehaviour
 				
 				addQuestion = false;
 				answers = new List<Answer>();
-				buttons[12].Enter ();
+				//buttons[12].Enter ();
 				
 				for (int i = 0; i < answerButtons.Count; i++)
 				{

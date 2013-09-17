@@ -19,6 +19,7 @@ public class cscript_GUI_master : MonoBehaviour
 	public GUISkin createGameTextFields;
 	public GUISkin saveButton;
 	public GUISkin deleteButton;
+	public GUISkin openIn;
 	
 	public Texture2D footballIcon;
 	public Texture2D planeIcon;
