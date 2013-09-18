@@ -3,6 +3,7 @@ using System.Collections;
 
 public class cscript_plane_game : MonoBehaviour
 {
+	public Question currentQuestion { get; private set; }
 	public Transform AnswerSpawner;
 	public Transform Aeroplane;
 	public bool playing;
@@ -11,12 +12,12 @@ public class cscript_plane_game : MonoBehaviour
 	private cscript_master master;
 	private cscript_sound_master sound;
 	private Texture2D background;
-	public Question currentQuestion { get; private set; }
+	private cscript_GUI_master GUIMaster;
 	
 	// Use this for initialization
 	void Start ()
 	{
-		
+		GUIMaster = GameObject.FindGameObjectWithTag ("GUI Master").GetComponent<cscript_GUI_master>();
 	}
 	
 	// Update is called once per frame
@@ -51,8 +52,24 @@ public class cscript_plane_game : MonoBehaviour
 		AnswerSpawner.GetComponent<AnswerSpawner>().Begin (this);
 	}
 	
+	public void OnGUI()
+	{
+		//Banners
+		GUI.DrawTexture (new Rect(0, 0, Screen.width, 64), GUIMaster.bannerTexture);
+		GUI.DrawTexture (new Rect(0, Screen.height - 100, Screen.width, 100), GUIMaster.bannerTexture);
+		
+		if (GUI.Button (new Rect(10, 10, 100, 30), "Quit"))
+		{			
+			master.gameState = cscript_master.GameState.MainMenu;
+			master.gameObject.GetComponent<cscript_navigation>().MainMenuLoad ();
+			
+			Stop ();
+		}
+	}
+	
 	public void Stop()
 	{
+		Aeroplane.gameObject.SetActive(false);
 		playing = false;
 		AnswerSpawner.GetComponent<AnswerSpawner>().Cleanup();
 		Destroy (this.gameObject);

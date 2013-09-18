@@ -41,7 +41,7 @@ public class AnswerSpawner : MonoBehaviour
 		
 			for (int i = 0; i < answerObjects.Count; i++)
 			{
-				answerObjects[i].position += new Vector3(-0.1f, 0, 0);
+				answerObjects[i].position += new Vector3(-5f, 0, 0) * Time.deltaTime;
 				
 				if (answerObjects[i].position.x < -15)
 				{
@@ -88,7 +88,7 @@ public class AnswerSpawner : MonoBehaviour
 		int answer = Random.Range(0, answerBatch.Count);
 		
 		// Add a new AnswerCollectable prefab with the text set to the answer's text.
-		AnswerPrefab.position = new Vector3(10, Random.Range (-3, 3), 0);
+		AnswerPrefab.position = new Vector3(10, Random.Range (-2.5f, 5f), 0);
 		AnswerPrefab.GetComponent<TextMesh>().text = answerBatch[answer].text;
 		answerObjects.Add ((Transform)Instantiate(AnswerPrefab));
 		
@@ -132,5 +132,29 @@ public class AnswerSpawner : MonoBehaviour
 		}
 		
 		answerObjects.Clear ();
+	}
+	
+	void OnGUI()
+	{
+		Color prevColor = GUI.skin.label.normal.textColor;
+		TextAnchor prevAnchor = GUI.skin.label.alignment;
+		int prevSize = GUI.skin.label.fontSize;
+		
+		GUI.skin.label.normal.textColor = Color.black;
+		GUI.skin.label.alignment = TextAnchor.MiddleCenter;
+		GUI.skin.label.fontSize = 32 * Screen.width / 1024;
+		
+		foreach (Transform answer in answerObjects)
+		{
+			Vector3 pos = Camera.main.WorldToScreenPoint(answer.position);
+			
+			Rect scaleRect = new Rect((int)pos.x - 64, Screen.height - (int)pos.y - 64, 128, 128);
+			
+			GUI.Label (scaleRect, answer.GetComponent<TextMesh>().text);	
+		}		
+		
+		GUI.skin.label.normal.textColor = prevColor;
+		GUI.skin.label.alignment = prevAnchor;
+		GUI.skin.label.fontSize = prevSize;
 	}
 }

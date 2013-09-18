@@ -14,22 +14,18 @@ public class AeroplaneController : MonoBehaviour
 		skin = (Transform)Instantiate (SkinPrefab, transform.position, transform.rotation);
 	}
 	
-	// Update is called once per frame
-	void Update ()
-	{
-
-	}
-	
 	void OnTriggerEnter(Collider other)
 	{
 		AnswerSpawner.GetComponent<AnswerSpawner>().CheckAnswer(other.gameObject);
 	}
 	
-	void FixedUpdate()
+	void Update()
 	{
+		rigidbody.WakeUp();
+		
 		if (AnswerSpawner.GetComponent<AnswerSpawner>().Running)
 		{
-			/* DEBUG BECAUSE YOU CANT TEST ON PC WITH TILT!		
+			// DEBUG BECAUSE YOU CANT TEST ON PC WITH TILT!		
 			if (Input.GetKey (KeyCode.D))
 			{
 				tilt = Mathf.Lerp (tilt, -1, 0.1f);
@@ -38,18 +34,23 @@ public class AeroplaneController : MonoBehaviour
 			if (Input.GetKey(KeyCode.A))
 			{
 				tilt = Mathf.Lerp (tilt, 1, 0.1f);
-			}*/
+			}
+			
+			if (!Input.GetKey (KeyCode.D) && !Input.GetKey (KeyCode.A))
+			{
+				tilt = Mathf.Lerp (tilt, 0, 0.2f);	
+			}//
 			
 			// Comment out if iphone not present.
-			tilt = Input.acceleration.y;
-			tilt *= Time.fixedDeltaTime;
+			Vector3 acceleration = Input.acceleration;
+			acceleration.Normalize ();
+			//tilt = acceleration.y;
 			
 			skin.position = transform.position;
-			skin.rotation = Quaternion.Lerp (skin.rotation, Quaternion.Euler(new Vector3(0, 0,  90 + Mathf.Clamp (60 * tilt * 1000, -30, 30))), 0.1f);	// yeah....you cant rotate children so i had to make the part which rotates seperately. Go Unity!....¬___¬
+			skin.rotation = Quaternion.Lerp (skin.rotation, Quaternion.Euler(new Vector3(0, 0,  90 + Mathf.Clamp (30 * tilt, -30, 30))), 0.1f);
 			
-			rigidbody.velocity = Vector3.zero;
+			rigidbody.velocity = Vector3.up * tilt * Time.deltaTime * 400;
 			
-			rigidbody.AddForce(Vector3.up * tilt * 400);
 		}
 	}
 }
