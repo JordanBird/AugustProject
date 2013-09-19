@@ -51,7 +51,7 @@ public class AeroplaneController : MonoBehaviour
 			// Comment out if iphone not present.
 			Vector3 acceleration = Input.acceleration;
 			acceleration.Normalize ();
-			tilt = acceleration.y;
+			tilt = acceleration.x;
 			
 			skin.position = transform.position;
 			skin.rotation = Quaternion.Lerp (skin.rotation, Quaternion.Euler(new Vector3(0, 0,  90 + Mathf.Clamp (30 * tilt, -30, 30))), 0.1f);

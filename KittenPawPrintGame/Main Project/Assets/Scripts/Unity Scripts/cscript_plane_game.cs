@@ -64,6 +64,8 @@ public class cscript_plane_game : MonoBehaviour
 		GUI.DrawTexture (new Rect(0, 0, Screen.width, 80), GUIMaster.bannerTexture);
 		GUI.DrawTexture (new Rect(0, Screen.height - 100, Screen.width, 100), GUIMaster.bannerTexture);
 		
+		GUI.Label (new Rect(10, -20, Screen.width - 20, 100), currentQuestion.text, GUIMaster.questions.label);
+		
 		if (GUI.Button (new Rect(10, 10, 100, 30), "Quit"))
 		{			
 			master.gameState = cscript_master.GameState.MainMenu;
@@ -85,6 +87,9 @@ public class cscript_plane_game : MonoBehaviour
 	public void WinGame()
 	{
 		// ???
+		master.gameState = cscript_master.GameState.MainMenu;
+		master.gameObject.GetComponent<cscript_navigation>().MainMenuLoad ();
+		
 		Stop ();
 	}
 }

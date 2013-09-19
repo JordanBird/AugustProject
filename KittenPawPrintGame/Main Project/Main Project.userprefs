@@ -1,16 +1,11 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Games\Scripts\AnswerSpawner.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Resources/Game Files/Fly to the Noun.xml">
     <Files>
-      <File FileName="Assets\Games\Scripts\AnswerSpawner.cs" Line="19" Column="116" />
-      <File FileName="Assets\Games\Scripts\AnswerInfo.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Unity Scripts\cscript_menus.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Unity Scripts\cscript_photo_game.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Unity Scripts\cscript_master.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Unity Scripts\cscript_GUI_master.cs" Line="1" Column="1" />
-      <File FileName="Assets\Games\Scripts\AeroplaneController.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Unity Scripts\cscript_plane_game.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Classes\Game.cs" Line="1" Column="1" />
+      <File FileName="Assets/Games/Scripts/AeroplaneController.cs" Line="1" Column="1" />
+      <File FileName="Assets/Resources/Game Files/Fly to the Noun.xml" Line="53" Column="18" />
+      <File FileName="Assets/Scripts/Unity Scripts/cscript_photo_game.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Unity Scripts/cscript_plane_game.cs" Line="90" Column="3" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
