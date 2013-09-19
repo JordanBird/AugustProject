@@ -24,6 +24,7 @@ public class cscript_GUI_master : MonoBehaviour
 	public Texture2D footballIcon;
 	public Texture2D planeIcon;
 	public Texture2D trainIcon;
+	public Texture2D photoIcon;
 	
 	public Texture2D bannerTexture;
 	
@@ -46,7 +47,7 @@ public class cscript_GUI_master : MonoBehaviour
 		blankBlackTexture.Apply();
 		
 		bannerTexture = new Texture2D(1, 1);
-		bannerTexture.SetPixel (0, 0, new Color32(197, 198, 200, 200));
+		bannerTexture.SetPixel (0, 0, new Color32(220, 220, 220, 255));
 		bannerTexture.Apply();
 	}
 }
