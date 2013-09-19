@@ -22,6 +22,12 @@ public class AnswerSpawner : MonoBehaviour
 	{
 	}
 	
+	public int GetScore()
+	{
+		return runningScore;	
+	}
+	
+	
 	public void Begin(cscript_plane_game controller)
 	{
 		this.controller = controller;
@@ -158,8 +164,8 @@ public class AnswerSpawner : MonoBehaviour
 	{
 		if (currentQuestion != null)
 		{
-			GUI.Label (new Rect(100, 100, 600, 200), "DEBUGTEXT! Correct Answers: " + correctAnswers.Count.ToString() + "/" + currentQuestion.GetNumberOfCorrectAnswers().ToString());
-			GUI.Label (new Rect(100, 200, 600, 200), "DEBUGTEXT! Running Score  : " + runningScore.ToString());
+			GUI.Label (new Rect(10, -20, Screen.width - 20, 100), "DEBUGTEXT! Correct Answers: " + correctAnswers.Count.ToString() + "/" + currentQuestion.GetNumberOfCorrectAnswers().ToString());
+			GUI.Label (new Rect(10, -20, Screen.width - 20, 100), "DEBUGTEXT! Running Score  : " + runningScore.ToString());
 			
 			Color prevColor = GUI.skin.label.normal.textColor;
 			TextAnchor prevAnchor = GUI.skin.label.alignment;

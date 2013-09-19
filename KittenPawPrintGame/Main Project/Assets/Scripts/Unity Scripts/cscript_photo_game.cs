@@ -71,8 +71,8 @@ public class cscript_photo_game : MonoBehaviour {
 			GUI.DrawTexture (new Rect(0, 0, Screen.width, 80), GUIMaster.bannerTexture);
 			GUI.DrawTexture (new Rect(0, Screen.height - 100, Screen.width, 100), GUIMaster.bannerTexture);
 			
-			if (GUI.Button (new Rect(10, 10, 100, 30), "Quit"))
-			{
+			if (GUI.Button (new Rect(15, 15, 40, 40), "",GUIMaster.deleteButton.button))
+			{	
 				master.gameState = cscript_master.GameState.MainMenu;
 				master.gameObject.GetComponent<cscript_navigation>().MainMenuLoad ();
 				Destroy(this.gameObject);
