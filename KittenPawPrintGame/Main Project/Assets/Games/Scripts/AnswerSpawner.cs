@@ -16,7 +16,7 @@ public class AnswerSpawner : MonoBehaviour
 	private cscript_plane_game controller;
 	private int runningScore = 0;
 	
-	private Question currentQuestion { get { return controller.currentQuestion; } }
+	private Question currentQuestion { get { if (controller != null) {return controller.currentQuestion;} return null; } }
 	
 	void Start ()
 	{
@@ -156,40 +156,43 @@ public class AnswerSpawner : MonoBehaviour
 	
 	void OnGUI()
 	{
-		GUI.Label (new Rect(100, 100, 600, 200), "DEBUGTEXT! Correct Answers: " + correctAnswers.Count.ToString() + "/" + currentQuestion.GetNumberOfCorrectAnswers().ToString());
-		GUI.Label (new Rect(100, 200, 600, 200), "DEBUGTEXT! Running Score  : " + runningScore.ToString());
-		
-		Color prevColor = GUI.skin.label.normal.textColor;
-		TextAnchor prevAnchor = GUI.skin.label.alignment;
-		int prevSize = GUI.skin.label.fontSize;
-		
-		GUI.skin.label.normal.textColor = Color.black;
-		GUI.skin.label.alignment = TextAnchor.MiddleCenter;
-		GUI.skin.label.fontSize = 32 * Screen.width / 1024;
-		
-		foreach (Transform answer in answerObjects)
+		if (currentQuestion != null)
 		{
-			Vector3 pos = Camera.main.WorldToScreenPoint(answer.position);
+			GUI.Label (new Rect(100, 100, 600, 200), "DEBUGTEXT! Correct Answers: " + correctAnswers.Count.ToString() + "/" + currentQuestion.GetNumberOfCorrectAnswers().ToString());
+			GUI.Label (new Rect(100, 200, 600, 200), "DEBUGTEXT! Running Score  : " + runningScore.ToString());
 			
-			AnswerInfo info = answer.GetComponent<AnswerInfo>();
+			Color prevColor = GUI.skin.label.normal.textColor;
+			TextAnchor prevAnchor = GUI.skin.label.alignment;
+			int prevSize = GUI.skin.label.fontSize;
 			
-			if (info.UsesImage)
+			GUI.skin.label.normal.textColor = Color.black;
+			GUI.skin.label.alignment = TextAnchor.MiddleCenter;
+			GUI.skin.label.fontSize = 32 * Screen.width / 1024;
+			
+			foreach (Transform answer in answerObjects)
 			{
-				GUI.DrawTexture(new Rect(
-					(int)pos.x - info.Image.width / 2,
-					Screen.height - (int)pos.y - info.Image.height / 2,
-					info.Image.width,
-					info.Image.height),
-					info.Image);
-			}
-			else
-			{
-				GUI.Label (new Rect((int)pos.x - 64, Screen.height - (int)pos.y - 64, 128, 128), info.Text);
-			}
-		}		
-		
-		GUI.skin.label.normal.textColor = prevColor;
-		GUI.skin.label.alignment = prevAnchor;
-		GUI.skin.label.fontSize = prevSize;
+				Vector3 pos = Camera.main.WorldToScreenPoint(answer.position);
+				
+				AnswerInfo info = answer.GetComponent<AnswerInfo>();
+				
+				if (info.UsesImage)
+				{
+					GUI.DrawTexture(new Rect(
+						(int)pos.x - info.Image.width / 2,
+						Screen.height - (int)pos.y - info.Image.height / 2,
+						info.Image.width,
+						info.Image.height),
+						info.Image);
+				}
+				else
+				{
+					GUI.Label (new Rect((int)pos.x - 64, Screen.height - (int)pos.y - 64, 128, 128), info.Text);
+				}
+			}		
+			
+			GUI.skin.label.normal.textColor = prevColor;
+			GUI.skin.label.alignment = prevAnchor;
+			GUI.skin.label.fontSize = prevSize;
+		}
 	}
 }
