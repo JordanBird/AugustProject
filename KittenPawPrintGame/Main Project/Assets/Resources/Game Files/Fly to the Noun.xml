@@ -8,16 +8,48 @@
       <text>Which words are nouns?</text>
       <answers>
         <answer>
-          <aText>Answer: 0</aText>
+          <aText>Snake</aText>
+          <correct>True</correct>
+        </answer>
+		<answer>
+          <aText>House</aText>
+          <correct>True</correct>
+        </answer>
+		<answer>
+          <aText>Family</aText>
+          <correct>True</correct>
+        </answer>
+		<answer>
+          <aText>Banana</aText>
+          <correct>True</correct>
+        </answer>
+		<answer>
+          <aText>England</aText>
+          <correct>True</correct>
+        </answer>
+		<answer>
+          <aText>Paris</aText>
           <correct>True</correct>
         </answer>
         <answer>
-          <aText>Answer: 1</aText>
+          <aText>Running</aText>
           <correct>False</correct>
         </answer>
-        <answer>
-          <aText>Answer: 2</aText>
-          <correct>True</correct>
+	 	<answer>
+          <aText>Angry</aText>
+          <correct>False</correct>
+        </answer>
+		 <answer>
+          <aText>Happy</aText>
+          <correct>False</correct>
+        </answer>
+		 <answer>
+          <aText>Flying</aText>
+          <correct>False</correct>
+        </answer>
+		 <answer>
+          <aText>Speed</aText>
+          <correct>False</correct>
         </answer>
       </answers>
     </question>
