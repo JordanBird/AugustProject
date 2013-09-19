@@ -36,6 +36,9 @@ public class cscript_plane_game : MonoBehaviour
 	{
 		AnswerSpawner = GameObject.Find ("AeroplaneAnswerSpawner").transform;
 		Aeroplane = GameObject.Find ("Aeroplane").transform;
+		Aeroplane.GetComponent<AeroplaneController>().enabled = true;
+		Aeroplane.GetComponent<AeroplaneController>().skin.gameObject.SetActive(true);
+		Aeroplane.GetComponent<AeroplaneController>().Reset();
 		
 		playing = true;
 		game = g;
@@ -72,7 +75,8 @@ public class cscript_plane_game : MonoBehaviour
 	
 	public void Stop()
 	{
-		Aeroplane.gameObject.SetActive(false);
+		Aeroplane.GetComponent<AeroplaneController>().skin.gameObject.SetActive(false);
+		Aeroplane.GetComponent<AeroplaneController>().enabled = false;
 		playing = false;
 		AnswerSpawner.GetComponent<AnswerSpawner>().Cleanup();
 		Destroy (this.gameObject);

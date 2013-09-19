@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 public class AnswerSpawner : MonoBehaviour
 {
+	public Transform ScrollingBackground;
 	public Transform AnswerPrefab;
 	public float SpawnDelay;
 	public bool Running { get; private set; }
@@ -13,6 +14,7 @@ public class AnswerSpawner : MonoBehaviour
 	private List<Answer> correctAnswers = new List<Answer>();
 	private List<Transform> answerObjects = new List<Transform>();
 	private cscript_plane_game controller;
+	private int runningScore = 0;
 	
 	private Question currentQuestion { get { return controller.currentQuestion; } }
 	
@@ -23,6 +25,8 @@ public class AnswerSpawner : MonoBehaviour
 	public void Begin(cscript_plane_game controller)
 	{
 		this.controller = controller;
+		ScrollingBackground.gameObject.SetActive(true);
+		ScrollingBackground.renderer.material.mainTextureOffset = Vector2.zero;
 		Running = true;
 	}
 	
@@ -50,21 +54,19 @@ public class AnswerSpawner : MonoBehaviour
 					i--;
 				}
 			}
+			
+			ScrollingBackground.renderer.material.mainTextureOffset += new Vector2(0.1f, 0) * Time.deltaTime;
+			if (ScrollingBackground.renderer.material.mainTextureOffset.x >= 1)
+			{
+				ScrollingBackground.renderer.material.mainTextureOffset = new Vector2(ScrollingBackground.renderer.material.mainTextureOffset.x % 1, 0);	
+			}
 		}
 	}
 	
 	private void SpawnNextAnswer()
 	{		
 		if (answerBatch.Count == 0)
-		{
-			// If the number of correct answers is equal to the correct answers collected, the player has won.
-			if (currentQuestion == null || currentQuestion.GetNumberOfCorrectAnswers() == correctAnswers.Count)
-			{
-				Running = false;
-				controller.WinGame();
-				return;
-			}
-			
+		{			
 			// Refresh answers once all have previously been spawned.
 			answerBatch.AddRange(currentQuestion.answers);
 			
@@ -88,9 +90,9 @@ public class AnswerSpawner : MonoBehaviour
 		int answer = Random.Range(0, answerBatch.Count);
 		
 		// Add a new AnswerCollectable prefab with the text set to the answer's text.
-		AnswerPrefab.position = new Vector3(10, Random.Range (-2.5f, 5f), 0);
-		AnswerPrefab.GetComponent<TextMesh>().text = answerBatch[answer].text;
+		AnswerPrefab.position = new Vector3(10, Random.Range (-2f, 4.5f), 0);
 		answerObjects.Add ((Transform)Instantiate(AnswerPrefab));
+		answerObjects[answerObjects.Count - 1].GetComponent<AnswerInfo>().SetInfo(answerBatch[answer].text);
 		
 		// Remove the answer so it isn't used again until all others are used.
 		answerBatch.RemoveAt (answer);
@@ -98,20 +100,37 @@ public class AnswerSpawner : MonoBehaviour
 	
 	public void CheckAnswer(GameObject answerObject)
 	{
-		foreach (Answer a in answerBatch)
+		Debug.Log ("Checking");
+		
+		foreach (Answer a in currentQuestion.answers)
 		{
+			AnswerInfo info = answerObject.GetComponent<AnswerInfo>();
+			
 			// Find the answer.
-			if (a.text == answerObject.GetComponent<TextMesh>().text)
+			if (info.UsesImage && a.texture == info.Image || !info.UsesImage && a.text == info.Text)
 			{
+				Debug.Log ("Identified");
+				
 				if (a.correct)
 				{
-					correctAnswers.Add (a);	
+					correctAnswers.Add (a);
+					runningScore++;
+					
+					// If the number of correct answers is equal to the correct answers collected, the player has won.
+					if (currentQuestion.GetNumberOfCorrectAnswers() == correctAnswers.Count)
+					{
+						Running = false;
+						controller.WinGame();
+						return;
+					}
 				}
 				else
 				{
-					//INCORRECT ANSWER, DO SOMETHING	
+					//INCORRECT ANSWER, DO SOMETHING
+					runningScore--;
 				}				
-				break;	
+				
+				break;
 			}
 		}
 		
@@ -132,10 +151,14 @@ public class AnswerSpawner : MonoBehaviour
 		}
 		
 		answerObjects.Clear ();
+		ScrollingBackground.gameObject.SetActive(false);
 	}
 	
 	void OnGUI()
 	{
+		GUI.Label (new Rect(100, 100, 600, 200), "DEBUGTEXT! Correct Answers: " + correctAnswers.Count.ToString() + "/" + currentQuestion.GetNumberOfCorrectAnswers().ToString());
+		GUI.Label (new Rect(100, 200, 600, 200), "DEBUGTEXT! Running Score  : " + runningScore.ToString());
+		
 		Color prevColor = GUI.skin.label.normal.textColor;
 		TextAnchor prevAnchor = GUI.skin.label.alignment;
 		int prevSize = GUI.skin.label.fontSize;
@@ -148,9 +171,21 @@ public class AnswerSpawner : MonoBehaviour
 		{
 			Vector3 pos = Camera.main.WorldToScreenPoint(answer.position);
 			
-			Rect scaleRect = new Rect((int)pos.x - 64, Screen.height - (int)pos.y - 64, 128, 128);
+			AnswerInfo info = answer.GetComponent<AnswerInfo>();
 			
-			GUI.Label (scaleRect, answer.GetComponent<TextMesh>().text);	
+			if (info.UsesImage)
+			{
+				GUI.DrawTexture(new Rect(
+					(int)pos.x - info.Image.width / 2,
+					Screen.height - (int)pos.y - info.Image.height / 2,
+					info.Image.width,
+					info.Image.height),
+					info.Image);
+			}
+			else
+			{
+				GUI.Label (new Rect((int)pos.x - 64, Screen.height - (int)pos.y - 64, 128, 128), info.Text);
+			}
 		}		
 		
 		GUI.skin.label.normal.textColor = prevColor;
