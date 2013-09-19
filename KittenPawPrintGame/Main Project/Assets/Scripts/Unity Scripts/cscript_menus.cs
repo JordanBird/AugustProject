@@ -64,7 +64,6 @@ public class cscript_navigation : MonoBehaviour
 	private bool imageInputChoiceMenu = false;
 	private bool imageAnswerChoiceMenu = false;
 	
-	FileOpener FOpener = new FileOpener();
 	
 	JGUI jG = new JGUI();
 
@@ -95,20 +94,20 @@ public class cscript_navigation : MonoBehaviour
 		buttons[1] = new FancyButton("Help", Screen.width - 110, 10, 100, 30, 0.8f, 0, GUIMaster.buttons);
 		buttons[2] = new FancyButton("Create New Game", Screen.width / 2 - 350, Screen.height - 55, 700, 40, 0.8f, 2, GUIMaster.buttons);
 
-		buttons[3] = new FancyButton("Play", 10 + inc / 4, Screen.height - 100, (int)inc / 2, 40, 0.5f, 2, GUIMaster.buttons);
-		buttons[4] = new FancyButton("Play", inc + 10 * 2 + inc / 4, Screen.height - 100, (int)inc / 2, 40, 0.5f, 2, GUIMaster.buttons);
-		buttons[5] = new FancyButton("Play", 2 * inc + 10 * 3 + inc / 4, Screen.height - 100, (int)inc / 2, 40, 0.5f, 2, GUIMaster.buttons);
+		buttons[3] = new FancyButton("Play", 10 + inc / 4, Screen.height - 150, (int)inc / 2, 40, 0.5f, 2, GUIMaster.buttons);
+		buttons[4] = new FancyButton("Play", inc + 10 * 2 + inc / 4, Screen.height - 150, (int)inc / 2, 40, 0.5f, 2, GUIMaster.buttons);
+		buttons[5] = new FancyButton("Play", 2 * inc + 10 * 3 + inc / 4, Screen.height - 150, (int)inc / 2, 40, 0.5f, 2, GUIMaster.buttons);
 		
-		buttons[6] = new FancyButton("Edit", 10, Screen.height - 90, (int)inc / 6, 20, 0.3f, 2, GUIMaster.saveButton);
-		buttons[7] = new FancyButton("Edit", inc + 10 * 2, Screen.height - 90, (int)inc / 6, 20, 0.3f, 2, GUIMaster.saveButton);
-		buttons[8] = new FancyButton("Edit", 2 * inc + 10 * 3, Screen.height - 90, (int)inc / 6, 20, 0.3f, 2, GUIMaster.saveButton);
+		buttons[6] = new FancyButton("Edit", 10, Screen.height - 145, (int)inc / 6, 30, 0.3f, 2, GUIMaster.saveButton);
+		buttons[7] = new FancyButton("Edit", inc + 10 * 2, Screen.height - 145, (int)inc / 6, 30, 0.3f, 2, GUIMaster.saveButton);
+		buttons[8] = new FancyButton("Edit", 2 * inc + 10 * 3, Screen.height - 145, (int)inc / 6, 30, 0.3f, 2, GUIMaster.saveButton);
 		
 		buttons[9] = new FancyButton("", 10, Screen.height / 2 - 15, 50, 50, 0.8f, 3, GUIMaster.leftArrow);
 		buttons[10] = new FancyButton("", Screen.width - 60, Screen.height / 2 - 15, 50, 50, 0.8f, 1, GUIMaster.rightArrow);
 		
 		buttons[11] = new FancyButton("< Back", 10, 10, 100, 30, 0.8f, 0, GUIMaster.buttons);
 		
-		buttons[12] = new FancyButton("<color=#c8e9ac>Add Background</color>", Screen.width / 2 - 100, 170, 200, 40, 1f, 1, GUIMaster.buttons);
+		buttons[12] = new FancyButton("<color=#c8e9ac>Add Background</color>", Screen.width / 2 - 100, 180, 200, 40, 1f, 1, GUIMaster.buttons);
 		buttons[13] = new FancyButton("Save", Screen.width / 2 - 50, Screen.height - 35, 100, 25, 1f, 3, GUIMaster.saveButton);
 		
 		buttons[0].Enter ();
@@ -219,8 +218,10 @@ public class cscript_navigation : MonoBehaviour
 	{
 		
 		//Banners
-			GUI.DrawTexture (new Rect(0, 0, Screen.width, 64), GUIMaster.bannerTexture);
-			GUI.DrawTexture (new Rect(0, Screen.height - 100, Screen.width, 100), GUIMaster.bannerTexture);
+		GUI.DrawTexture (new Rect(0, 0, Screen.width, 81), GUIMaster.blankBlackTexture);
+		GUI.DrawTexture (new Rect(0, Screen.height -101, Screen.width, 100), GUIMaster.blankBlackTexture);
+		GUI.DrawTexture (new Rect(0, 0, Screen.width, 80), GUIMaster.bannerTexture);
+		GUI.DrawTexture (new Rect(0, Screen.height - 100, Screen.width, 100), GUIMaster.bannerTexture);
 		
 		//GUI.Label(new Rect(10, 10, Screen.width - 20, 50), "Main Menu", GUIMaster.heading.label);
 		GUI.DrawTexture(new Rect(Screen.width / 2 - 19, 10, 38, 60), GUIMaster.iLearn2Logo);
@@ -230,15 +231,15 @@ public class cscript_navigation : MonoBehaviour
 		for (int i = 0; i < 3; i++)
 		{
 			//Shadow and Box
-			GUI.DrawTexture (new Rect(i * inc + 9 + (i * 10), 79, inc + 2, Screen.height - 178), GUIMaster.blankBlackTexture);
-			GUI.DrawTexture (new Rect(i * inc + 10 * (i + 1), 80, inc, Screen.height - 180), GUIMaster.blankWhiteTexture);
+			GUI.DrawTexture (new Rect(i * inc + 9 + (i * 10), 99, inc + 2, Screen.height - 258), GUIMaster.blankBlackTexture);
+			GUI.DrawTexture (new Rect(i * inc + 10 * (i + 1), 100, inc, Screen.height - 260), GUIMaster.blankWhiteTexture);
 			
 			//Game Background
-			GUI.DrawTexture (new Rect(i * inc + 9 + (i * 10) + 10, 110, inc - 20, Screen.height - 250), gameBackgrounds[i]);
+			GUI.DrawTexture (new Rect(i * inc + 9 + (i * 10) + 10, 140, inc - 20, Screen.height - 340), gameBackgrounds[i]);
 			
 			//Game Title + Author
-			GUI.Label (new Rect(i * inc + 10 * (i + 1), 80, inc, Screen.height - 180), games[i + position].name, game.label);
-			GUI.Label (new Rect(i * inc + 10 * (i + 1), Screen.height - 140, inc, 20), "By " + games[i + position].author, game.label);
+			GUI.Label (new Rect(i * inc + 10 * (i + 1), 110, inc, Screen.height - 180), games[i + position].name, game.label);
+			GUI.Label (new Rect(i * inc + 10 * (i + 1), Screen.height - 190, inc, 20), "By " + games[i + position].author, game.label);
 
 			//Edit and Delete Game
 			if (i + position < 3)
@@ -283,7 +284,7 @@ public class cscript_navigation : MonoBehaviour
 				}
 				
 				//Deletion
-				if (GUI.Button (new Rect(i * inc + 9 + (i * 10) + inc - 25, Screen.height - 90, 25, 25), "", GUIMaster.deleteButton.button))
+				if (GUI.Button (new Rect(i * inc + 9 + (i * 10) + inc - 35, Screen.height - 145, 25, 25), "", GUIMaster.deleteButton.button))
 				{
 					soundMaster.PlaySound (soundMaster.incorrectAnswer);
 					File.Delete (games[i + position].location);
@@ -297,11 +298,11 @@ public class cscript_navigation : MonoBehaviour
 				}
 				
 				//Open In Other Application
-				if (GUI.Button (new Rect(i * inc + 9 + (i * 10) + inc - 55, Screen.height - 90, 25, 25), "", GUIMaster.openIn.button))
+				if (GUI.Button (new Rect(i * inc + 9 + (i * 10) + inc - 65, Screen.height - 145, 25, 25), "", GUIMaster.openIn.button))
 				{
 					string uri = games[i + position].location;
 					
-					FileOpener.OpenFile(100,100,uri);
+					FileOpener.OpenFile((int)(i * inc + 9 + (i * 10) + inc - 65), (int)(Screen.height - 145),uri);
 				}
 			}
 			
@@ -467,8 +468,8 @@ public class cscript_navigation : MonoBehaviour
 				buttons[13].Leave ();
 			}
 			
-			gameName = GUI.TextField (new Rect((Screen.width / 4 - 10) / 2, 60, Screen.width / 4, 20), gameName, GUIMaster.createGameTextFields.textField);
-			authorName = GUI.TextField (new Rect((Screen.width / 4 - 10) * 2.5f, 60, Screen.width / 4, 20), authorName, GUIMaster.createGameTextFields.textField);
+			gameName = GUI.TextField (new Rect((Screen.width / 4 - 10) / 2, 80, Screen.width / 4, 20), gameName, GUIMaster.createGameTextFields.textField);
+			authorName = GUI.TextField (new Rect((Screen.width / 4 - 10) * 2.5f, 80, Screen.width / 4, 20), authorName, GUIMaster.createGameTextFields.textField);
 			
 			//Get Background Button - Opens the Pop-Up to allow the user to choose an image input method:
 			if (buttons[12].Clicked)
@@ -495,8 +496,8 @@ public class cscript_navigation : MonoBehaviour
 			GUIContent[] g = new GUIContent[3];
 			g[0] = new GUIContent(GUIMaster.footballIcon);
 			g[1] = new GUIContent(GUIMaster.planeIcon);
-			g[2] = new GUIContent(GUIMaster.trainIcon);
-			selectedCreateGame = GUI.SelectionGrid (new Rect(Screen.width / 2 - 100, 80, 200, 60), selectedCreateGame, g, 3);
+			g[2] = new GUIContent(GUIMaster.photoIcon);
+			selectedCreateGame = GUI.SelectionGrid (new Rect(Screen.width / 2 - 100, 110, 200, 60), selectedCreateGame, g, 3);
 			
 			GUI.skin = tempSkin;
 
@@ -601,6 +602,7 @@ public class cscript_navigation : MonoBehaviour
 			{					
 				if (answerButtons[i].Clicked)
 				{
+					soundMaster.PlaySound(soundMaster.correctAnswer);
 					answers[i].correct = !answers[i].correct;
 				}	
 				
@@ -609,7 +611,7 @@ public class cscript_navigation : MonoBehaviour
 				else
 					answerButtons[i].SetSkin (GUIMaster.incorrectAnswer);
 
-				if (GUI.Button (new Rect(answerButtons[i].Position.x + 85, answerButtons[i].Position.y - 10, 25, 25), "", GUIMaster.deleteButton.button))
+				if (GUI.Button (new Rect(answerButtons[i].Position.x + 140, answerButtons[i].Position.y - 10, 25, 25), "", GUIMaster.deleteButton.button))
 				{
 					soundMaster.PlaySound (soundMaster.incorrectAnswer);
 					answers.RemoveAt(i);
@@ -653,34 +655,37 @@ public class cscript_navigation : MonoBehaviour
 			
 			//Instruction Text
 			GUI.skin.label.alignment = TextAnchor.UpperCenter;
-			GUI.Label (new Rect(10, Screen.height - 60, Screen.width - 20, 20), "<color=#f4b4b4>Tap on object once for incorrect answer,</color> <color=#c8e9ac>double tap for correct,</color> <color=#9ac8fd>flick away to delete</color>");
+			GUI.skin.label.fontSize = 20;
+			GUI.Label (new Rect(10, Screen.height - 80, Screen.width - 20, 40), "<color=#df4c4c>Tap on object once for incorrect answer,</color> <color=#93d758>double tap for correct,</color> <color=#438ee4>click the cross to delete</color>");
 			GUI.skin.label.alignment = TextAnchor.UpperLeft;
 			
 			if (buttons[13].Clicked)
 			{
+				
 				if (true)
 				{
-					soundMaster.PlaySound(soundMaster.correctAnswer);
 					questions.Add(new Question(multipleChoiceQuestion, answers.ToArray ()));
 					
 					if (questionButtons.Count > 0)
 					{
 						if (questionButtons[questionButtons.Count-1].targetPosition.x + 220 > Screen.width)
 						{
+							soundMaster.PlaySound(soundMaster.correctAnswer);
 							Debug.Log ("New Row");
 							//Adding new row.
-							questionButtons.Add (new FancyButton(multipleChoiceQuestion, 10, questionButtons[questionButtons.Count-1].targetPosition.y + 110, 100, 100, 0.2f + questionPosition / 10f, 2));
+							questionButtons.Add (new FancyButton(multipleChoiceQuestion, 10, questionButtons[questionButtons.Count-1].targetPosition.y + 310, 150, 150, 0.2f + questionPosition / 10f, 2));
 						}
 						else
 						{
+							soundMaster.PlaySound(soundMaster.correctAnswer);
 							Debug.Log ("Add Normal");
 							//Add Normal
-							questionButtons.Add (new FancyButton(multipleChoiceQuestion, questionButtons[questionButtons.Count-1].targetPosition.x + 110, questionButtons[questionButtons.Count-1].targetPosition.y, 100, 100, 0.2f + questionPosition / 10f, 2));
+							questionButtons.Add (new FancyButton(multipleChoiceQuestion, questionButtons[questionButtons.Count-1].targetPosition.x + 310, questionButtons[questionButtons.Count-1].targetPosition.y, 150, 150, 0.2f + questionPosition / 10f, 2));
 						}
 					}
 					else
 					{
-						questionButtons.Add (new FancyButton(multipleChoiceQuestion, 10 * questionPosition + (questionPosition - 1) * 100, 250, 100, 100, 0.2f + questionPosition / 10f, 2));
+						questionButtons.Add (new FancyButton(multipleChoiceQuestion, 10 * questionPosition + (questionPosition - 1) * 150, 250, 150, 150, 0.2f + questionPosition / 10f, 2));
 					}
 
 					questionButtons[questionButtons.Count-1].Enter ();
@@ -824,17 +829,17 @@ public class cscript_navigation : MonoBehaviour
 				{
 					Debug.Log ("New Row");
 					//Adding new row.
-					answerButtons.Add (new FancyButton(content, 10, answerButtons[answerButtons.Count-1].targetPosition.y + 110, 100, 100, 0.2f + j / 10f, 2));
+					answerButtons.Add (new FancyButton(content, 10, answerButtons[answerButtons.Count-1].targetPosition.y + 160, 150, 150, 0.2f + j / 10f, 2));
 				}
 				else
 				{
 					Debug.Log ("Add Normal - Create");
 					//Add Normal
-					answerButtons.Add (new FancyButton(content, answerButtons[answerButtons.Count-1].targetPosition.x + 110, answerButtons[answerButtons.Count-1].targetPosition.y, 100, 100, 0.2f + j / 10f, 2));
+					answerButtons.Add (new FancyButton(content, answerButtons[answerButtons.Count-1].targetPosition.x + 160, answerButtons[answerButtons.Count-1].targetPosition.y, 150, 150, 0.2f + j / 10f, 2));
 				}
 			}
 			else
-				answerButtons.Add (new FancyButton(content, 10, 250, 100, 100, 0.2f + j / 10f, 2));
+				answerButtons.Add (new FancyButton(content, 10, 250, 150, 150, 0.2f + j / 10f, 2));
 
 			if (show == true)
 				answerButtons[j].Enter ();
@@ -854,21 +859,21 @@ public class cscript_navigation : MonoBehaviour
 		
 		if (answerButtons.Count > 0)
 		{
-			if (answerButtons[answerButtons.Count-1].targetPosition.x + 220 > Screen.width)
+			if (answerButtons[answerButtons.Count-1].targetPosition.x + 500 > Screen.width)
 			{
 				Debug.Log ("New Row");
 				//Adding new row.
-				answerButtons.Add (new FancyButton(content, 10, answerButtons[answerButtons.Count-1].targetPosition.y + 110, 100, 100, 0.2f, 2));
+				answerButtons.Add (new FancyButton(content, 10, answerButtons[answerButtons.Count-1].targetPosition.y + 160, 150, 150, 0.2f, 2));
 			}
 			else
 			{
 				Debug.Log ("Add Normal - Add");
 				//Add Normal
-				answerButtons.Add (new FancyButton(content, answerButtons[answerButtons.Count-1].targetPosition.x + 110, answerButtons[answerButtons.Count-1].targetPosition.y, 100, 100, 0.2f, 2));
+				answerButtons.Add (new FancyButton(content, answerButtons[answerButtons.Count-1].targetPosition.x + 160, answerButtons[answerButtons.Count-1].targetPosition.y, 150, 150, 0.2f, 2));
 			}
 		}
 		else
-			answerButtons.Add (new FancyButton(answer, 10, 250, 100, 100, 0.2f + position / 10f, 2));
+			answerButtons.Add (new FancyButton(answer, 10, 250, 150, 150, 0.2f + position / 10f, 2));
 		
 		//answerButtons.Add (new FancyButton(answer, 10 * (position + 1) + position * 100, 180, 100, 100, 0.2f, 2));	// No extra delay on creation.
 		answerButtons[answerButtons.Count - 1].Enter ();
@@ -879,7 +884,7 @@ public class cscript_navigation : MonoBehaviour
 	
 	public void DrawAddAnswerStuff()
 	{
-		float x = -100;
+		float x = -150;
 		float y = 250;
 		
 		if (answerButtons.Count > 0)
@@ -888,8 +893,9 @@ public class cscript_navigation : MonoBehaviour
 			y = answerButtons[answerButtons.Count - 1].targetPosition.y;
 		}
 		
-		if (GUI.Button (new Rect(x + 125, y + 50, 100, 50), "Add Answer", GUIMaster.saveButton.button))
+		if (GUI.Button (new Rect(x + 180, y + 90, 160, 40), "Add Answer", GUIMaster.saveButton.button))
 		{
+			soundMaster.PlaySound(soundMaster.correctAnswer);
 			if (answer == "Add Answer Text Here")
 				answer = "";
 			
@@ -901,9 +907,9 @@ public class cscript_navigation : MonoBehaviour
 			AddFancyAnswerButton ();
 		}
 
-		answer = GUI.TextArea (new Rect(x + 100, y, 145, 20), answer, GUIMaster.createGameTextFields.textField);
+		answer = GUI.TextArea (new Rect(x + 180, y + 20, 160, 20), answer, GUIMaster.createGameTextFields.textField);
 	
-		if (GUI.Button(new Rect(x + 100, y + 30, 145, 20), "Click to Add Image", GUIMaster.saveButton.button))
+		if (GUI.Button(new Rect(x + 180, y + 50, 160, 30), "Click to Add Image", GUIMaster.saveButton.button))
 		{
 			if (Application.platform == RuntimePlatform.IPhonePlayer) 
 			{

@@ -55,7 +55,10 @@ public class cscript_plane_game : MonoBehaviour
 	public void OnGUI()
 	{
 		//Banners
-		GUI.DrawTexture (new Rect(0, 0, Screen.width, 64), GUIMaster.bannerTexture);
+		//Banners
+		GUI.DrawTexture (new Rect(0, 0, Screen.width, 81), GUIMaster.blankBlackTexture);
+		GUI.DrawTexture (new Rect(0, Screen.height -101, Screen.width, 100), GUIMaster.blankBlackTexture);
+		GUI.DrawTexture (new Rect(0, 0, Screen.width, 80), GUIMaster.bannerTexture);
 		GUI.DrawTexture (new Rect(0, Screen.height - 100, Screen.width, 100), GUIMaster.bannerTexture);
 		
 		if (GUI.Button (new Rect(10, 10, 100, 30), "Quit"))

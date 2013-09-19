@@ -47,7 +47,7 @@ public class cscript_photo_game : MonoBehaviour {
 		
 		for(int i = 0; i < 6; i++)
 		{
-		photoGroup[i] = GUIMaster.trainIcon;
+		photoGroup[i] = GUIMaster.photoIcon;
 		}
 		
 		
@@ -66,7 +66,9 @@ public class cscript_photo_game : MonoBehaviour {
 			//GUI.DrawTexture (new Rect(0, 0, Screen.width, Screen.height), background);
 			
 			//Banners
-			GUI.DrawTexture (new Rect(0, 0, Screen.width, 64), GUIMaster.bannerTexture);
+			GUI.DrawTexture (new Rect(0, 0, Screen.width, 81), GUIMaster.blankBlackTexture);
+			GUI.DrawTexture (new Rect(0, Screen.height -101, Screen.width, 100), GUIMaster.blankBlackTexture);
+			GUI.DrawTexture (new Rect(0, 0, Screen.width, 80), GUIMaster.bannerTexture);
 			GUI.DrawTexture (new Rect(0, Screen.height - 100, Screen.width, 100), GUIMaster.bannerTexture);
 			
 			if (GUI.Button (new Rect(10, 10, 100, 30), "Quit"))
@@ -92,7 +94,7 @@ public class cscript_photo_game : MonoBehaviour {
 			{
 				for (int j = 0; j < 3; j++)
 				{
-					if(GUI.Button(new Rect(40 + (j * Screen.width / 3), 78 + (i * Screen.height/2.8f), Screen.width / (4), (Screen.height / 3)),photoGroup[inc]))
+					if(GUI.Button(new Rect(40 + (j * Screen.width / 3), 100 + (i * Screen.height/2.8f), Screen.width / (4), (Screen.height / 3)),photoGroup[inc],GUIMaster.buttons.button))
 					{
 						imageAnswerChoiceMenu = true;
 						GroupCounter = inc;
