@@ -1,0 +1,57 @@
+-debug
+-target:library
+-nowarn:0169
+-out:'Temp/Assembly-CSharp.dll'
+-r:'/Applications/Unity/Unity.app/Contents/Frameworks/Managed/UnityEngine.dll'
+-r:'Assets/Plugins/I18N.dll'
+-r:'Assets/Plugins/I18N.West.dll'
+-r:'/Applications/Unity/Unity.app/Contents/Frameworks/Managed/UnityEditor.dll'
+-define:UNITY_IPHONE
+-define:ENABLE_MICROPHONE
+-define:ENABLE_TEXTUREID_MAP
+-define:ENABLE_AUDIO_FMOD
+-define:ENABLE_MONO
+-define:ENABLE_TERRAIN
+-define:ENABLE_SUBSTANCE
+-define:ENABLE_GENERICS
+-define:ENABLE_WWW
+-define:ENABLE_IMAGEEFFECTS
+-define:UNITY_IPHONE_API
+-define:ENABLE_WEBCAM
+-define:ENABLE_NETWORK
+-define:ENABLE_PHYSICS
+-define:ENABLE_CACHING
+-define:ENABLE_CLOTH
+-define:ENABLE_GAMECENTER
+-define:UNITY_IOS
+-define:ENABLE_SHADOWS
+-define:ENABLE_AUDIO
+-define:ENABLE_SINGLE_INSTANCE_BUILD_SETTING
+-define:UNITY_4_2_0
+-define:UNITY_4_2
+-define:ENABLE_PROFILER
+-define:UNITY_EDITOR
+-define:UNITY_EDITOR_OSX
+'Assets/Games/Scripts/AeroplaneController.cs'
+'Assets/Games/Scripts/AnswerInfo.cs'
+'Assets/Games/Scripts/AnswerSpawner.cs'
+'Assets/Scripts/Classes/Answer.cs'
+'Assets/Scripts/Classes/FancyButton.cs'
+'Assets/Scripts/Classes/Game.cs'
+'Assets/Scripts/Classes/JGUI.cs'
+'Assets/Scripts/Classes/LoadTextureFromImagePicker.cs'
+'Assets/Scripts/Classes/Question.cs'
+'Assets/Scripts/Classes/TextureScale.cs'
+'Assets/Scripts/Unity Scripts/ChangePhoto.cs'
+'Assets/Scripts/Unity Scripts/FileOpener.cs'
+'Assets/Scripts/Unity Scripts/LoadingScreen.cs'
+'Assets/Scripts/Unity Scripts/ScreenCapture.cs'
+'Assets/Scripts/Unity Scripts/cscript_GUI_master.cs'
+'Assets/Scripts/Unity Scripts/cscript_game_test.cs'
+'Assets/Scripts/Unity Scripts/cscript_master.cs'
+'Assets/Scripts/Unity Scripts/cscript_menus.cs'
+'Assets/Scripts/Unity Scripts/cscript_photo_game.cs'
+'Assets/Scripts/Unity Scripts/cscript_plane_game.cs'
+'Assets/Scripts/Unity Scripts/cscript_sound_master.cs'
+-r:'/Applications/Unity/Unity.app/Contents/Frameworks/Mono/lib/mono/unity/System.Runtime.Serialization.dll'
+-r:'/Applications/Unity/Unity.app/Contents/Frameworks/Mono/lib/mono/unity/System.Xml.Linq.dll'
