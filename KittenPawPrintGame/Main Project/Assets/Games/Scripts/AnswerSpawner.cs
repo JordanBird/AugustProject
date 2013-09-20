@@ -14,7 +14,9 @@ public class AnswerSpawner : MonoBehaviour
 	private List<Answer> correctAnswers = new List<Answer>();
 	private List<Transform> answerObjects = new List<Transform>();
 	private cscript_plane_game controller;
-	private int runningScore = 0;
+	private cscript_GUI_master GUIMaster;
+	private int incorrectAnswers = 0;
+	private float startDelay = 4;
 	
 	private Question currentQuestion { get { if (controller != null) {return controller.currentQuestion;} return null; } }
 	
@@ -22,15 +24,21 @@ public class AnswerSpawner : MonoBehaviour
 	{
 	}
 	
-	public int GetScore()
+	public int GetCorrectScore()
 	{
-		return runningScore;	
+		return correctAnswers.Count;
+	}
+	
+	public int GetIncorrectScore()
+	{
+		return incorrectAnswers;	
 	}
 	
 	
 	public void Begin(cscript_plane_game controller)
 	{
 		this.controller = controller;
+		this.GUIMaster = GameObject.FindGameObjectWithTag ("GUI Master").GetComponent<cscript_GUI_master>();
 		ScrollingBackground.gameObject.SetActive(true);
 		ScrollingBackground.renderer.material.mainTextureOffset = Vector2.zero;
 		Running = true;
@@ -40,24 +48,37 @@ public class AnswerSpawner : MonoBehaviour
 	{
 		if (Running)
 		{
-			spawnTimer += Time.deltaTime;
-			if (spawnTimer >= SpawnDelay)
+			if (startDelay > 0)
 			{
-				spawnTimer %= SpawnDelay;
+				startDelay -= Time.deltaTime;
 				
-				SpawnNextAnswer();
+				if (startDelay < 0)
+				{
+					startDelay = 0;	
+				}
 			}
 			
-		
-			for (int i = 0; i < answerObjects.Count; i++)
+			if (startDelay < 1)
 			{
-				answerObjects[i].position += new Vector3(-5f, 0, 0) * Time.deltaTime;
-				
-				if (answerObjects[i].position.x < -15)
+				spawnTimer += Time.deltaTime;
+				if (spawnTimer >= SpawnDelay)
 				{
-					Destroy(answerObjects[i].gameObject);
-					answerObjects.RemoveAt(i);
-					i--;
+					spawnTimer %= SpawnDelay;
+					
+					SpawnNextAnswer();
+				}
+				
+			
+				for (int i = 0; i < answerObjects.Count; i++)
+				{
+					answerObjects[i].position += new Vector3(-5f, 0, 0) * Time.deltaTime;
+					
+					if (answerObjects[i].position.x < -15)
+					{
+						Destroy(answerObjects[i].gameObject);
+						answerObjects.RemoveAt(i);
+						i--;
+					}
 				}
 			}
 			
@@ -95,6 +116,17 @@ public class AnswerSpawner : MonoBehaviour
 		
 		int answer = Random.Range(0, answerBatch.Count);
 		
+		// Don't spawn the answer if its already present in the game.
+		foreach (Transform t in answerObjects)
+		{
+			AnswerInfo info = t.GetComponent<AnswerInfo>();
+			
+			if (info.UsesImage && answerBatch[answer].texture == info.Image || !info.UsesImage && answerBatch[answer].text == info.Text)	
+			{
+				return;
+			}
+		}
+		
 		// Add a new AnswerCollectable prefab with the text set to the answer's text.
 		AnswerPrefab.position = new Vector3(10, Random.Range (-2f, 4.5f), 0);
 		answerObjects.Add ((Transform)Instantiate(AnswerPrefab));
@@ -106,34 +138,35 @@ public class AnswerSpawner : MonoBehaviour
 	
 	public void CheckAnswer(GameObject answerObject)
 	{
-		Debug.Log ("Checking");
-		
 		foreach (Answer a in currentQuestion.answers)
 		{
 			AnswerInfo info = answerObject.GetComponent<AnswerInfo>();
 			
 			// Find the answer.
 			if (info.UsesImage && a.texture == info.Image || !info.UsesImage && a.text == info.Text)
-			{
-				Debug.Log ("Identified");
-				
+			{				
 				if (a.correct)
 				{
 					correctAnswers.Add (a);
-					runningScore++;
 					
 					// If the number of correct answers is equal to the correct answers collected, the player has won.
 					if (currentQuestion.GetNumberOfCorrectAnswers() == correctAnswers.Count)
 					{
 						Running = false;
 						controller.WinGame();
+						
+						foreach (Transform t in answerObjects)
+						{
+							Destroy (t.gameObject);	
+						}
+						
 						return;
 					}
 				}
 				else
 				{
 					//INCORRECT ANSWER, DO SOMETHING
-					runningScore--;
+					incorrectAnswers++;
 				}				
 				
 				break;
@@ -146,26 +179,26 @@ public class AnswerSpawner : MonoBehaviour
 	
 	public void Cleanup()
 	{
+		startDelay = 4;
 		Running = false;
 		spawnTimer = 0;
 		correctAnswers.Clear ();
 		answerBatch.Clear ();
-		
-		foreach (Transform t in answerObjects)
-		{
-			Destroy (t.gameObject);	
-		}
+		incorrectAnswers = 0;
 		
 		answerObjects.Clear ();
 		ScrollingBackground.gameObject.SetActive(false);
 	}
 	
 	void OnGUI()
-	{
+	{		
 		if (currentQuestion != null)
-		{
-			GUI.Label (new Rect(10, -20, Screen.width - 20, 100), "DEBUGTEXT! Correct Answers: " + correctAnswers.Count.ToString() + "/" + currentQuestion.GetNumberOfCorrectAnswers().ToString());
-			GUI.Label (new Rect(10, -20, Screen.width - 20, 100), "DEBUGTEXT! Running Score  : " + runningScore.ToString());
+		{			
+			if (GUIMaster != null && startDelay > 0)
+			{
+				GUI.Label (new Rect(Screen.width / 2 - 150, Screen.height / 2 - 50, 300, 100), startDelay < 1 ? "GO!" : Mathf.Floor(startDelay).ToString(), GUIMaster.questions.label);
+				return;
+			}
 			
 			Color prevColor = GUI.skin.label.normal.textColor;
 			TextAnchor prevAnchor = GUI.skin.label.alignment;
@@ -177,6 +210,9 @@ public class AnswerSpawner : MonoBehaviour
 			
 			foreach (Transform answer in answerObjects)
 			{
+				if (answer == null)
+					break;
+				
 				Vector3 pos = Camera.main.WorldToScreenPoint(answer.position);
 				
 				AnswerInfo info = answer.GetComponent<AnswerInfo>();
