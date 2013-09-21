@@ -92,4 +92,6 @@ public class cscript_master : MonoBehaviour
 		
 		//gameBackgrounds[0].LoadImage (System.Text.Encoding.Default.GetBytes (games[position].background));
 	}
+	
+
 }
