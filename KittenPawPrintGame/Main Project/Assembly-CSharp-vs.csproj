@@ -59,6 +59,7 @@
      <Compile Include="Assets\Scripts\Unity Scripts\LoadingScreen.cs" />
      <Compile Include="Assets\Scripts\Unity Scripts\ScreenCapture.cs" />
      <Compile Include="Assets\Scripts\Unity Scripts\cscript_GUI_master.cs" />
+     <Compile Include="Assets\Scripts\Unity Scripts\cscript_football_game.cs" />
      <Compile Include="Assets\Scripts\Unity Scripts\cscript_game_test.cs" />
      <Compile Include="Assets\Scripts\Unity Scripts\cscript_master.cs" />
      <Compile Include="Assets\Scripts\Unity Scripts\cscript_menus.cs" />

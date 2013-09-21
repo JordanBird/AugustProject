@@ -26,6 +26,7 @@ public class cscript_photo_game : MonoBehaviour {
 	Texture2D background;
 	
 	Texture2D[] photoGroup;
+	string[] stringGroup;
 	int GroupCounter;
 	
 	Question currentQuestion;
@@ -44,10 +45,12 @@ public class cscript_photo_game : MonoBehaviour {
 		soundMaster = GameObject.FindGameObjectWithTag ("Sound Master").GetComponent<cscript_sound_master>();
 		
 		photoGroup = new Texture2D[6];
+		stringGroup = new string[6];
 		
 		for(int i = 0; i < 6; i++)
 		{
 		photoGroup[i] = GUIMaster.photoIcon;
+		stringGroup[i] = "Add Text Here...";
 		}
 		
 		
@@ -94,12 +97,15 @@ public class cscript_photo_game : MonoBehaviour {
 			{
 				for (int j = 0; j < 3; j++)
 				{
-					if(GUI.Button(new Rect(40 + (j * Screen.width / 3), 100 + (i * Screen.height/2.8f), Screen.width / (4), (Screen.height / 3)),photoGroup[inc],GUIMaster.buttons.button))
+					if(GUI.Button(new Rect(40 + (j * Screen.width / 3), 80 + (i * Screen.height/2.8f), Screen.width / (4), (Screen.height / 3)),photoGroup[inc],GUIMaster.buttons.button))
 					{
 						imageAnswerChoiceMenu = true;
 						GroupCounter = inc;
 					}
+					stringGroup[inc] = GUI.TextField(new Rect(40 + (j * Screen.width / 3), 330 + (i * Screen.height/2.8f), Screen.width / (4), 30),stringGroup[inc],GUIMaster.createGameTextFields.textField);
+					
 					inc ++;
+					
 				}
 			}
 			
