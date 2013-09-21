@@ -1055,5 +1055,19 @@ public class cscript_navigation : MonoBehaviour
 			// Failed
 		}
 	}
+	
+	public void OnApplicationPause(bool paused)
+	{
+	      if(pause)
+  	 	  {
+     	  // we are in background
+  		  }
+ 		  else
+		  {
+ 	      // we are in foreground again.
+			LoadGames();
+ 		  }
+	}
+	
 	#endregion
 }
