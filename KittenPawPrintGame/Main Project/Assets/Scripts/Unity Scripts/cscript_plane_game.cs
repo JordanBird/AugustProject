@@ -107,6 +107,11 @@ public class cscript_plane_game : MonoBehaviour
 			GUI.Label (new Rect(10, 300, Screen.width - 20, 200), remark + "\n\n\nYou " + ((incorrect != 0 && incorrect < 3) ? "only hit " : "hit ") + incorrect.ToString() + " wrong answers!", GUIMaster.questions.label);
 			
 			BackButton.Clicked = GUI.Button (BackButton.GetRectangle(), BackButton.Content);
+			
+			if(BackButton.Clicked)
+			{
+				Stop ();
+			}
 		}
 	}
 	
