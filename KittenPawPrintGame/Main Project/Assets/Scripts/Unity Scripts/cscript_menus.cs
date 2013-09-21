@@ -90,8 +90,8 @@ public class cscript_navigation : MonoBehaviour
 		LoadGameBackgrounds ();
 		
 		#region Fancy Button Initialisation
-		buttons[0] = new FancyButton("About", 10, 10, 100, 30, 0.8f, 0, GUIMaster.buttons);
-		buttons[1] = new FancyButton("Help", Screen.width - 110, 10, 100, 30, 0.8f, 0, GUIMaster.buttons);
+		buttons[0] = new FancyButton("About", 10, 20, 100, 30, 0.8f, 0, GUIMaster.buttons);
+		buttons[1] = new FancyButton("Help", Screen.width - 110, 20, 100, 30, 0.8f, 0, GUIMaster.buttons);
 		buttons[2] = new FancyButton("Create New Game", Screen.width / 2 - 350, Screen.height - 55, 700, 40, 0.8f, 2, GUIMaster.buttons);
 
 		buttons[3] = new FancyButton("Play", 10 + inc / 4, Screen.height - 150, (int)inc / 2, 40, 0.5f, 2, GUIMaster.buttons);
@@ -105,9 +105,9 @@ public class cscript_navigation : MonoBehaviour
 		buttons[9] = new FancyButton("", 10, Screen.height / 2 - 15, 50, 50, 0.8f, 3, GUIMaster.leftArrow);
 		buttons[10] = new FancyButton("", Screen.width - 60, Screen.height / 2 - 15, 50, 50, 0.8f, 1, GUIMaster.rightArrow);
 		
-		buttons[11] = new FancyButton("< Back", 10, 10, 100, 30, 0.8f, 0, GUIMaster.buttons);
+		buttons[11] = new FancyButton("< Back", 10, 20, 100, 30, 0.8f, 0, GUIMaster.buttons);
 		
-		buttons[12] = new FancyButton("<color=#c8e9ac>Add Background</color>", Screen.width / 2 - 100, 180, 200, 40, 1f, 1, GUIMaster.buttons);
+		buttons[12] = new FancyButton("<color=#c8e9ac>Add Background</color>", Screen.width / 2 - 100, 220, 200, 40, 1f, 1, GUIMaster.buttons);
 		buttons[13] = new FancyButton("Save", Screen.width / 2 - 50, Screen.height - 35, 100, 25, 1f, 3, GUIMaster.saveButton);
 		
 		buttons[0].Enter ();
@@ -235,10 +235,10 @@ public class cscript_navigation : MonoBehaviour
 			GUI.DrawTexture (new Rect(i * inc + 10 * (i + 1), 100, inc, Screen.height - 260), GUIMaster.blankWhiteTexture);
 			
 			//Game Background
-			GUI.DrawTexture (new Rect(i * inc + 9 + (i * 10) + 10, 140, inc - 20, Screen.height - 340), gameBackgrounds[i]);
+			GUI.DrawTexture (new Rect(i * inc + 9 + (i * 10) + 10, 160, inc - 20, Screen.height - 380), gameBackgrounds[i]);
 			
 			//Game Title + Author
-			GUI.Label (new Rect(i * inc + 10 * (i + 1), 110, inc, Screen.height - 180), games[i + position].name, game.label);
+			GUI.Label (new Rect(i * inc + 10 * (i + 1), 110, inc, Screen.height - 180), games[i + position].name, GUIMaster.heading.label);
 			GUI.Label (new Rect(i * inc + 10 * (i + 1), Screen.height - 190, inc, 20), "By " + games[i + position].author, game.label);
 
 			//Edit and Delete Game
@@ -418,9 +418,10 @@ public class cscript_navigation : MonoBehaviour
 	
 	private void CreateGameGUI()
 	{		
-		//Banners
-			GUI.DrawTexture (new Rect(0, 0, Screen.width, 64), GUIMaster.bannerTexture);
-			GUI.DrawTexture (new Rect(0, Screen.height - 100, Screen.width, 100), GUIMaster.bannerTexture);
+		GUI.DrawTexture (new Rect(0, 0, Screen.width, 81), GUIMaster.blankBlackTexture);
+		GUI.DrawTexture (new Rect(0, Screen.height -101, Screen.width, 100), GUIMaster.blankBlackTexture);
+		GUI.DrawTexture (new Rect(0, 0, Screen.width, 80), GUIMaster.bannerTexture);
+		GUI.DrawTexture (new Rect(0, Screen.height - 100, Screen.width, 100), GUIMaster.bannerTexture);
 		
 		if (true)
 		{
@@ -435,7 +436,7 @@ public class cscript_navigation : MonoBehaviour
 //				questionButtons[i].Enter();
 //			}
 			
-			GUI.Label(new Rect(10, 10, Screen.width - 20, 50), "Create your Game", GUIMaster.heading.label);
+			GUI.Label(new Rect(10, 20, Screen.width - 20, 50), "Create Game", GUIMaster.heading.label);
 		
 			//Back
 			if (buttons[11].Clicked)
@@ -468,8 +469,8 @@ public class cscript_navigation : MonoBehaviour
 				buttons[13].Leave ();
 			}
 			
-			gameName = GUI.TextField (new Rect((Screen.width / 4 - 10) / 2, 80, Screen.width / 4, 20), gameName, GUIMaster.createGameTextFields.textField);
-			authorName = GUI.TextField (new Rect((Screen.width / 4 - 10) * 2.5f, 80, Screen.width / 4, 20), authorName, GUIMaster.createGameTextFields.textField);
+			gameName = GUI.TextField (new Rect((Screen.width / 4 - 10) / 2, 100, Screen.width / 4, 20), gameName, GUIMaster.createGameTextFields.textField);
+			authorName = GUI.TextField (new Rect((Screen.width / 4 - 10) * 2.5f, 100, Screen.width / 4, 20), authorName, GUIMaster.createGameTextFields.textField);
 			
 			//Get Background Button - Opens the Pop-Up to allow the user to choose an image input method:
 			if (buttons[12].Clicked)
@@ -497,7 +498,7 @@ public class cscript_navigation : MonoBehaviour
 			g[0] = new GUIContent(GUIMaster.footballIcon);
 			g[1] = new GUIContent(GUIMaster.planeIcon);
 			g[2] = new GUIContent(GUIMaster.photoIcon);
-			selectedCreateGame = GUI.SelectionGrid (new Rect(Screen.width / 2 - 100, 110, 200, 60), selectedCreateGame, g, 3);
+			selectedCreateGame = GUI.SelectionGrid (new Rect(Screen.width / 2 - 150, 120, 300, 100), selectedCreateGame, g, 3);
 			
 			GUI.skin = tempSkin;
 
@@ -593,7 +594,7 @@ public class cscript_navigation : MonoBehaviour
 				}
 			}
 			
-			multipleChoiceQuestion = GUI.TextArea (new Rect((Screen.width / 4) * 1.5f, 220, Screen.width / 4, 20), multipleChoiceQuestion, GUIMaster.createGameTextFields.textField);
+			multipleChoiceQuestion = GUI.TextArea (new Rect((Screen.width / 4) * 1.5f, 270, Screen.width / 4, 20), multipleChoiceQuestion, GUIMaster.createGameTextFields.textField);
 
 			//Add Answer System
 			int position = 0;
@@ -685,7 +686,7 @@ public class cscript_navigation : MonoBehaviour
 					}
 					else
 					{
-						questionButtons.Add (new FancyButton(multipleChoiceQuestion, 10 * questionPosition + (questionPosition - 1) * 150, 250, 150, 150, 0.2f + questionPosition / 10f, 2));
+						questionButtons.Add (new FancyButton(multipleChoiceQuestion, 10 * questionPosition + (questionPosition - 1) * 150, 300, 150, 150, 0.2f + questionPosition / 10f, 2));
 					}
 
 					questionButtons[questionButtons.Count-1].Enter ();
@@ -839,7 +840,7 @@ public class cscript_navigation : MonoBehaviour
 				}
 			}
 			else
-				answerButtons.Add (new FancyButton(content, 10, 250, 150, 150, 0.2f + j / 10f, 2));
+				answerButtons.Add (new FancyButton(content, 10, 300, 150, 150, 0.2f + j / 10f, 2));
 
 			if (show == true)
 				answerButtons[j].Enter ();
@@ -873,7 +874,7 @@ public class cscript_navigation : MonoBehaviour
 			}
 		}
 		else
-			answerButtons.Add (new FancyButton(answer, 10, 250, 150, 150, 0.2f + position / 10f, 2));
+			answerButtons.Add (new FancyButton(answer, 10, 300, 150, 150, 0.2f + position / 10f, 2));
 		
 		//answerButtons.Add (new FancyButton(answer, 10 * (position + 1) + position * 100, 180, 100, 100, 0.2f, 2));	// No extra delay on creation.
 		answerButtons[answerButtons.Count - 1].Enter ();
@@ -885,7 +886,7 @@ public class cscript_navigation : MonoBehaviour
 	public void DrawAddAnswerStuff()
 	{
 		float x = -150;
-		float y = 250;
+		float y = 300;
 		
 		if (answerButtons.Count > 0)
 		{
@@ -1058,7 +1059,7 @@ public class cscript_navigation : MonoBehaviour
 	
 	public void OnApplicationPause(bool paused)
 	{
-	      if(pause)
+	      if(paused)
   	 	  {
      	  // we are in background
   		  }

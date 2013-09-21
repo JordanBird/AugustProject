@@ -19,7 +19,7 @@ public class cscript_plane_game : MonoBehaviour
 	void Start ()
 	{
 		GUIMaster = GameObject.FindGameObjectWithTag ("GUI Master").GetComponent<cscript_GUI_master>();
-		BackButton = new FancyButton("Back To Menu", Screen.width / 2 - 100, Screen.height / 2 + 300, 200, 60, 0.5f, 2);
+		BackButton = new FancyButton("Back To Menu", Screen.width / 2 - 100, Screen.height / 2 + 300, 200, 60, 0.5f, 2,GUIMaster.saveButton);
 	}
 	
 	// Update is called once per frame

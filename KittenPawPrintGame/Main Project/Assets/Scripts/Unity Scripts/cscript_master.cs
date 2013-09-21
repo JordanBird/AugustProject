@@ -67,7 +67,7 @@ public class cscript_master : MonoBehaviour
 		{
 			case "0":
 				GameObject temp0 = Instantiate (game0, Vector3.zero, Quaternion.identity) as GameObject;
-				temp0.GetComponent<cscript_photo_game>().Begin (currentGame, this);
+				temp0.GetComponent<cscript_football_game>().Begin (currentGame, this);
 				break;
 			case "1":
 				GameObject temp1 = Instantiate (game1, Vector3.zero, Quaternion.identity) as GameObject;
