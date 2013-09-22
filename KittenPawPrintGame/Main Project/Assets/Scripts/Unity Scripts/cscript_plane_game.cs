@@ -72,7 +72,7 @@ public class cscript_plane_game : MonoBehaviour
 	
 	public void OnGUI()
 	{
-		//Banners
+
 		//Banners
 		GUI.DrawTexture (new Rect(0, 0, Screen.width, 81), GUIMaster.blankBlackTexture);
 		GUI.DrawTexture (new Rect(0, Screen.height -101, Screen.width, 100), GUIMaster.blankBlackTexture);
@@ -87,8 +87,6 @@ public class cscript_plane_game : MonoBehaviour
 			
 			if (GUI.Button (new Rect(15, 15, 40, 40), "",GUIMaster.deleteButton.button))
 			{			
-				master.gameState = cscript_master.GameState.MainMenu;
-				master.gameObject.GetComponent<cscript_navigation>().MainMenuLoad ();
 				
 				Stop ();
 			}
