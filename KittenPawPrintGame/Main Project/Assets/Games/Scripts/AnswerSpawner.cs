@@ -130,7 +130,14 @@ public class AnswerSpawner : MonoBehaviour
 		// Add a new AnswerCollectable prefab with the text set to the answer's text.
 		AnswerPrefab.position = new Vector3(10, Random.Range (-2f, 4.5f), 0);
 		answerObjects.Add ((Transform)Instantiate(AnswerPrefab));
-		answerObjects[answerObjects.Count - 1].GetComponent<AnswerInfo>().SetInfo(answerBatch[answer].text);
+		if(answerBatch[answer].texture == null)
+		{
+			answerObjects[answerObjects.Count - 1].GetComponent<AnswerInfo>().SetInfo(answerBatch[answer].text);
+		}
+		else
+		{
+			answerObjects[answerObjects.Count - 1].GetComponent<AnswerInfo>().SetInfo(answerBatch[answer].texture);
+		}
 		
 		// Remove the answer so it isn't used again until all others are used.
 		answerBatch.RemoveAt (answer);
@@ -219,11 +226,10 @@ public class AnswerSpawner : MonoBehaviour
 				
 				if (info.UsesImage)
 				{
-					GUI.DrawTexture(new Rect(
-						(int)pos.x - info.Image.width / 2,
-						Screen.height - (int)pos.y - info.Image.height / 2,
-						info.Image.width,
-						info.Image.height),
+					GUI.DrawTexture(new Rect((int)pos.x - 64,
+						Screen.height - (int)pos.y - 44,
+						128, 
+						100),
 						info.Image);
 				}
 				else
