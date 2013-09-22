@@ -94,13 +94,13 @@ public class cscript_navigation : MonoBehaviour
 		buttons[1] = new FancyButton("Help", Screen.width - 110, 20, 100, 30, 0.8f, 0, GUIMaster.buttons);
 		buttons[2] = new FancyButton("Create New Game", Screen.width / 2 - 350, Screen.height - 55, 700, 40, 0.8f, 2, GUIMaster.buttons);
 
-		buttons[3] = new FancyButton("Play", 10 + inc / 4, Screen.height - 150, (int)inc / 2, 40, 0.5f, 2, GUIMaster.buttons);
-		buttons[4] = new FancyButton("Play", inc + 10 * 2 + inc / 4, Screen.height - 150, (int)inc / 2, 40, 0.5f, 2, GUIMaster.buttons);
-		buttons[5] = new FancyButton("Play", 2 * inc + 10 * 3 + inc / 4, Screen.height - 150, (int)inc / 2, 40, 0.5f, 2, GUIMaster.buttons);
+		buttons[3] = new FancyButton("Play", 10 + inc / 4, Screen.height - 170, (int)inc / 2, 40, 0.5f, 2, GUIMaster.buttons);
+		buttons[4] = new FancyButton("Play", inc + 10 * 2 + inc / 4, Screen.height - 170, (int)inc / 2, 40, 0.5f, 2, GUIMaster.buttons);
+		buttons[5] = new FancyButton("Play", 2 * inc + 10 * 3 + inc / 4, Screen.height - 170, (int)inc / 2, 40, 0.5f, 2, GUIMaster.buttons);
 		
-		buttons[6] = new FancyButton("Edit", 10, Screen.height - 145, (int)inc / 6, 30, 0.3f, 2, GUIMaster.saveButton);
-		buttons[7] = new FancyButton("Edit", inc + 10 * 2, Screen.height - 145, (int)inc / 6, 30, 0.3f, 2, GUIMaster.saveButton);
-		buttons[8] = new FancyButton("Edit", 2 * inc + 10 * 3, Screen.height - 145, (int)inc / 6, 30, 0.3f, 2, GUIMaster.saveButton);
+		buttons[6] = new FancyButton("Edit", 10, Screen.height - 165, (int)inc / 6, 30, 0.3f, 2, GUIMaster.saveButton);
+		buttons[7] = new FancyButton("Edit", inc + 10 * 2, Screen.height - 165, (int)inc / 6, 30, 0.3f, 2, GUIMaster.saveButton);
+		buttons[8] = new FancyButton("Edit", 2 * inc + 10 * 3, Screen.height - 165, (int)inc / 6, 30, 0.3f, 2, GUIMaster.saveButton);
 		
 		buttons[9] = new FancyButton("", 10, Screen.height / 2 - 15, 50, 50, 0.8f, 3, GUIMaster.leftArrow);
 		buttons[10] = new FancyButton("", Screen.width - 60, Screen.height / 2 - 15, 50, 50, 0.8f, 1, GUIMaster.rightArrow);
@@ -231,15 +231,15 @@ public class cscript_navigation : MonoBehaviour
 		for (int i = 0; i < 3; i++)
 		{
 			//Shadow and Box
-			GUI.DrawTexture (new Rect(i * inc + 9 + (i * 10), 99, inc + 2, Screen.height - 258), GUIMaster.blankBlackTexture);
-			GUI.DrawTexture (new Rect(i * inc + 10 * (i + 1), 100, inc, Screen.height - 260), GUIMaster.blankWhiteTexture);
+			GUI.DrawTexture (new Rect(i * inc + 9 + (i * 10), 99, inc + 2, Screen.height - 288), GUIMaster.blankBlackTexture);
+			GUI.DrawTexture (new Rect(i * inc + 10 * (i + 1), 100, inc, Screen.height - 290), GUIMaster.blankWhiteTexture);
 			
 			//Game Background
-			GUI.DrawTexture (new Rect(i * inc + 9 + (i * 10) + 10, 160, inc - 20, Screen.height - 380), gameBackgrounds[i]);
+			GUI.DrawTexture (new Rect(i * inc + 9 + (i * 10) + 10, 160, inc - 20, Screen.height - 410), gameBackgrounds[i]);
 			
 			//Game Title + Author
 			GUI.Label (new Rect(i * inc + 10 * (i + 1), 110, inc, Screen.height - 180), games[i + position].name, GUIMaster.heading.label);
-			GUI.Label (new Rect(i * inc + 10 * (i + 1), Screen.height - 190, inc, 20), "By " + games[i + position].author, game.label);
+			GUI.Label (new Rect(i * inc + 10 * (i + 1), Screen.height - 230, inc, 20), "By " + games[i + position].author, game.label);
 
 			//Edit and Delete Game
 			if (i + position < 3)
@@ -284,7 +284,7 @@ public class cscript_navigation : MonoBehaviour
 				}
 				
 				//Deletion
-				if (GUI.Button (new Rect(i * inc + 9 + (i * 10) + inc - 35, Screen.height - 145, 25, 25), "", GUIMaster.deleteButton.button))
+				if (GUI.Button (new Rect(i * inc + 9 + (i * 10) + inc - 40, Screen.height - 175, 35, 40), "", GUIMaster.binNice.button))
 				{
 					soundMaster.PlaySound (soundMaster.incorrectAnswer);
 					File.Delete (games[i + position].location);
@@ -298,7 +298,7 @@ public class cscript_navigation : MonoBehaviour
 				}
 				
 				//Open In Other Application
-				if (GUI.Button (new Rect(i * inc + 9 + (i * 10) + inc - 65, Screen.height - 145, 25, 25), "", GUIMaster.openIn.button))
+				if (GUI.Button (new Rect(i * inc + 9 + (i * 10) + inc - 85, Screen.height - 175, 30, 40), "", GUIMaster.openIn.button))
 				{
 					string uri = games[i + position].location;
 					
