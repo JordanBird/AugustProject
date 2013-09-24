@@ -13,12 +13,22 @@ public class cscript_football_game : MonoBehaviour {
 	Texture2D background;
 	
 	Question currentQuestion;
+	Answer[] correctAnswers;
+	Answer[] incorrectAnswers;
+	int correctTotal = 0;
+	int incorrectTotal = 0;
+	int CurrentRow = 0;
+	int QuestionSeed = 0;
+	bool newGeneration = true;
 	
 	cscript_GUI_master GUIMaster;
+	cscript_sound_master soundMaster;
 	
 	//Player Variables
 	int Player1Score = 0;
 	int Player2Score = 0;
+	
+	Answer[] CurrentSet;
 	
 	// Use this for initialization
 	void Start () 
@@ -26,6 +36,31 @@ public class cscript_football_game : MonoBehaviour {
 		background = game.background;
 		
 		GUIMaster = GameObject.FindGameObjectWithTag ("GUI Master").GetComponent<cscript_GUI_master>();
+		soundMaster = GameObject.FindGameObjectWithTag ("Sound Master").GetComponent<cscript_sound_master>();
+		
+		
+		NewQuestion();
+		
+		correctAnswers = new Answer[currentQuestion.answers.Length];
+		incorrectAnswers = new Answer[currentQuestion.answers.Length];
+		
+		for(int i = 0; i < currentQuestion.answers.Length; i++)
+		{
+			if(currentQuestion.answers[i].correct == true)
+			{
+				correctAnswers[correctTotal] = currentQuestion.answers[i];
+				correctTotal++;
+			}
+			else
+			{
+				incorrectAnswers[incorrectTotal] = currentQuestion.answers[i];
+				incorrectTotal++;
+			}
+		}
+		
+		QuestionSeed = UnityEngine.Random.Range(1,3);
+		CurrentSet = new Answer[3];
+			
 	}
 	
 	// Update is called once per frame
@@ -56,48 +91,56 @@ public class cscript_football_game : MonoBehaviour {
 
 			GUI.Label (new Rect(10, 10, Screen.width - 20, 50), "Team 1 " + Player1Score + "  -  " + Player2Score +"  Team 2", GUIMaster.scores.label);
 			GUI.Label (new Rect(10, Screen.height - 100, Screen.width - 20, 100), currentQuestion.text, GUIMaster.questions.label);
-
-			int inc = 1;
 			
-			foreach (Answer a in currentQuestion.answers)
+			if(newGeneration)
 			{
-				if (a.type == 0)
+			switch (QuestionSeed)
 				{
-					//Text
-					if (GUI.Button(new Rect(inc * 10 + (inc * (Screen.width / (currentQuestion.answers.Length + 2))), 78, Screen.width / (currentQuestion.answers.Length + 2), 150), a.text))
-					{
-						if (a.correct == true)
-						{
-							//Win
-							//score++;
-							NewQuestion ();
-						}
-						else
-						{
-							//Lose
-						}
-					}
+				case 1: //TFF
+					CurrentSet[0] = correctAnswers[UnityEngine.Random.Range(0,correctTotal)];
+					CurrentSet[1] = incorrectAnswers[UnityEngine.Random.Range(0,incorrectTotal)];
+					CurrentSet[2] = incorrectAnswers[UnityEngine.Random.Range(0,incorrectTotal)];
+					break;
+				case 2: //FTF
+					CurrentSet[0] = incorrectAnswers[UnityEngine.Random.Range(0,incorrectTotal)];	
+					CurrentSet[1] = correctAnswers[UnityEngine.Random.Range(0,correctTotal)];
+					CurrentSet[2] = incorrectAnswers[UnityEngine.Random.Range(0,incorrectTotal)];
+					break;
+				case 3: //FFT
+					CurrentSet[0] = incorrectAnswers[UnityEngine.Random.Range(0,incorrectTotal)];	
+					CurrentSet[1] = incorrectAnswers[UnityEngine.Random.Range(0,incorrectTotal)];
+					CurrentSet[2] = correctAnswers[UnityEngine.Random.Range(0,correctTotal)];
+					break;
 				}
-				else if (a.type == 1)
-				{
-					//Image
-					if (GUI.Button(new Rect(inc * 10 + (inc * (Screen.width / (currentQuestion.answers.Length + 2))), 78, Screen.width / (currentQuestion.answers.Length + 2), 150), a.texture))
-					{
-						if (a.correct == true)
-						{
-							//Win
-							//score++;
-							NewQuestion ();
-						}
-						else
-						{
-							//Lose
-						}
-					}
-				}
-				
-				inc++;
+				newGeneration = false;
 			}
+			
+			int x = CurrentRow;	
+			for(int y = 0; y < 3; y++)
+			{
+				if(GUI.Button(new Rect(150 + (((Screen.width - 300) / 3) * x),120 + (((Screen.height - 240) / 3) * y),(Screen.width - 300) / 3,(Screen.height - 240) / 3), CurrentSet[y].text))
+				{
+					if(CurrentSet[y].correct)
+					{
+					//WINNER
+					soundMaster.PlaySound(soundMaster.correctAnswer);
+					CurrentRow++;
+					QuestionSeed = UnityEngine.Random.Range(1,3);
+					newGeneration = true;
+					}
+					else
+					{
+					//FAILURE
+					soundMaster.PlaySound(soundMaster.incorrectAnswer);
+					CurrentRow--;
+					QuestionSeed = UnityEngine.Random.Range(1,3);
+					newGeneration = true;
+					}
+					CurrentRow = Mathf.Clamp(CurrentRow,0,2);
+				}
+			}
+			
+			
 		}
 	}
 	

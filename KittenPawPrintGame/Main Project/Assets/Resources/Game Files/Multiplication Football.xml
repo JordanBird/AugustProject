@@ -8,16 +8,56 @@
       <text>Which number is a multiple of 4?</text>
       <answers>
         <answer>
-          <aText>Answer: 0</aText>
+          <aText>12</aText>
           <correct>True</correct>
         </answer>
         <answer>
-          <aText>Answer: 1</aText>
+          <aText>8</aText>
+          <correct>True</correct>
+        </answer>
+        <answer>
+          <aText>16</aText>
+          <correct>True</correct>
+        </answer>
+		<answer>
+          <aText>24</aText>
+          <correct>True</correct>
+        </answer>
+		<answer>
+          <aText>36</aText>
+          <correct>True</correct>
+        </answer>
+		<answer>
+          <aText>44</aText>
+          <correct>True</correct>
+        </answer>
+		<answer>
+          <aText>28</aText>
+          <correct>True</correct>
+        </answer>
+		<answer>
+          <aText>3</aText>
           <correct>False</correct>
         </answer>
-        <answer>
-          <aText>Answer: 2</aText>
-          <correct>True</correct>
+		<answer>
+          <aText>27</aText>
+          <correct>False</correct>
+        </answer>
+		<answer>
+          <aText>6</aText>
+          <correct>False</correct>
+        </answer>
+		<answer>
+          <aText>50</aText>
+          <correct>False</correct>
+        </answer>
+		<answer>
+          <aText>23</aText>
+          <correct>False</correct>
+        </answer>
+		<answer>
+          <aText>29</aText>
+          <correct>False</correct>
         </answer>
       </answers>
     </question>
