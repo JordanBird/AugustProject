@@ -19,7 +19,7 @@ public class cscript_plane_game : MonoBehaviour
 	void Start ()
 	{
 		GUIMaster = GameObject.FindGameObjectWithTag ("GUI Master").GetComponent<cscript_GUI_master>();
-		BackButton = new FancyButton("Back To Menu", Screen.width / 2 - 100, Screen.height / 2 + 300, 200, 60, 0.5f, 2,GUIMaster.saveButton);
+		BackButton = new FancyButton("Back To Menu", Screen.width / 2 - 250, Screen.height / 2 + 310, 500, 60, 0.5f, 2);
 	}
 	
 	// Update is called once per frame
@@ -85,7 +85,7 @@ public class cscript_plane_game : MonoBehaviour
 			GUI.Label (new Rect(10, Screen.height - 120,Screen.width - 20, 100), "Correct Answers Collected: " + AnswerSpawner.GetComponent<AnswerSpawner>().GetCorrectScore().ToString() + "/" + currentQuestion.GetNumberOfCorrectAnswers().ToString(), GUIMaster.questions.label);
 			GUI.Label (new Rect(10, Screen.height - 80,Screen.width - 20, 100), "Wrong Answers Collected: " + AnswerSpawner.GetComponent<AnswerSpawner>().GetIncorrectScore().ToString(), GUIMaster.questions.label);
 			
-			if (GUI.Button (new Rect(15, 15, 40, 40), "",GUIMaster.deleteButton.button))
+			if (GUI.Button (new Rect(15, 15, 40, 40), "", GUIMaster.deleteButton.button))
 			{			
 				
 				Stop ();
@@ -104,7 +104,7 @@ public class cscript_plane_game : MonoBehaviour
 			
 			GUI.Label (new Rect(10, 300, Screen.width - 20, 200), remark + "\n\n\nYou " + ((incorrect != 0 && incorrect < 3) ? "only hit " : "hit ") + incorrect.ToString() + " wrong answers!", GUIMaster.questions.label);
 			
-			BackButton.Clicked = GUI.Button (BackButton.GetRectangle(), BackButton.Content);
+			BackButton.Clicked = GUI.Button (BackButton.GetRectangle(), BackButton.Content, GUIMaster.questions.label);
 			
 			if(BackButton.Clicked)
 			{
@@ -128,8 +128,8 @@ public class cscript_plane_game : MonoBehaviour
 	
 	public void WinGame()
 	{
+		BackButton.Enter ();
 		playing = false;
 		Aeroplane.GetComponent<AeroplaneController>().Controllable = false;
-		BackButton.Enter ();
 	}
 }

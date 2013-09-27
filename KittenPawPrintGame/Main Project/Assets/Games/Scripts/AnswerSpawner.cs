@@ -69,7 +69,7 @@ public class AnswerSpawner : MonoBehaviour
 				}
 				
 			
-				for (int i = 0; i < answerObjects.Count; i++)
+				for (int i = answerObjects.Count - 1; i >= 0; i--)
 				{
 					answerObjects[i].position += new Vector3(-5f, 0, 0) * Time.deltaTime;
 					
@@ -77,7 +77,6 @@ public class AnswerSpawner : MonoBehaviour
 					{
 						Destroy(answerObjects[i].gameObject);
 						answerObjects.RemoveAt(i);
-						i--;
 					}
 				}
 			}
@@ -104,7 +103,8 @@ public class AnswerSpawner : MonoBehaviour
 				{
 					for (int j = 0; j < correctAnswers.Count; j++)
 					{
-						if (answerBatch[i] == correctAnswers[j])
+						if (answerBatch[i].texture != null && answerBatch[i].texture.Equals(correctAnswers[j].texture) ||
+							answerBatch[i].texture == null && answerBatch[i].text == correctAnswers[j].text)
 						{
 							answerBatch.RemoveAt (i);
 							break;	
@@ -116,17 +116,6 @@ public class AnswerSpawner : MonoBehaviour
 		
 		int answer = Random.Range(0, answerBatch.Count);
 		
-		// Don't spawn the answer if its already present in the game.
-		foreach (Transform t in answerObjects)
-		{
-			AnswerInfo info = t.GetComponent<AnswerInfo>();
-			
-			if (info.UsesImage && answerBatch[answer].texture == info.Image || !info.UsesImage && answerBatch[answer].text == info.Text)	
-			{
-				return;
-			}
-		}
-		
 		// Add a new AnswerCollectable prefab with the text set to the answer's text.
 		AnswerPrefab.position = new Vector3(10, Random.Range (-2f, 4.5f), 0);
 		answerObjects.Add ((Transform)Instantiate(AnswerPrefab));
@@ -137,6 +126,26 @@ public class AnswerSpawner : MonoBehaviour
 		else
 		{
 			answerObjects[answerObjects.Count - 1].GetComponent<AnswerInfo>().SetInfo(answerBatch[answer].texture);
+		}
+		
+		if (answerBatch[answer].correct == false)
+		{
+			for (int i = answerObjects.Count - 1; i >= 0; i--)
+			{
+				AnswerInfo info = answerObjects[i].GetComponent<AnswerInfo>();
+			
+				for (int j = i - 1; j >= 0; j--)
+				{
+					AnswerInfo otherInfo = answerObjects[j].GetComponent<AnswerInfo>();
+				
+					if (info.UsesImage && otherInfo.Image == info.Image || !info.UsesImage && otherInfo.Text == info.Text)	
+					{
+						answerObjects.RemoveAt (i);
+						Destroy (answerObjects[i]);
+						return;
+					}
+				}
+			}
 		}
 		
 		// Remove the answer so it isn't used again until all others are used.
@@ -155,6 +164,16 @@ public class AnswerSpawner : MonoBehaviour
 				if (a.correct)
 				{
 					correctAnswers.Add (a);
+					
+					for (int i = answerBatch.Count - 1; i >= 0; i--)
+					{
+						if (answerBatch[i].texture != null && answerBatch[i].texture.Equals(a.texture) ||
+							answerBatch[i].texture == null && answerBatch[i].text == a.text)
+						{
+							answerBatch.RemoveAt (i);
+							break;	
+						}
+					}
 					
 					// If the number of correct answers is equal to the correct answers collected, the player has won.
 					if (currentQuestion.GetNumberOfCorrectAnswers() == correctAnswers.Count)
@@ -192,6 +211,14 @@ public class AnswerSpawner : MonoBehaviour
 		correctAnswers.Clear ();
 		answerBatch.Clear ();
 		incorrectAnswers = 0;
+		
+		for (int i = 0; i < answerObjects.Count; i++)
+		{
+			if (answerObjects[i] != null)
+			{
+				Destroy (answerObjects[i].gameObject);	
+			}
+		}
 		
 		answerObjects.Clear ();
 		ScrollingBackground.gameObject.SetActive(false);
@@ -234,7 +261,7 @@ public class AnswerSpawner : MonoBehaviour
 				}
 				else
 				{
-					GUI.Label (new Rect((int)pos.x - 64, Screen.height - (int)pos.y - 64, 128, 128), info.Text);
+					GUI.Label (new Rect((int)pos.x - 200, Screen.height - (int)pos.y - 200, 400, 400), info.Text);
 				}
 			}		
 			

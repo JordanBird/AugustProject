@@ -34,7 +34,7 @@ public class AeroplaneController : MonoBehaviour
 		{
 			rigidbody.WakeUp();
 			
-			/* DEBUG BECAUSE YOU CANT TEST ON PC WITH TILT!		
+			// DEBUG BECAUSE YOU CANT TEST ON PC WITH TILT!		
 			if (Input.GetKey (KeyCode.D))
 			{
 				tilt = Mathf.Lerp (tilt, -1, 0.1f);
@@ -48,12 +48,12 @@ public class AeroplaneController : MonoBehaviour
 			if (!Input.GetKey (KeyCode.D) && !Input.GetKey (KeyCode.A))
 			{
 				tilt = Mathf.Lerp (tilt, 0, 0.2f);	
-			}*/
+			}
 			
 			// Comment out if iphone not present.
 			Vector3 acceleration = Input.acceleration;
 			acceleration.Normalize ();
-			tilt = acceleration.x;
+			//tilt = acceleration.x;
 		}
 		else
 		{
