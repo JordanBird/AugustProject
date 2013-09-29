@@ -1,6 +1,11 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Games\Scripts\AnswerSpawner.cs">
+    <Files>
+      <File FileName="Assets\Scripts\Unity Scripts\cscript_plane_game.cs" Line="40" Column="25" />
+      <File FileName="Assets\Games\Scripts\AnswerSpawner.cs" Line="174" Column="15" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>

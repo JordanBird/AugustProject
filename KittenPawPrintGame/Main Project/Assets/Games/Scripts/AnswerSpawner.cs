@@ -140,8 +140,8 @@ public class AnswerSpawner : MonoBehaviour
 				
 					if (info.UsesImage && otherInfo.Image == info.Image || !info.UsesImage && otherInfo.Text == info.Text)	
 					{
-						answerObjects.RemoveAt (i);
 						Destroy (answerObjects[i]);
+						answerObjects.RemoveAt (i);
 						return;
 					}
 				}
@@ -185,6 +185,7 @@ public class AnswerSpawner : MonoBehaviour
 						{
 							Destroy (t.gameObject);	
 						}
+						answerObjects.Clear();
 						
 						return;
 					}
