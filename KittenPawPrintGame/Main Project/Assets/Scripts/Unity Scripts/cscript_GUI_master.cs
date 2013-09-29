@@ -27,6 +27,7 @@ public class cscript_GUI_master : MonoBehaviour
 	public Texture2D planeIcon;
 	public Texture2D trainIcon;
 	public Texture2D photoIcon;
+	public Texture2D PlayerIcon;
 	
 	public Texture2D bannerTexture;
 	

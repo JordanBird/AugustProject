@@ -8,6 +8,7 @@ public class cscript_football_game : MonoBehaviour {
 	int currentPlayer;
 	public Texture2D pitch;
 	bool GoalMode = false;
+	int playMode = 0; //0 single 1 multi
 	
 	Game game;
 	cscript_master master;
@@ -29,6 +30,8 @@ public class cscript_football_game : MonoBehaviour {
 	//Player Variables
 	int Player1Score = 0;
 	int Player2Score = 0;
+	
+	int answerDelay = 0;
 	
 	Answer[] CurrentSet;
 	
@@ -116,6 +119,18 @@ public class cscript_football_game : MonoBehaviour {
 		
 		if (!playing)
 		{
+			
+			//Change the default skin so we can effect the buttons of the GUIContent.
+			GUISkin tempSkin = GUI.skin;
+			GUI.skin = GUIMaster.buttons;
+			
+			GUIContent[] g = new GUIContent[2];
+			g[0] = new GUIContent(GUIMaster.PlayerIcon);
+			g[1] = new GUIContent(GUIMaster.PlayerIcon);
+			playMode = GUI.SelectionGrid (new Rect(Screen.width / 2 - 150, 120, 300, 200), playMode, g, 2);
+			
+			GUI.skin = tempSkin;
+			
 			if(GUI.Button(new Rect(300,300,200,40),"Play"))
 			{
 			playing = true;	
@@ -124,6 +139,8 @@ public class cscript_football_game : MonoBehaviour {
 		}
 		else
 		{
+			
+			//THE ACTUAL GAME:
 			GUI.Label (new Rect(10, 10, Screen.width - 20, 50), "Team 1 " + Player1Score + "  -  " + Player2Score +"  Team 2", GUIMaster.scores.label);
 			GUI.Label (new Rect(10, Screen.height - 120, Screen.width - 20, 100), currentQuestion.text, GUIMaster.questions.label);
 			
@@ -164,64 +181,85 @@ public class cscript_football_game : MonoBehaviour {
 			int x = CurrentRow;	
 			for(int y = 0; y < 3; y++)
 			{
-				if(GUI.Button(new Rect(150 + (((Screen.width - 300) / 4) * x),120 + (((Screen.height - 240) / 3) * y),(Screen.width - 300) / 4,(Screen.height - 240) / 3), CurrentSet[y].text,GUIMaster.footySkin.button))
+				if(playMode == 0) //SINGLEPLAYER
 				{
-					if(CurrentSet[y].correct)
+					if(currentPlayer == 1)
 					{
-					//WINNER
-						soundMaster.PlaySound(soundMaster.correctAnswer);
-						
-						destinationFootballLoc = new Vector2 (190 + (((Screen.width - 300) / 4) * x),130 + (((Screen.height - 240) / 3) * y));
-						
-						switch(currentPlayer)
+						if(CurrentSet[y].texture == null)
 						{
-								case 1:
-									CurrentRow++;
-									if(CurrentRow == 4)
-									{
-									Player1Score++;
-									CurrentRow = 0;
-									destinationFootballLoc = new Vector2(50,Screen.height/2 - 50);
-									}
-									break;
-								case 2:
-									CurrentRow--;
-									if(CurrentRow == -1)
-									{
-									Player2Score++;
-									CurrentRow = 3;
-									destinationFootballLoc = new Vector2(Screen.width - 150,Screen.height/2 - 50);
-									}
-									break;
+							if(GUI.Button(new Rect(150 + (((Screen.width - 300) / 4) * x),120 + (((Screen.height - 240) / 3) * y),(Screen.width - 300) / 4,(Screen.height - 240) / 3), CurrentSet[y].text,GUIMaster.footySkin.button))
+							{
+								AnswerHandling (x, y);
+							}
 						}
-						
-						QuestionSeed = UnityEngine.Random.Range(1,3);
-						newGeneration = true;
-						
-					}
-					else
-					{
-						//FAILURE
-						soundMaster.PlaySound(soundMaster.incorrectAnswer);
-						
-						QuestionSeed = UnityEngine.Random.Range(1,3);
-						newGeneration = true;
-						//CHANGE PLAYER BECAUSE THEY ARE A FAILURE:
-						switch(currentPlayer)
+						else
 						{
-							case 1:
-								currentPlayer = 2;
-								CurrentRow = 3;
-								destinationFootballLoc = new Vector2(Screen.width - 150,Screen.height/2 - 50);
-								break;
-							case 2:
-								currentPlayer = 1;
-								CurrentRow = 0;
-								destinationFootballLoc = new Vector2(50,Screen.height/2 - 50);
-								break;
+							if(GUI.Button(new Rect(150 + (((Screen.width - 300) / 4) * x),120 + (((Screen.height - 240) / 3) * y),(Screen.width - 300) / 4,(Screen.height - 240) / 3), CurrentSet[y].texture,GUIMaster.footySkin.button))
+							{
+								AnswerHandling (x, y);
+							}
 						}
 					}
-					CurrentRow = Mathf.Clamp(CurrentRow,0,3);
+					else //AI
+					{
+						if(CurrentSet[y].texture == null)
+						{
+							if(GUI.Button(new Rect(150 + (((Screen.width - 300) / 4) * x),120 + (((Screen.height - 240) / 3) * y),(Screen.width - 300) / 4,(Screen.height - 240) / 3), CurrentSet[y].text,GUIMaster.footySkin.button))
+							{
+								
+							}
+						}
+						else
+						{
+							if(GUI.Button(new Rect(150 + (((Screen.width - 300) / 4) * x),120 + (((Screen.height - 240) / 3) * y),(Screen.width - 300) / 4,(Screen.height - 240) / 3), CurrentSet[y].texture,GUIMaster.footySkin.button))
+							{
+								
+							}
+						}
+						if(answerDelay == 500)
+						{
+						int randomnumber = UnityEngine.Random.Range(0,100);
+							
+							switch (QuestionSeed)
+							{
+							case 1: //TFF
+								if(randomnumber <= 80)
+								{
+								AnswerHandling(x, 0);
+								}
+								else
+								{
+								AnswerHandling(x, 1);
+								}
+							break;
+							case 2: //FTF
+								if(randomnumber <= 80)
+									{
+									AnswerHandling(x, 1);
+									}
+									else
+									{
+									AnswerHandling(x, 0);
+									}
+							break;
+							case 3: //FFT
+								if(randomnumber <= 80)
+								{
+								AnswerHandling(x, 2);
+								}
+								else
+								{
+								AnswerHandling(x, 1);
+								}
+							break;
+							}
+						answerDelay = 0;
+						}
+						else
+						{
+							answerDelay++;
+						}
+					}
 				}
 			}
 			
@@ -257,4 +295,65 @@ public class cscript_football_game : MonoBehaviour {
 		playing = false;
 		Destroy (this.gameObject);
 	}
-}
+
+	void AnswerHandling (int x, int y)
+	{
+		if(CurrentSet[y].correct)
+			{
+			//WINNER
+				soundMaster.PlaySound(soundMaster.correctAnswer);
+				
+				destinationFootballLoc = new Vector2 (190 + (((Screen.width - 300) / 4) * x),130 + (((Screen.height - 240) / 3) * y));
+				
+				switch(currentPlayer)
+				{
+						case 1:
+							CurrentRow++;
+							if(CurrentRow == 4)
+							{
+							Player1Score++;
+							CurrentRow = 0;
+							destinationFootballLoc = new Vector2(50,Screen.height/2 - 50);
+							}
+							break;
+						case 2:
+							CurrentRow--;
+							if(CurrentRow == -1)
+							{
+							Player2Score++;
+							CurrentRow = 3;
+							destinationFootballLoc = new Vector2(Screen.width - 150,Screen.height/2 - 50);
+							}
+							break;
+				}
+				
+				QuestionSeed = UnityEngine.Random.Range(1,3);
+				newGeneration = true;
+				
+			}
+			else
+			{
+				//FAILURE
+				soundMaster.PlaySound(soundMaster.incorrectAnswer);
+				
+				QuestionSeed = UnityEngine.Random.Range(1,3);
+				newGeneration = true;
+				//CHANGE PLAYER BECAUSE THEY ARE A FAILURE:
+				switch(currentPlayer)
+				{
+					case 1:
+						currentPlayer = 2;
+						CurrentRow = 3;
+						destinationFootballLoc = new Vector2(Screen.width - 150,Screen.height/2 - 50);
+						break;
+					case 2:
+						currentPlayer = 1;
+						CurrentRow = 0;
+						destinationFootballLoc = new Vector2(50,Screen.height/2 - 50);
+						break;
+				}
+			}
+			CurrentRow = Mathf.Clamp(CurrentRow,0,3);
+		}
+	}
+
