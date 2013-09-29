@@ -1,9 +1,9 @@
 <game>
   <name>Multiplication Football</name>
   <author>iLearn 2</author>
-  <background></background>
   <type>0</type>
-  <questions>
+  <background></background>
+<questions>
     <question>
       <text>Which number is a multiple of 4?</text>
       <answers>
@@ -25,7 +25,7 @@
         </answer>
 		<answer>
           <aText>36</aText>
-          <correct>True</correct>
+          <correct>False</correct>
         </answer>
 		<answer>
           <aText>44</aText>
