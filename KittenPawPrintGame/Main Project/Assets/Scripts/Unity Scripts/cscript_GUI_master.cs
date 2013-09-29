@@ -21,6 +21,7 @@ public class cscript_GUI_master : MonoBehaviour
 	public GUISkin deleteButton;
 	public GUISkin openIn;
 	public GUISkin binNice;
+	public GUISkin footySkin;
 	
 	public Texture2D footballIcon;
 	public Texture2D planeIcon;
