@@ -953,6 +953,7 @@ public class cscript_navigation : MonoBehaviour
 			//IT GETS HERE
 			if (texture)
 			{
+				TextureScale.Point(texture,texture.width/4,texture.height/4);
 				// Loaded
 				//if (targetMaterial) {
 					//BUT NOT HERE
@@ -999,7 +1000,7 @@ public class cscript_navigation : MonoBehaviour
 			//IT GETS HERE
 			if (texture)
 			{
-				TextureScale.Point(texture,texture.width/5,texture.height/5);
+				TextureScale.Point(texture,texture.width/6,texture.height/6);
 				answerImage = texture;
 				jG.ResetMessageBox();
 			}

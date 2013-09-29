@@ -102,7 +102,7 @@ public class cscript_photo_game : MonoBehaviour {
 						imageAnswerChoiceMenu = true;
 						GroupCounter = inc;
 					}
-					stringGroup[inc] = GUI.TextField(new Rect(40 + (j * Screen.width / 3), 330 + (i * Screen.height/2.8f), Screen.width / (4), 30),stringGroup[inc],GUIMaster.createGameTextFields.textField);
+					stringGroup[inc] = GUI.TextArea(new Rect(40 + (j * Screen.width / 3), 330 + (i * Screen.height/2.8f), Screen.width / (4), 30),stringGroup[inc],GUIMaster.createGameTextFields.textField);
 					
 					inc ++;
 					

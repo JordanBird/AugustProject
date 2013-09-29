@@ -1,9 +1,9 @@
 <game>
   <name>Fly to the Noun</name>
   <author>iLearn 2</author>
-  <background></background>
   <type>1</type>
-  <questions>
+  <background></background>
+   <questions>
     <question>
       <text>Which words are nouns?</text>
       <answers>
