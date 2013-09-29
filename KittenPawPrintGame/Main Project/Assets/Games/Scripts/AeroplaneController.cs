@@ -53,7 +53,7 @@ public class AeroplaneController : MonoBehaviour
 			// Comment out if iphone not present.
 			Vector3 acceleration = Input.acceleration;
 			acceleration.Normalize ();
-			//tilt = acceleration.x;
+			tilt = -acceleration.x;
 		}
 		else
 		{
